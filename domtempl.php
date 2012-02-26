@@ -110,7 +110,7 @@ class HTML_templ {
 			}			
 			return $ptr->{$last};
 		}
-		if (!isset($last[$ptr])) {
+		if (!isset($ptr[ $last ])) {
 			$this->error('undefined variable ', $last, $path);
 			return NULL;
 		}
