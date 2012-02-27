@@ -16,6 +16,7 @@ class HTML_templ {
 		if ($flags & self::FRAGMENT) {
 			if (!@$this->dom->loadXML( $source, LIBXML_NOERROR | LIBXML_NOWARNING  ))
 				throw new Exception('Not a valid DOM Document (passed as arg1)');
+			$this->err_file = 'FRAGMENT';
 		} else {
 			if (!$this->dom->load( $source ))
 				throw new Exception('Not a valid DOM Document: '.$source);
@@ -24,6 +25,19 @@ class HTML_templ {
 
 		$this->parse();
 	}
+	
+	public function get($id) {
+		return $this->getElementById($id);
+	}
+	/* Unfortunately, dom->getElementById did not work for me, so XPath
+	 * For those lacking DOMXPath extensions, a slow, php version
+	 * should be written... TODO */
+	function getElementById($id)
+	{
+		$xpath = new DOMXPath($this->dom);
+		return $xpath->query("//*[@id='$id']")->item(0);
+	}
+
 
 	public function out() {	echo $this->dump();	}
 
@@ -75,7 +89,7 @@ class HTML_templ {
 			if ($mod == '/') {
 				$n = $this->var_iters[$cpath];
 				 if (sizeof($ptr) == 0) { 
-				 	$this->error('iterating empty array ', $cpath, $cpath);
+				 	$this->error('cant iterate empty array ', $cpath, $cpath);
 				 	return NULL;
 				 }
 
@@ -86,6 +100,9 @@ class HTML_templ {
 				 	} else {
 				 		$ptr =& $ptr->{$n};
 				 	}
+				 } else if (!is_array($ptr)) {
+					$this->error('cant iteratate through '.gettype($ptr).' value ', $cpath, $cpath);
+				 	return NULL;
 				 } else {
 				 	$keys = array_keys( $ptr ); /* use assoc key, always! */
 					//echo "($path) About to extract key $n from ".print_r($keys,1)."<hr>";
@@ -282,7 +299,7 @@ class HTML_templ {
 			}
 			if ($node->hasAttribute('data-var')) {
 				$clean[] = 'data-var';
-				$this->node_innerHTML($node, 
+				$this->node_set_innerHTML($node, 
 					$this->read_var($this->expand_path($node, 'data-var')));
 				//$node->nodeValue =
 					//$this->read_var($this->expand_path($node, 'data-var'));
@@ -337,9 +354,17 @@ class HTML_templ {
 		}
 	}
 
+	function node_get_innerHTML($node) {
+	    $innerHTML= ''; 
+     	$children = $node->childNodes; 
+     	foreach ($children as $child) { 
+        	 $innerHTML .= $child->ownerDocument->saveXML( $child ); 
+     	} 
+		return $innerHTML;
+	}
 	/* this code is lifted from a nifty "JavaScript-like innerHTML access" class
 	 * http://www.keyvan.net/2010/07/javascript-like-innerhtml-access-in-php/ */
-	function node_innerHTML($node, $value) {
+	function node_set_innerHTML($node, $value) {
 		/* HACK -- Ensure this is a string */
 		if (is_numeric($value) || !$value) $value = ''.$value;
 		if (!is_string($value)) { $this->error(gettype($value)." is not a scalar var ", $this->expand_path($node,'data-var'), ""); $value=''; }

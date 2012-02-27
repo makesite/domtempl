@@ -112,6 +112,10 @@ var templ = {
 			if (mod == '/') {
 				var n = templ.var_iters[cpath];
 //				alert("Sub str... "+ cpath + ' going to use iter '+ n)
+				if (!isset(ptr, n))	{
+					templ.error('cant iterate through "' + n + '" of path ' + path);
+					return null; 
+				}
 				ptr = ptr[n];
 				if (last === '' && i == walk.length - 3) break;
 			}
@@ -238,6 +242,12 @@ var templ = {
 
 	parse: function () {
 		templ.parse_vars(document);
+	},
+
+	get: function (id) {
+
+		return document.getElementById(id);	
+
 	},
 
 	editor_set: function (text) {
