@@ -117,6 +117,7 @@ var templ = {
 					return null; 
 				}
 				ptr = ptr[n];
+				if (last === '*' && i == walk.length - 3) return n;/* Hack -- iterator itself */
 				if (last === '' && i == walk.length - 3) break;
 			}
 			cpath += mod;
