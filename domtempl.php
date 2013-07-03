@@ -399,6 +399,14 @@ class DOMtempl {
 		if (is_numeric($value) || !$value) $value = ''.$value;
 		if (!is_string($value)) { $this->error(gettype($value)." is not a scalar var ", $this->expand_path($node,'data-var'), ""); $value=''; }
 
+		/* HACK -- If it doesn't contain < and > symbols, treat it as text */
+		//file_put_contents("/tmp/domerror.log", "\n\n".$node->nodeName." '$value' -- ((( ".$node->ownerDocument->saveXML($node)."))) [[[".$value."]]]", FILE_APPEND);
+		if (strpbrk($value, '<>&') === false) {
+			$node->nodeValue = $value;
+			return;	
+		} 
+		
+
 		for ($x = $node->childNodes->length - 1; $x >= 0; $x--)
 			$node->removeChild($node->childNodes->item($x));
 
@@ -409,8 +417,15 @@ class DOMtempl {
 				if ($f->hasChildNodes()) $node->appendChild($f);
 			} else {
 				$f = new DOMDocument();
-				$value = mb_convert_encoding($value, 'HTML-ENTITIES', 'UTF-8');
-				$result = @$f->loadHTML('<htmlfragment>'.$value.'</htmlfragment>');
+				//$f->substituteEntities = true;
+				//$f->xmlEncoding = 'UTF-8';
+				//$value = mb_convert_encoding($value, 'HTML-ENTITIES', 'UTF-8');
+				//$value = htmlspecialchars($value, null, 'UTF-8');
+				$result = @$f->loadHTML(
+				"<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />" 
+				. '<htmlfragment>'.$value.'</htmlfragment>');
+				$f->encoding = 'UTF-8';
+				//$f->saveHTMLfile('gadl.txt');
 				if ($result) {
 					$import = $f->getElementsByTagName('htmlfragment')->item(0);
 					foreach ($import->childNodes as $child) {
