@@ -322,7 +322,9 @@ class DOMtempl {
 				if (strpos($attr->name, 'data-attr-') !== FALSE) {
 					$key = substr($attr->name, strlen('data-attr-'));
 					$path = $this->expand_path($node, '', (!$attr->value ? $key : $attr->value));
-					$node->setAttribute($key, $this->read_var($path));
+					$val = $this->read_var($path);
+					if ($val !== false)
+						$node->setAttribute($key, $val);
 					$clean[] = $attr->name;
 				}
 			}
