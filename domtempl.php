@@ -309,6 +309,7 @@ class DOMtempl {
 	}
 
 	function replace_vars_node($node, $clean) {
+		$stop_here = 0; //hack, for speed
 		if ($node->hasAttributes()) {
 			if ($node->hasAttribute('data-when')) {
 				if (! $this->read_var($this->expand_path($node, 'data-when')) )	{ 
@@ -329,11 +330,12 @@ class DOMtempl {
 				$clean[] = 'data-var';
 				$this->node_set_innerHTML($node, 
 					$this->read_var($this->expand_path($node, 'data-var')));
+				$stop_here = 1; // do not traverse children of inserted node
 				//$node->nodeValue =
 					//$this->read_var($this->expand_path($node, 'data-var'));
 			}
 		}
-		if ($node->childNodes)
+		if ($node->childNodes && !$stop_here) //stop here if 'data-var' was used
 			$this->replace_vars($node);
 		foreach ($clean as $cln)
 			$node->removeAttribute($cln);
