@@ -1,6 +1,6 @@
 <?php
 
-class HTML_templ {
+class DOMtempl {
 
 	const FRAGMENT	= 0x00000001;
 
