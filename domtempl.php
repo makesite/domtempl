@@ -9,6 +9,9 @@ class DOMtempl {
 
 	public function __construct($source, $flags = 0) {
 		$this->dom = new DOMDocument();
+		//$this->dom->xmlEncoding = 'UTF-8';
+		//$this->dom->encoding = 'UTF-8';
+		//$this->dom->substituteEntities = true;
 		//$this->dom->strictErrorChecking = true;
 		//$this->dom->validateOnParse = true;
 		//$this->dom->preserveWhiteSpace = false;
@@ -23,6 +26,7 @@ class DOMtempl {
 			$this->err_file = $source;
 		}
 
+		//$this->dom->encoding = 'UTF-8';
 		$this->parse();
 	}
 	
@@ -350,7 +354,7 @@ class DOMtempl {
 					}
 				}
 			}
-			$this->replace_vars_node($node, $clean);						
+			$this->replace_vars_node($node, $clean);
 		}
 	}
 

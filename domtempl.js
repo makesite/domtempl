@@ -208,7 +208,7 @@ var templ = {
 					] = 0;
 
 				if (node.hasAttribute('data-same'))
-					alert('adding with ' + node),
+					//alert('adding with ' + node),
 					templ.var_iters[
 						templ.expand_path(node, 'data-same') 
 					] ++;
