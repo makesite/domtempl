@@ -42,28 +42,39 @@ class DOMtempl {
 		return $xpath->query("//*[@id='$id']")->item(0);
 	}
 
-
-	public function out() {	echo $this->dump();	}
-
-	public function dump() {
+    private function reflow() {
 		/* Reset iteration counters */
 		if ($this->var_iters)
 			foreach ($this->var_iters as $k=>$v) 
 				$this->var_iters[$k] = 0;
 
 		/* Reflow all variables */
+		//Profiler::start('replacing vars');
 		$this->replace_vars($this->dom);
+		//Profiler::end('replacing vars');
+    }
 
-		return $this->dom->saveHTML();
+	public function out() {	echo $this->dump();	}
+
+    public function dump() {
+        $this->reflow();
+		//Profiler::start('writing as HTML');
+		$ret = $this->dom->saveHTML();
+		//Profiler::end('writing as HTML');
+		return $ret;
 	}
+
+	public function outXML() {	echo $this->dumpXML();	}
+    public function dumpXML() { $this->reflow(); return $this->dom->saveXML(); }
 
 	public function assign($path, $var) {	$this->write_var($path, $var);	}
 
-	function error($message, $name, $path) {
+	private function error($message, $name, $path) {
 		if (is_callable(array($this->err_node, 'getLineNo')))
 			trigger_error($message . '<b title="'.$path.'">'.$name.'</b> in <b>'.$this->err_file."</b> on line <b>".$this->err_node->getLineNo(). "</b> in node <b>".$this->err_node->nodeName."</b><br/>\n");
 		else
 			trigger_error($message . '<b title="'.$path.'">'.$name.'</b> in <b>'.$this->err_file."</b> in node <b>".$this->err_node->nodeName."</b><br/>\n");
+		return NULL;
 	}
 
 	function read_var($path) {
@@ -92,54 +103,67 @@ class DOMtempl {
 			}
 			if ($mod == '/') {
 				$n = $this->var_iters[$cpath];
-				 if (sizeof($ptr) == 0) { 
-				 	$this->error('cant iterate empty array ', $cpath, $cpath);
-				 	return NULL;
-				 }
+				if (sizeof($ptr) == 0) { 
+					$this->error('cant iterate empty array ', $cpath, $cpath);
+					return NULL;
+				}
 
-				 if (is_object($ptr)) {
-				 	/* HACK! This allows Iteratable/ArrayAccess access somewhat */
-				 	if ($ptr instanceof ArrayAccess) {
-				 		$ptr =& $ptr[$n];
-				 	} else {
-				 		$ptr =& $ptr->{$n};
-				 	}
-				 } else if (!is_array($ptr)) {
+				if (is_object($ptr)) {
+					/* HACK! This allows Iteratable/ArrayAccess access somewhat */
+					if ($ptr instanceof ArrayAccess) {
+						$ptr =& $ptr[$n];
+					} else {
+						$ptr =& $ptr->{$n};
+					}
+				} else if (!is_array($ptr)) {
 					$this->error('cant iteratate through '.gettype($ptr).' value ', $cpath, $cpath);
-				 	return NULL;
-				 } else {
-				 	$keys = array_keys( $ptr ); /* use assoc key, always! */
+					return NULL;
+				} else {
+					$keys = array_keys( $ptr ); /* use assoc key, always! */
 					//echo "($path) About to extract key $n from ".print_r($keys,1)."<hr>";
 				 	$n = $keys[$n];
 					$ptr =& $ptr[$n];
-				} 
-				if ($last === '' && $i == sizeof($walk) - 3) break;				
+				}
+				if ($last === '*' && $i == sizeof($walk) - 3) {
+					/* Hack -- iterator itself */
+					return $n;
+				}
+				if ($last === '' && $i == sizeof($walk) - 3) {
+					break;
+				}
 			}
 			$cpath .= $mod;
 		};
 		if ($last === '') {
-			if (is_array($ptr)) {
+			if (is_array($ptr) || is_object($ptr)) {
 				$this->error('array to string conversion ', $path, $path);
 				return NULL;
 			}
 			return $ptr;
 		}
+
 		if (is_object($ptr) && !($ptr instanceof ArrayAccess)) {
 			if (!property_exists($ptr, $last)) {
 				$this->error('undefined variable ', $last, $path);
 				return NULL;
-			}			
-			return $ptr->{$last};
-		}
-		if (!isset($ptr[ $last ])) {
-			$this->error('undefined variable ', $last, $path);
-			return NULL;
+			}
+			$ptr =& $ptr->{$last};
+		} else {
+			if (is_string($ptr)) {
+				$this->error('variable is a string, used as array/object ', $last, $path);
+				return NULL;	
+			}
+			if (!isset($ptr[ $last ])) {
+				$this->error('undefined variable ', $last, $path);
+				return NULL;
+			}
+			$ptr =& $ptr[ $last ];
 		}
 		/* Another hack to allow ArrayAccess objects */
-		if ($ptr[ $last ] instanceof ArrayAccess) {
-			if (sizeof($ptr[ $last ]) == 0) return array();
+		if ($ptr instanceof ArrayAccess) {
+			if (sizeof($ptr) == 0) return array();
 		}
-		return $ptr[ $last ];
+		return $ptr;
 	}
 
 	function write_var ($path, $val, $no_overwrite = false) {
