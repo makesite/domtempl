@@ -294,6 +294,7 @@ var templ = {
 	},
 
 	replace_vars_node: function (node) {
+		var stop_here = 0; //hack, for speed		
 		if (node.hasAttributes()) {	
 
 			for (var j = 0; j < node.attributes.length; j++) {
@@ -315,12 +316,14 @@ var templ = {
 					node.style.display = '';
 			}
 
-			if (node.hasAttribute('data-var'))
+			if (node.hasAttribute('data-var')) {
 				node.textContent = 
 					templ.read_var(templ.expand_path(node, 'data-var'));
+				stop_here = 1; // do not traverse children of inserted node
+			}
 		}
 
-		if (node.childNodes)
+		if (node.childNodes && !stop_here) //stop here if 'data-var' was used
 			templ.replace_vars(node);
 	},
  
