@@ -192,8 +192,7 @@ var templ = {
 		return path;
 	},
 
-	parse_vars: function (root) {
-		templ.var_dump();
+	parse_vars_node: function (root) {
 		for (var i in root.childNodes) {
 			var node = root.childNodes[i];
 			//alert(node.nodeType);
@@ -237,12 +236,13 @@ var templ = {
 			}
 
 			if (node.childNodes)
-				templ.parse_vars(node);
+				templ.parse_vars_node(node);
 		} 
 	},
 
 	parse: function () {
-		templ.parse_vars(document);
+		templ.var_dump();
+		templ.parse_vars_node(document);
 	},
 
 	get: function (id) {

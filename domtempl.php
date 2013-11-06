@@ -227,7 +227,7 @@ class DOMtempl {
 		return $path;
 	}
 
-	function parseNode ($root) {
+	function parse_vars_node($root) {
 		foreach ($root->childNodes as $node) {
 
 			/* Auto-mapping. Should be off by default. */
@@ -270,7 +270,7 @@ class DOMtempl {
 					);
 			}
 			if ($node->childNodes)
-					$this->parseNode($node);
+					$this->parse_vars_node($node);
 		}
 	}
 
@@ -291,7 +291,7 @@ class DOMtempl {
 	}
 
 	function parse() {
-		$this->parseNode($this->dom);
+		$this->parse_vars_node($this->dom);
 	}
 
 	function safe_clone($elem, $after) {
