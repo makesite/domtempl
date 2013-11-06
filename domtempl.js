@@ -302,7 +302,9 @@ var templ = {
 				if (attr.name.indexOf('data-attr-') != -1) {
 					var key = attr.name.substring('data-attr-'.length);
 					var path = templ.expand_path(node, '', (!attr.value ? key : attr.value));
-					node.setAttribute(key, templ.read_var(path));
+					var val = templ.read_var(path);
+					if (val !== false)
+						node.setAttribute(key, val);
 				}
 			}
 
