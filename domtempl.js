@@ -3,6 +3,8 @@ var templ = {
 	vars: { },
 	var_iters: { },
 
+	dom: null,
+
 	place : null,
 	editor : null,
 
@@ -54,17 +56,15 @@ var templ = {
 
 	init: function () {
 		templ.create_placeholder();
-
 //		templ.add_modlink('parse', 'templ.parse();');
 		templ.add_modlink('vardump', 'templ.var_dump();');		
 		templ.add_modlink('__VAR_IN__', 'templ.var_in();');
-
 		templ.add_editor();
-
 		templ.append_placeholder();
-
-		templ.parse();
 		window.addEventListener("keydown", templ.key_react, false);
+
+		templ.dom = document;
+		templ.parse();
 	},
 
 	key_react: function (e) {
@@ -268,7 +268,7 @@ var templ = {
 
 	dump: function () {
 		templ.reflow();
-		var ret = templ.dom.outerHTML;
+		var ret = templ.dom.documentElement.outerHTML;
 		return ret;
 	},
 
