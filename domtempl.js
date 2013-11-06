@@ -1,4 +1,6 @@
-var templ = {
+DOMtempl.FRAGMENT = 0x00000001;
+
+function DOMtempl(doc, flags) { var newdomtempl = {
 
 	vars: { },
 	var_iters: { },
@@ -11,71 +13,89 @@ var templ = {
 	errlog : '',
 
 	error: function (err) {
-		templ.errlog += err + '\n';
+		this.errlog += err + '\n';
 	},
 
-	create_placeholder: function () {
-		templ.place = document.createElement('DIV');
-		templ.place.id = 'templ_placeholder'
-		templ.place.style.position = 'fixed';
-		templ.place.style.bottom = 0;
-		templ.place.innerHTML = '<kbd>SHIFT</kbd>-';
+	create_placeholder : function () {
+		this.place = document.createElement('DIV');
+		this.place.id = 'templ_placeholder'
+		this.place.style.position = 'fixed';
+		this.place.style.bottom = 0;
+		this.place.innerHTML = '<kbd>SHIFT</kbd>-';
 	},
 
 	append_placeholder: function () {
-		document.body.appendChild(templ.place);
+		document.body.appendChild(this.place);
 	},
 
 	toggle_placeholder: function () {
-		templ.place.style.display = 
-			(templ.place.style.display == 'none' ? '' : 'none');
+		this.place.style.display =
+			(this.place.style.display == 'none' ? '' : 'none');
 	},
 
 	add_editor: function() {
 		var ta = document.createElement('textarea');
 		ta.id = 'main_templ_editor';
-		ta.value = '';// templ.var_dump();
+		ta.value = '';// this.var_dump();
 		ta.cols = 80;
 		ta.rows = 24
 
-		templ.place.appendChild(ta);
+		this.place.appendChild(ta);
 
-    	templ.editor = ta;
+		this.editor = ta;
 
-	    templ.place.style.backgroundColor = '#fff';
-	    templ.place.style.border = '1px solid black';
-	    templ.place.style.width = '100%';
+		this.place.style.backgroundColor = '#fff';
+		this.place.style.border = '1px solid black';
+		this.place.style.width = '100%';
 	},
 
 	add_modlink: function(name, func) {
+		var self = this;
+		var wrap = function(e) { self[func](e); e.preventDefault(); return false; };
 		var opt = document.createElement('a');
-		opt.href = 'javascript:' + func;
+		//opt.href = 'javascript:' + func;
+		opt.href = 'javascript:void();';
+		opt.addEventListener('click', wrap, false);
 		opt.innerHTML = name;
-		templ.place.appendChild(opt);
-	},
-
-	init: function () {
-		templ.create_placeholder();
-//		templ.add_modlink('parse', 'templ.parse();');
-		templ.add_modlink('vardump', 'templ.var_dump();');		
-		templ.add_modlink('__VAR_IN__', 'templ.var_in();');
-		templ.add_editor();
-		templ.append_placeholder();
-		window.addEventListener("keydown", templ.key_react, false);
-
-		templ.dom = document;
-		templ.parse();
+		this.place.appendChild(opt);
 	},
 
 	key_react: function (e) {
 		var btn = e.keyCode;
 		if (e.target.nodeName == 'TEXTAREA' || e.target.nodeName == 'INPUT')
 			return false;
-		if (btn == 16) templ.toggle_placeholder();
+		if (btn == 16) this.toggle_placeholder();
 	},
 
-	setup: function () {
-		window.addEventListener('load', templ.init, false);	
+	init: function (doc, flags) {
+		flags = flags || 0;
+		doc = doc || document;
+
+		if (flags & DOMtempl.FRAGMENT) {
+
+			var d = document.createElement('div');
+			d.innerHTML = doc;
+			this.dom = d;
+
+		} else {
+
+			this.dom = doc;
+
+		}
+		this.parse();
+	},
+
+	initEditor: function() {
+		this.create_placeholder();
+		//		this.add_modlink('parse', 'this.parse();');
+		this.add_modlink('vardump', 'var_dump');
+		this.add_modlink('__VAR_IN__', 'var_in');
+		this.add_editor();
+		this.append_placeholder();
+		var self = this;
+		window.addEventListener("keydown", function(e) { self.key_react(e); }, false);
+
+		this.var_dump();
 	},
 
 	read_var: function (path) {
@@ -83,22 +103,22 @@ var templ = {
 		var walk = path.split(/(\.|\/)/);//, -1, PREG_SPLIT_DELIM_CAPTURE);
 //alert('must resolve ' + path);
 		var cpath = '/';
-		var ptr = templ.vars;
+		var ptr = this.vars;
 		var last = walk[ walk.length - 1 ];		
 		for (var i = 0; i < walk.length - 2; i+=2) {
 			var step = walk[i];
 			var mod = walk[i+1];
 			cpath += step;
 			if (!isset(ptr, step))	{
-				templ.error('undefined array "' + step + '" of path ' + path);
+				this.error('undefined array "' + step + '" of path ' + path);
 				return null; 
 			}
 			ptr = ptr[step];
 			if (mod == '/') {
-				var n = templ.var_iters[cpath];
+				var n = this.var_iters[cpath];
 //				alert("Sub str... "+ cpath + ' going to use iter '+ n)
 				if (!isset(ptr, n))	{
-					templ.error('cant iterate through "' + n + '" of path ' + path);
+					this.error('cant iterate through "' + n + '" of path ' + path);
 					return null; 
 				}
 				ptr = ptr[n];
@@ -111,7 +131,7 @@ var templ = {
 			return ptr;
 		}
 		if (!isset(ptr, last)) {
-			templ.error('undefined variable "'+last+'" of path "' + path + '"');
+			this.error('undefined variable "'+last+'" of path "' + path + '"');
 			return null;
 		}
 		return ptr[ last ];
@@ -122,7 +142,7 @@ var templ = {
 		var walk = path.split(/(\.|\/)/);//, -1, PREG_SPLIT_DELIM_CAPTURE);
 
 		var cpath = '/';
-		var ptr = templ.vars;
+		var ptr = this.vars;
 		var last = walk[ walk.length - 1 ];		
 		for (var i = 0; i < walk.length - 2; i+=2) {
 			var step = walk[i];
@@ -132,9 +152,9 @@ var templ = {
 				var n = 0;
 				if (!isset(ptr, step) || ptr[step] === true) {
 					ptr[step] = [ ];
-					templ.var_iters[cpath] = 0;
+					this.var_iters[cpath] = 0;
 				}
-				else n = templ.var_iters[cpath];
+				else n = this.var_iters[cpath];
 				ptr = ptr[step];
 				if (last === '' && i == walk.length - 3) break;
 				if (!isset(ptr, n))	ptr[n] = { };
@@ -187,47 +207,47 @@ var templ = {
 			if (node.hasAttributes()) {
 
 				if (node.hasAttribute('data-each'))
-					templ.var_iters[
-						templ.expand_path(node, 'data-each') 
+					this.var_iters[
+						this.expand_path(node, 'data-each')
 					] = 0;
 
 				if (node.hasAttribute('data-same'))
 					//alert('adding with ' + node),
-					templ.var_iters[
-						templ.expand_path(node, 'data-same') 
+					this.var_iters[
+						this.expand_path(node, 'data-same') 
 					] ++;
 
 				for (var j = 0; j < node.attributes.length; j++) {
 					var attr = node.attributes[j];
 					if (attr.name.indexOf('data-attr-') != -1) {
 						var key = attr.name.substring('data-attr-'.length);
-						templ.write_var(
-							templ.expand_path(node, '', (!attr.value ? key : attr.value)), 
+						this.write_var(
+							this.expand_path(node, '', (!attr.value ? key : attr.value)), 
 							node.getAttribute(key)); 
 					}
 				}
 
 				if (node.hasAttribute('data-var'))
-					templ.write_var(
-						templ.expand_path(node, 'data-var'), 
+					this.write_var(
+						this.expand_path(node, 'data-var'), 
 						node.textContent
 					);
 
 				if (node.hasAttribute('data-when'))
-					templ.write_var(
-						templ.expand_path(node, 'data-when'), 
+					this.write_var(
+						this.expand_path(node, 'data-when'), 
 						true, 1
 					);
 			}
 
 			if (node.childNodes)
-				templ.parse_vars_node(node);
+				this.parse_vars_node(node);
 		} 
 	},
 
 	parse: function () {
-		templ.parse_vars_node(document);
-		templ.var_dump();
+		this.parse_vars_node(this.dom);
+		this.var_dump();
 	},
 
 	get: function (id) {
@@ -235,45 +255,47 @@ var templ = {
 	},
 
 	editor_set: function (text) {
-		var obj = templ.editor;
+		var obj = this.editor;
+		if (!obj) return;
 		if (obj.setValue) obj.setValue(text);
 		else obj.value = text;
 	},
 
 	editor_get: function (text) {
-		var obj = templ.editor;
+		var obj = this.editor;
+		if (!obj) return;
 		if (obj.getValue) return obj.getValue();
 		else return obj.value;
 	},
 
 	var_dump: function () {
-		templ.editor_set(JSON.stringify(templ.vars, null, 4));
+		this.editor_set(JSON.stringify(this.vars, null, 4));
 	},
 
 	var_in: function () {
-		var vars = JSON.parse(templ.editor_get());
-		templ.vars = vars;
-		templ.reflow();
+		var vars = JSON.parse(this.editor_get());
+		this.vars = vars;
+		this.reflow();
 	},
 
 	reflow: function () {
 		/* Reset iteration counters */
-		if (templ.var_iters)
-			for (var i in templ.var_iters)
-				templ.var_iters[i] = 0;
+		if (this.var_iters)
+			for (var i in this.var_iters)
+				this.var_iters[i] = 0;
 
 		/* Reflow all variables */
-		templ.replace_vars(document);
+		this.replace_vars(this.dom);
 	},
 
 	dump: function () {
-		templ.reflow();
-		var ret = templ.dom.documentElement.outerHTML;
+		this.reflow();
+		var ret = this.dom.documentElement.outerHTML;
 		return ret;
 	},
 
 	out: function() {
-		document.write( templ.dump() );
+		document.write( this.dump() );
 	},
 
 	safe_clone: function(elem, after) {
@@ -298,15 +320,15 @@ var templ = {
 				var attr = node.attributes[j];
 				if (attr.name.indexOf('data-attr-') != -1) {
 					var key = attr.name.substring('data-attr-'.length);
-					var path = templ.expand_path(node, '', (!attr.value ? key : attr.value));
-					var val = templ.read_var(path);
+					var path = this.expand_path(node, '', (!attr.value ? key : attr.value));
+					var val = this.read_var(path);
 					if (val !== false)
 						node.setAttribute(key, val);
 				}
 			}
 
 			if (node.hasAttribute('data-when')) {
-				if (! templ.read_var(templ.expand_path(node, 'data-when')) )
+				if (! this.read_var(this.expand_path(node, 'data-when')) )
 				{ 
 					node.style.display = 'none';
 					return false;
@@ -317,13 +339,13 @@ var templ = {
 
 			if (node.hasAttribute('data-var')) {
 				node.textContent = 
-					templ.read_var(templ.expand_path(node, 'data-var'));
+					this.read_var(this.expand_path(node, 'data-var'));
 				stop_here = 1; // do not traverse children of inserted node
 			}
 		}
 
 		if (node.childNodes && !stop_here) //stop here if 'data-var' was used
-			templ.replace_vars(node);
+			this.replace_vars(node);
 	},
  
  	replace_vars : function (root) {
@@ -332,8 +354,8 @@ var templ = {
 			if (node.hasAttributes()) {
 				if (node.hasAttribute('data-same')) continue;
 				if (node.hasAttribute('data-each')) {
-					var path = templ.expand_path(node, 'data-each');
-					var arr = templ.read_var(path);
+					var path = this.expand_path(node, 'data-each');
+					var arr = this.read_var(path);
 
 					/* Unhide first element */
 					if (node.style.display == 'none')
@@ -351,28 +373,35 @@ var templ = {
 						/* Clone new siblings */
 						var last = null;
 						for (var j = 1; j < arr.length; j++) {
-							templ.var_iters[path] = j;
+							this.var_iters[path] = j;
 //							alert("Setting iter for "+path+" as " + j);
-							var nod = templ.safe_clone(node, last);
+							var nod = this.safe_clone(node, last);
 							last = nod;
 							nod.removeAttribute('data-each');
 							nod.setAttribute('data-same', path);
-							templ.replace_vars_node(nod);
+							this.replace_vars_node(nod);
 						}
 //						alert("Setting iter for "+path+" as 0 !");
-						templ.var_iters[path] = 0;
+						this.var_iters[path] = 0;
 					} else {
 						/* Hide first element */
 						node.style.display = 'none';
 					}
 				}
 			}
-			templ.replace_vars_node( node );
+			this.replace_vars_node( node );
 		}
-	},
-};
+	}
+//EndFunction
+}; newdomtempl.init(doc, flags); return newdomtempl; };
 
-templ.setup();
+
+if (document.documentElement.className.indexOf("domtempl") != -1)
+	window.addEventListener('load', function() {
+		var templ = new DOMtempl(document);
+		templ.initEditor();
+	}, false);
+
 
 function isset(a, i) {
 	if (a[i] === undefined || a[i] === null) return false;
