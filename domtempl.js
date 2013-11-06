@@ -269,14 +269,27 @@ var templ = {
 	var_in: function () {
 		var vars = JSON.parse(templ.editor_get());
 		templ.vars = vars;
+		templ.reflow();
+	},
 
-		for (var i in templ.var_iters)
-			templ.var_iters[i] = 0;
-			
+	reflow: function () {
+		/* Reset iteration counters */
+		if (templ.var_iters)
+			for (var i in templ.var_iters)
+				templ.var_iters[i] = 0;
 
+		/* Reflow all variables */
 		templ.replace_vars(document);
+	},
 
-		//templ.editor_set(templ.errlog);
+	dump: function () {
+		templ.reflow();
+		var ret = templ.dom.outerHTML;
+		return ret;
+	},
+
+	out: function() {
+		document.write( templ.dump() );
 	},
 
 	safe_clone: function(elem, after) {
