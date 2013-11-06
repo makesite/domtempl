@@ -241,8 +241,8 @@ var templ = {
 	},
 
 	parse: function () {
-		templ.var_dump();
 		templ.parse_vars_node(document);
+		templ.var_dump();
 	},
 
 	get: function (id) {
