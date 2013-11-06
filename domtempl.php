@@ -262,7 +262,7 @@ class DOMtempl {
 						$this->expand_path($node, 'data-var'), 
 						$node->textContent
 					);
-				
+
 				if ($node->hasAttribute('data-when'))
 					$this->write_var(
 						$this->expand_path($node, 'data-when'), 

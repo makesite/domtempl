@@ -2,7 +2,7 @@ var templ = {
 
 	vars: { },
 	var_iters: { },
-	
+
 	place : null,
 	editor : null,
 
@@ -17,9 +17,7 @@ var templ = {
 		templ.place.id = 'templ_placeholder'
 		templ.place.style.position = 'fixed';
 		templ.place.style.bottom = 0;
-	//	opt.style.display = 'none';
 		templ.place.innerHTML = '<kbd>SHIFT</kbd>-';
-		//add_toggle(opt.id, opt);
 	},
 
 	append_placeholder: function () {
@@ -55,30 +53,17 @@ var templ = {
 	},
 
 	init: function () {
-		//templ.analyze_lazy();
-		//templ.analyze_flat();
-		//templ.expand_deep(document);
-		//templ.analyze_dom();
-		////templ.execute_repeat();
-		//templ.hash_react();
-
 		templ.create_placeholder();
-		//templ.populate_placeholder();
 
 //		templ.add_modlink('parse', 'templ.parse();');
-
 		templ.add_modlink('vardump', 'templ.var_dump();');		
 		templ.add_modlink('__VAR_IN__', 'templ.var_in();');
-		//templ.add_modlink('var_from_ls', 'templ.var_load();');
 
 		templ.add_editor();
 
 		templ.append_placeholder();
-		//templ.append_accesskeys();
+
 		templ.parse();
-
-		//templ.map_hash();
-
 		window.addEventListener("keydown", templ.key_react, false);
 	},
 
@@ -163,7 +148,7 @@ var templ = {
 			cpath += mod;
 		};
 		if (last === '') {
-			ptr [ ptr.length ] = val;
+			ptr[ ptr.length ] = val;
 			return;
 		}
 		if (no_overwrite && isset(ptr, last)) return;
@@ -246,9 +231,7 @@ var templ = {
 	},
 
 	get: function (id) {
-
 		return document.getElementById(id);	
-
 	},
 
 	editor_set: function (text) {
@@ -256,6 +239,7 @@ var templ = {
 		if (obj.setValue) obj.setValue(text);
 		else obj.value = text;
 	},
+
 	editor_get: function (text) {
 		var obj = templ.editor;
 		if (obj.getValue) return obj.getValue();
@@ -380,6 +364,7 @@ var templ = {
 		}
 	},
 };
+
 templ.setup();
 
 function isset(a, i) {
