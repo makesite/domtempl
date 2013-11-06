@@ -334,7 +334,11 @@ var templ = {
 				if (node.hasAttribute('data-each')) {
 					var path = templ.expand_path(node, 'data-each');
 					var arr = templ.read_var(path);
-					
+
+					/* Unhide first element */
+					if (node.style.display == 'none')
+						node.style.display = '';
+
 					/* Kill marked siblings */
 					var kill = node.nextSibling;
 					while (kill) {
@@ -343,7 +347,7 @@ var templ = {
 							kill.parentNode.removeChild(kill);
 						kill = next;
 					}
-					if (is_array(arr)) { 
+					if (is_array(arr) && arr.length) {
 						/* Clone new siblings */
 						var last = null;
 						for (var j = 1; j < arr.length; j++) {
@@ -357,6 +361,9 @@ var templ = {
 						}
 //						alert("Setting iter for "+path+" as 0 !");
 						templ.var_iters[path] = 0;
+					} else {
+						/* Hide first element */
+						node.style.display = 'none';
 					}
 				}
 			}
