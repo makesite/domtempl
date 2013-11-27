@@ -338,7 +338,7 @@ function DOMtempl(doc, flags) { var newdomtempl = {
 			}
 
 			if (node.hasAttribute('data-var')) {
-				node.textContent = 
+				node.innerHTML = 
 					this.read_var(this.expand_path(node, 'data-var'));
 				stop_here = 1; // do not traverse children of inserted node
 			}
