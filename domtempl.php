@@ -398,6 +398,7 @@ class DOMtempl {
 	 * http://www.keyvan.net/2010/07/javascript-like-innerhtml-access-in-php/ */
 	function node_set_innerHTML($node, $value) {
 		/* HACK -- Ensure this is a string */
+		if (is_bool($value)) $value = '';
 		if (is_numeric($value) || !$value) $value = ''.$value;
 		if (!is_string($value)) { $this->error(gettype($value)." is not a scalar var ", $this->expand_path($node,'data-var'), ""); $value=''; }
 
