@@ -315,27 +315,44 @@ class DOMtempl {
 	function safe_clone($elem, $after) {
 		$after = ($after ? $after : $elem);
 		//if ($elem->cloneNode) {
+			$orig = $elem->previousSibling;
+			$ident = null;
+			if ($orig->nodeType == XML_TEXT_NODE
+			&& !trim($orig->wholeText)
+			&& $orig->isWhitespaceInElementContent())
+				$ident = $orig->cloneNode(false);
 			$cln = $elem->cloneNode(true);
 			$o = $after->nextSibling; 
-			if ($o)
+			if ($o) {
+				if ($ident) $elem->parentNode->insertBefore($ident, $o);
 				$elem->parentNode->insertBefore($cln, $o);
-			else
+			} else {
+				if ($ident)	$elem->parentNode->appendChild($ident);
 				$elem->parentNode->appendChild($cln);
+			}
 			return $cln;
 		//}
 		return null;
+	}
+	
+	function safe_remove($node) {
+		$ident = $node->previousSibling;
+		$r = 0;
+		if ($ident != NULL
+			&& $ident->nodeType == XML_TEXT_NODE
+			&& !trim($ident->wholeText)
+			&& $ident->isWhitespaceInElementContent()
+			) {
+				$ident->parentNode->removeChild($ident);
+				$r = 1;
+		}
+		$node->parentNode->removeChild($node);
+		return $r;
 	}
 
 	function replace_vars_node($node, $clean) {
 		$stop_here = 0; //hack, for speed
 		if ($node->hasAttributes()) {
-			if ($node->hasAttribute('data-when')) {
-				if (! $this->read_var($this->expand_path($node, 'data-when')) )	{ 
-					$node->parentNode->removeChild($node);
-					return false;
-				}
-				$clean[] = 'data-when';
-			}
 			foreach ($node->attributes as $attr) {
 				if (strpos($attr->name, 'data-attr-') !== FALSE) {
 					$key = substr($attr->name, strlen('data-attr-'));
@@ -363,12 +380,19 @@ class DOMtempl {
 
 	function replace_vars($root) {
 		//foreach ($root->childNodes as $node) {
-		$clean = array();
 		for ($i = 0; $i < $root->childNodes->length; $i++) {
 			$node = $root->childNodes->item($i);
 			$this->err_node =& $node;
 			if ($node->nodeType != 1) continue;
+			$clean = array();
 			if ($node->hasAttributes()) {
+				if ($node->hasAttribute('data-when')) {
+					if (! $this->read_var($this->expand_path($node, 'data-when')) )	{
+						$i -= $this->safe_remove($node);
+						continue;
+					}
+					$clean[] = 'data-when';
+				}
 				if ($node->hasAttribute('data-same')) {
 					$clean[] = 'data-same';
 					continue;
@@ -382,7 +406,7 @@ class DOMtempl {
 					while ($kill) {
 						$next = $kill->nextSibling;
 						if ($kill->hasAttributes() && $kill->hasAttribute('data-same'))
-							$kill->parentNode->removeChild($kill);
+							$this->safe_remove($kill);
 						$kill = $next;
 					}
 					/* Clone new siblings */
