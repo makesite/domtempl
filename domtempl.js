@@ -200,11 +200,8 @@ function DOMtempl(doc, flags) { var newdomtempl = {
 	parse_vars_node: function (root) {
 		for (var i in root.childNodes) {
 			var node = root.childNodes[i];
-			//alert(node.nodeType);
-			//if (node.nodeType == 3) continue;
-			if (!node.hasAttributes) continue;
 
-			if (node.hasAttributes()) {
+			if (node.nodeType == /*ELEMENT_NODE*/1 && node.hasAttributes()) {
 
 				if (node.hasAttribute('data-each'))
 					this.var_iters[
@@ -314,7 +311,7 @@ function DOMtempl(doc, flags) { var newdomtempl = {
 
 	replace_vars_node: function (node) {
 		var stop_here = 0; //hack, for speed		
-		if (node.hasAttributes()) {	
+		if (node.nodeType == /*ELEMENT_NODE*/1 && node.hasAttributes()) {
 
 			for (var j = 0; j < node.attributes.length; j++) {
 				var attr = node.attributes[j];
@@ -351,7 +348,7 @@ function DOMtempl(doc, flags) { var newdomtempl = {
  	replace_vars : function (root) {
 		for (var i = 0; i < root.childNodes.length; i++) { 
 			var node = root.childNodes[i];
-			if (node.hasAttributes()) {
+			if (node.nodeType == /*ELEMENT_NODE*/1 && node.hasAttributes()) {
 				if (node.hasAttribute('data-same')) continue;
 				if (node.hasAttribute('data-each')) {
 					var path = this.expand_path(node, 'data-each');
