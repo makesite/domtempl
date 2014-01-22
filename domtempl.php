@@ -248,12 +248,6 @@ class DOMtempl {
 	function parse_vars_node($root) {
 		foreach ($root->childNodes as $node) {
 
-			/* Auto-mapping. Should be off by default. */
-			/* if ($node->nodeType == 1
-			&& !$node->hasAttribute('data-var')
-			&&	$this->is_word($node)) // Hack 
-				$node->setAttribute('data-var', $node->nodeValue);*/
-
 			if ($node->hasAttributes()) {
 
 				if ($node->hasAttribute('data-each'))
@@ -290,22 +284,6 @@ class DOMtempl {
 			if ($node->childNodes)
 					$this->parse_vars_node($node);
 		}
-	}
-
-	function is_word($node) {
-		/* Ensure no children exist */
-		$tags = $node->getElementsByTagName("*");
-		if ($tags->length) return false;
-
-		/* Need a word */
-		$str = $node->nodeValue;
-
-		if (is_string($str) &&
-			preg_match('#^\w+$#', $str)) {
-			return true;
-		}
-
-		return false;
 	}
 
 	function parse() {
