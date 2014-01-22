@@ -1,0 +1,33 @@
+<script>
+	var tpl = { };
+
+	/* Templating */
+	$.ajax('index.html', {
+		success: function(data) {
+			//var root = new DOMtempl(data, DOMtempl.FRAGMENT);
+			var root = $(data);
+			tpl["place"] = $("#place", root)[0].innerHTML;
+		}
+	});
+
+	var template = new DOMtempl(tpl["place"], DOMtempl.FRAGMENT);
+
+	$.ajax(lang + '/place/' + marker.place_id + '?json=true', {
+		dataType: "json",
+		success: function(data) {
+			if (navi) {
+				//if (navi.lastHash != "#place")
+				navi.goToPage("#place");
+			}
+			console.log("Result", data);
+			if (data.result == "success") {
+				for (var key in data.data) {
+					var val = data.data[key];
+					template.vars[key] = val;
+				}
+				template.reflow();
+				$container.html(template.dom.innerHTML);
+			}
+		}
+	});
+</script>

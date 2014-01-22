@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>DOMtempl</title>
+	<link rel="stylesheet" href="domtempl.css">
+	<!-- <script src='templ.js'></script> -->
+</head>
+<body>
+	<header>
+		<h1>DOMtempl</h1>
+		<h2>HTML templating that brings you peace</h2>
+		<nav>
+			<a href="index.html" class="">Introduction</a>
+			<a href="samples.html" class="">Samples!</a>
+			<a href="docs_main.html" class="active">Documentation</a>
+		</nav>
+	</header>
+	
+	<nav id="sub">
+		<a class="" href="docs_main.html">General</a>
+		<a class="" href="docs_php.html">PHP</a>
+		<a class="" href="docs_php-writer.html">PHP writer</a>
+		<a class="" href="docs_js.html">JS</a>
+		<a class="" href="docs_js-debuger.html">JS debuger</a>
+		<a class="active" href="docs_js-node.html">Node.js</a>
+		<a class="" href="docs_python.html">Python</a>
+	</nav>
+
+	<article>
+		<h1>Documentation - Node.js</h1>
+		<div><p><style>/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.javascript  {font-family:monospace;}
+.javascript .imp {font-weight: bold; color: red;}
+.javascript .kw1 {color: #000066; font-weight: bold;}
+.javascript .kw2 {color: #003366; font-weight: bold;}
+.javascript .kw3 {color: #000066;}
+.javascript .co1 {color: #006600; font-style: italic;}
+.javascript .co2 {color: #009966; font-style: italic;}
+.javascript .coMULTI {color: #006600; font-style: italic;}
+.javascript .es0 {color: #000099; font-weight: bold;}
+.javascript .br0 {color: #009900;}
+.javascript .sy0 {color: #339933;}
+.javascript .st0 {color: #3366CC;}
+.javascript .nu0 {color: #CC0000;}
+.javascript .me1 {color: #660066;}
+.javascript span.xtra { display:block; }
+</style></p>
+
+<h2>Quick start</h2>
+
+<p>Node.js version of DOMtempl relies on jsdom (or optionally, some other DOM 
+implementation) to function.</p>
+
+<p><code>npm install jsdom</code></p>
+
+<p>Thus, the initialization steps are a bit different.</p>
+
+<pre class="javascript" style="font-family:monospace;">&nbsp;
+    <span class="kw2">var</span> jsdom <span class="sy0">=</span> require<span class="br0">(</span><span class="st0">"jsdom"</span><span class="br0">)</span>.<span class="me1">jsdom</span><span class="sy0">;</span>
+    <span class="kw2">var</span> DOMtempl <span class="sy0">=</span> require<span class="br0">(</span><span class="st0">'./domtempl'</span><span class="br0">)</span>
+&nbsp;
+&nbsp;</pre>
+
+<h3>Reading the template</h3>
+
+<pre class="javascript" style="font-family:monospace;">&nbsp;
+    <span class="kw2">var</span> document <span class="sy0">=</span> jsdom<span class="br0">(</span><span class="st0">'&lt;html&gt;&lt;p data-var="foo"&gt;&lt;/p&gt;&lt;/html&gt;'</span><span class="br0">)</span><span class="sy0">;</span>
+    <span class="kw2">var</span> l <span class="sy0">=</span> <span class="kw2">new</span> DOMtempl<span class="br0">(</span>document<span class="br0">)</span><span class="sy0">;</span>
+&nbsp;
+&nbsp;</pre>
+
+<p>or</p>
+
+<pre class="javascript" style="font-family:monospace;">&nbsp;
+    <span class="kw2">var</span> l <span class="sy0">=</span> <span class="kw2">new</span> DOMtempl<span class="br0">(</span>jsdom<span class="br0">(</span><span class="st0">'&lt;html&gt;&lt;p data-var="foo"&gt;&lt;/p&gt;&lt;/html&gt;'</span><span class="br0">)</span><span class="br0">)</span><span class="sy0">;</span>
+&nbsp;
+&nbsp;</pre>
+
+<h3>Reading variables defined/expected by template</h3>
+
+<pre class="javascript" style="font-family:monospace;">&nbsp;
+    <span class="kw2">var</span> l <span class="sy0">=</span> <span class="kw2">new</span> DOMtempl<span class="br0">(</span>jsdom<span class="br0">(</span><span class="st0">'&lt;html&gt;&lt;p data-var="foo"&gt;Boo&lt;/p&gt;&lt;/html&gt;'</span><span class="br0">)</span><span class="br0">)</span><span class="sy0">;</span>
+&nbsp;
+    console.<span class="me1">log</span><span class="br0">(</span>l.<span class="me1">vars</span><span class="br0">)</span><span class="sy0">;</span>
+    <span class="co1">//{ "foo" : "Boo" }</span>
+&nbsp;
+&nbsp;</pre>
+
+<h3>Writing variables</h3>
+
+<pre class="javascript" style="font-family:monospace;">&nbsp;
+    l.<span class="me1">assign</span><span class="br0">(</span><span class="st0">"foo"</span><span class="sy0">,</span> <span class="st0">"Hello world"</span><span class="br0">)</span><span class="sy0">;</span>
+&nbsp;
+&nbsp;</pre>
+
+<p>You can also assign variables by accessing the <code>vars</code> public property,</p>
+
+<pre class="javascript" style="font-family:monospace;">&nbsp;
+    l.<span class="me1">vars</span><span class="br0">[</span><span class="st0">'foo'</span><span class="br0">]</span> <span class="sy0">=</span> <span class="st0">"Hello world"</span><span class="sy0">;</span>
+&nbsp;
+&nbsp;</pre>
+
+<p>has the same effect.</p>
+
+<h2>Writing output</h2>
+
+<pre class="javascript" style="font-family:monospace;">&nbsp;
+    <span class="kw2">var</span> html <span class="sy0">=</span> l.<span class="me1">dump</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span>
+&nbsp;
+    console.<span class="me1">log</span><span class="br0">(</span>html<span class="br0">)</span><span class="sy0">;</span>
+&nbsp;
+&nbsp;</pre>
+
+<h2>Complete example</h2>
+
+<pre class="javascript" style="font-family:monospace;"><span class="kw2">var</span> jsdom <span class="sy0">=</span> require<span class="br0">(</span><span class="st0">"jsdom"</span><span class="br0">)</span>.<span class="me1">jsdom</span><span class="sy0">;</span>
+<span class="kw2">var</span> DOMtempl <span class="sy0">=</span> require<span class="br0">(</span><span class="st0">'./domtempl'</span><span class="br0">)</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw2">var</span> document <span class="sy0">=</span> jsdom<span class="br0">(</span><span class="st0">'
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta charset="utf-8" /&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h1 data-var="title"&gt;
+            Page Title
+        &lt;/h1&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+'</span><span class="br0">)</span><span class="sy0">;</span>
+<span class="kw2">var</span> t <span class="sy0">=</span> <span class="kw2">new</span> DOMtempl<span class="br0">(</span>document<span class="br0">)</span><span class="sy0">;</span>
+<span class="kw3">alert</span><span class="br0">(</span>t.<span class="me1">vars</span><span class="br0">[</span><span class="st0">'title'</span><span class="br0">]</span><span class="br0">)</span><span class="sy0">;</span> <span class="co1">// this will output "Page Title"</span>
+t.<span class="me1">vars</span><span class="br0">[</span><span class="st0">'title'</span><span class="br0">]</span> <span class="sy0">=</span> <span class="st0">'Custom Title'</span><span class="sy0">;</span>
+t.<span class="me1">reflow</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span> <span class="co1">//this will change the H1 above to "Custom Title"</span>
+&nbsp;
+console.<span class="me1">log</span><span class="br0">(</span> t.<span class="me1">dump</span><span class="br0">(</span><span class="br0">)</span> <span class="br0">)</span><span class="sy0">;</span> <span class="co1">//output new HTML</span>
+&nbsp;</pre>
+</div>
+	</article>
+
+	<footer>
+		2011-2013 domtempl
+	</footer>
+</body>
+</html>

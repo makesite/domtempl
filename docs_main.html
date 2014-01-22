@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>DOMtempl</title>
+	<link rel="stylesheet" href="domtempl.css">
+	<!-- <script src='templ.js'></script> -->
+</head>
+<body>
+	<header>
+		<h1>DOMtempl</h1>
+		<h2>HTML templating that brings you peace</h2>
+		<nav>
+			<a href="index.html" class="">Introduction</a>
+			<a href="samples.html" class="">Samples!</a>
+			<a href="docs_main.html" class="active">Documentation</a>
+		</nav>
+	</header>
+	
+	<nav id="sub">
+		<a class="active" href="docs_main.html">General</a>
+		<a class="" href="docs_php.html">PHP</a>
+		<a class="" href="docs_php-writer.html">PHP writer</a>
+		<a class="" href="docs_js.html">JS</a>
+		<a class="" href="docs_js-debuger.html">JS debuger</a>
+		<a class="" href="docs_js-node.html">Node.js</a>
+		<a class="" href="docs_python.html">Python</a>
+	</nav>
+
+	<article>
+		<h1>Documentation - General</h1>
+		<div><p><style>/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.javascript  {font-family:monospace;}
+.javascript .imp {font-weight: bold; color: red;}
+.javascript .kw1 {color: #000066; font-weight: bold;}
+.javascript .kw2 {color: #003366; font-weight: bold;}
+.javascript .kw3 {color: #000066;}
+.javascript .co1 {color: #006600; font-style: italic;}
+.javascript .co2 {color: #009966; font-style: italic;}
+.javascript .coMULTI {color: #006600; font-style: italic;}
+.javascript .es0 {color: #000099; font-weight: bold;}
+.javascript .br0 {color: #009900;}
+.javascript .sy0 {color: #339933;}
+.javascript .st0 {color: #3366CC;}
+.javascript .nu0 {color: #CC0000;}
+.javascript .me1 {color: #660066;}
+.javascript span.xtra { display:block; }
+</style><style>/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.xml  {font-family:monospace;}
+.xml .imp {font-weight: bold; color: red;}
+.xml .es0 {color: #000099; font-weight: bold;}
+.xml .br0 {color: #66cc66;}
+.xml .sy0 {color: #66cc66;}
+.xml .st0 {color: #ff0000;}
+.xml .sc-1 {color: #808080; font-style: italic;}
+.xml .sc0 {color: #00bbdd;}
+.xml .sc1 {color: #ddbb00;}
+.xml .sc2 {color: #339933;}
+.xml .sc3 {color: #009900;}
+.xml .re0 {color: #000066;}
+.xml .re1 {color: #000000; font-weight: bold;}
+.xml .re2 {color: #000000; font-weight: bold;}
+.xml span.xtra { display:block; }
+</style></p>
+
+<p>Each DOMtempl template is a <a title="W3C HTML Validator" class="external" href="http://validator.w3.org">valid HTML</a> document.</p>
+
+<p>Elements might have special templating attributes, that control their behavior</p>
+
+<pre class="xml" style="font-family:monospace;">    <span class="sc3"><span class="re1">&lt;a</span> <span class="re0">data-COMMAND</span>=<span class="st0">"VARref"</span><span class="re2">&gt;</span><span class="re1">&lt;/a<span class="re2">&gt;</span></span></span>
+&nbsp;</pre>
+
+<p>Where <code>VARref</code> points to a variable with actual data, and <code>COMMAND</code> might be one of the 
+following:</p>
+
+<h2>data-* attributes</h2>
+
+<p><code>DOMtempl</code> reserves the following <a href="http://dev.w3.org/html5/spec/elements.html#custom-data-attribute" class="external">HTML5 data attributes</a>:</p>
+
+<dl><dt>data-each</dt>
+    <dd>The element will be repeated multiple times; the specified variable will be treated as an array and iterated over.</dd>
+    <dt>data-when</dt>
+    <dd>The element will/will not be rendered according to truthness of specified variable.</dd>
+    <dt>data-var</dt>
+    <dd>Contents of the element will be replaced with specified variable.</dd>
+    <dt>data-attr-NAME</dt>
+    <dd>Contents of the NAME attribute will be replaced with specified variable.</dd>
+    <dt>data-same</dt>
+    <dd>The element is part of the same data-each group as the specified variable is.</dd>
+    <dt>data-from</dt>
+    <dd>Selects variable scope for children elements.</dd>
+</dl><p>Note, that <code>data-each</code> and <code>data-when</code> change the scope for all children elements.</p>
+
+<h2>VARref</h2>
+
+<p>VARref is a string that can describe relative variable position in a json-like
+data structure. It is a bit similar to XPath, altho magnitudes simplier (it can't filter or search or group or map or reduce).</p>
+
+<p>All VARrefs are relative to their parent elements, unless they start with <code>/</code>.</p>
+
+<p>Accessing current <code>iterator value</code> could be done by appending <code>/</code> to the end.</p>
+
+<p>Accessing current <code>iterator key</code> could be done by appending the <code>*</code> asterix symbol to the
+end of the VARref.</p>
+
+<p>Example</p>
+
+<pre class="javascript" style="font-family:monospace;"> <span class="co1">//sample data:</span>
+    <span class="st0">"foo"</span> <span class="sy0">:</span> <span class="br0">{</span> <span class="st0">"bar"</span> <span class="sy0">:</span> <span class="st0">"value"</span> <span class="br0">}</span><span class="sy0">,</span>
+    <span class="st0">"fruit"</span> <span class="sy0">:</span> <span class="br0">[</span> <span class="st0">"apple"</span><span class="sy0">,</span> <span class="st0">"orange"</span><span class="sy0">,</span> <span class="st0">"banana"</span> <span class="br0">]</span><span class="sy0">,</span>
+    <span class="st0">"book"</span> <span class="sy0">:</span> <span class="br0">[</span>
+            <span class="br0">{</span> <span class="st0">"author"</span> <span class="sy0">:</span> <span class="st0">"J.K. Rowling"</span><span class="sy0">,</span> <span class="st0">"title"</span> <span class="sy0">:</span> <span class="st0">"Harry Potter"</span> <span class="br0">}</span><span class="sy0">,</span>
+            <span class="br0">{</span> <span class="st0">"author"</span> <span class="sy0">:</span> <span class="st0">"P.K. Dick"</span><span class="sy0">,</span> <span class="st0">"title"</span> <span class="sy0">:</span> <span class="st0">"Minority Report"</span> <span class="br0">}</span>
+        <span class="br0">]</span>
+&nbsp;</pre>
+
+<pre><code>JSONpath                VARref              Gives you
+['foo']                 foo                 { "bar": "value" }
+['foo']['bar']          foo.bar             "value"
+['fruit'][0]            fruit.0             "apple"
+['fruit'][*]            fruit/              "apple", "orange", "banana"
+['book'][*]['author']   book/author         "J.K. Rowling", "P.K. Dick"     
+                        book/*              "author", "title"
+</code></pre>
+
+<h2>Scope</h2>
+
+<div style="clear: both"></div>
+
+<p>By default, all VARrefs are relative to the closest parent element with a 
+<code>data-when</code>, <code>data-each</code> or <code>data-from</code> attributes. Here</p>
+
+<pre class="xml" style="font-family:monospace;">    <span class="sc3"><span class="re1">&lt;div</span> <span class="re0">data-when</span>=<span class="st0">"foo"</span><span class="re2">&gt;</span></span>
+        <span class="sc3"><span class="re1">&lt;span</span> <span class="re0">data-var</span>=<span class="st0">"bar"</span><span class="re2">&gt;</span><span class="re1">&lt;/span<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;/div<span class="re2">&gt;</span></span></span>
+&nbsp;</pre>
+
+<p>SPAN element's <code>data-var</code> points to <code>foo.bar</code> variable.</p>
+
+<p>It only happens for child elements, so to access nested variable 
+in the same element, you still have to use current scope:</p>
+
+<pre class="xml" style="font-family:monospace;">    <span class="sc3"><span class="re1">&lt;div</span> <span class="re0">data-when</span>=<span class="st0">"foo"</span> <span class="re0">data-var</span>=<span class="st0">"foo.bar"</span><span class="re2">&gt;</span><span class="re1">&lt;/div<span class="re2">&gt;</span></span></span>
+&nbsp;</pre>
+
+<p>To break free of deep nested scope, '/' can be used:</p>
+
+<pre class="xml" style="font-family:monospace;">    <span class="sc3"><span class="re1">&lt;div</span> <span class="re0">data-when</span>=<span class="st0">"foo"</span><span class="re2">&gt;</span></span>
+        <span class="sc3"><span class="re1">&lt;span</span> <span class="re0">data-var</span>=<span class="st0">"bar"</span><span class="re2">&gt;</span><span class="re1">&lt;/span<span class="re2">&gt;</span></span></span>
+        <span class="sc3"><span class="re1">&lt;p</span> <span class="re0">data-var</span>=<span class="st0">"/moo"</span><span class="re2">&gt;</span><span class="re1">&lt;/p<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;/div<span class="re2">&gt;</span></span></span>
+&nbsp;</pre>
+
+<p>P element will refrence "moo" and not "foo.moo"</p>
+
+<p>Scope can also be changed without any other actions by using
+<code>data-from</code> attribute:</p>
+
+<pre class="xml" style="font-family:monospace;">    <span class="sc3"><span class="re1">&lt;div</span> <span class="re0">data-from</span>=<span class="st0">"person.0"</span><span class="re2">&gt;</span></span>
+        <span class="sc3"><span class="re1">&lt;span</span> <span class="re0">data-var</span>=<span class="st0">"name"</span><span class="re2">&gt;</span><span class="re1">&lt;/span<span class="re2">&gt;</span></span></span>
+    <span class="sc3"><span class="re1">&lt;/div<span class="re2">&gt;</span></span></span>
+&nbsp;</pre>
+</div>
+	</article>
+
+	<footer>
+		2011-2013 domtempl
+	</footer>
+</body>
+</html>

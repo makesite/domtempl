@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>DOMtempl</title>
+	<link rel="stylesheet" href="domtempl.css">
+	<!-- <script src='templ.js'></script> -->
+</head>
+<body>
+	<header>
+		<h1>DOMtempl</h1>
+		<h2>HTML templating that brings you peace</h2>
+		<nav>
+			<a href="index.html" class="">Introduction</a>
+			<a href="samples.html" class="active">Samples!</a>
+			<a href="docs_main.html" class="">Documentation</a>
+		</nav>
+	</header>
+	
+	<nav id="sub">
+		<a class="" href="">General</a>
+	</nav>
+
+	<section id="samples">
+		<!--
+		<div data-when="samples_list" data-each='samples_list'>
+			<a data-attr-href='href' data-var='name'></a>
+		</div> -->
+		<article>
+			<h1>single var</h1>
+			<div class="html"><code><pre class="html4strict" style="font-family:monospace;"><span class="sc2">&lt;<span class="kw2">html</span>&gt;</span>
+	<span class="sc2">&lt;<span class="kw2">p</span> data-var<span class="sy0">=</span><span class="st0">"foo"</span>&gt;</span>Hello<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">p</span>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">html</span>&gt;</span></pre></code></div><div class="data"><code><pre class="php" style="font-family:monospace;"><span class="kw3">array</span> <span class="br0">(</span>
+  <span class="st_h">'foo'</span> <span class="sy0">=&gt;</span> <span class="st_h">'Hello World'</span><span class="sy0">,</span>
+<span class="br0">)</span></pre></code></div><div class="result"><code><pre class="html4strict" style="font-family:monospace;"><span class="sc2">&lt;<span class="kw2">html</span>&gt;</span>
+	<span class="sc2">&lt;<span class="kw2">p</span>&gt;</span>Hello World<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">p</span>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">html</span>&gt;</span></pre></code></div>
+		</article>
+		<article>
+			<h1>deep var</h1>
+			<div class="html"><code><pre class="html4strict" style="font-family:monospace;"><span class="sc2">&lt;<span class="kw2">html</span>&gt;</span>
+	<span class="sc2">&lt;<span class="kw2">a</span> data-var<span class="sy0">=</span><span class="st0">"foo.bar"</span>&gt;</span>Hey<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">a</span>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">html</span>&gt;</span></pre></code></div><div class="data"><code><pre class="php" style="font-family:monospace;"><span class="kw3">array</span> <span class="br0">(</span>
+  <span class="st_h">'foo'</span> <span class="sy0">=&gt;</span> 
+  <span class="kw3">array</span> <span class="br0">(</span>
+    <span class="st_h">'bar'</span> <span class="sy0">=&gt;</span> <span class="st_h">'Any dogs?'</span><span class="sy0">,</span>
+  <span class="br0">)</span><span class="sy0">,</span>
+<span class="br0">)</span></pre></code></div><div class="result"><code><pre class="html4strict" style="font-family:monospace;"><span class="sc2">&lt;<span class="kw2">html</span>&gt;</span>
+	<span class="sc2">&lt;<span class="kw2">a</span>&gt;</span>Any dogs?<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">a</span>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">html</span>&gt;</span></pre></code></div>
+		</article>
+		<article>
+			<h1>array</h1>
+			<div class="html"><code><pre class="html4strict" style="font-family:monospace;"><span class="sc2">&lt;<span class="kw2">html</span>&gt;</span>
+	<span class="sc2">&lt;<span class="kw2">li</span> data-each<span class="sy0">=</span><span class="st0">"fruits"</span> </span>
+<span class="sc2">		data-var<span class="sy0">=</span><span class="st0">"fruits/"</span>&gt;&lt;<span class="sy0">/</span><span class="kw2">li</span>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">html</span>&gt;</span></pre></code></div><div class="data"><code><pre class="php" style="font-family:monospace;"><span class="kw3">array</span> <span class="br0">(</span>
+  <span class="st_h">'fruits'</span> <span class="sy0">=&gt;</span> 
+  <span class="kw3">array</span> <span class="br0">(</span>
+    <span class="nu0">0</span> <span class="sy0">=&gt;</span> <span class="st_h">'apple'</span><span class="sy0">,</span>
+    <span class="nu0">1</span> <span class="sy0">=&gt;</span> <span class="st_h">'orange'</span><span class="sy0">,</span>
+    <span class="nu0">2</span> <span class="sy0">=&gt;</span> <span class="st_h">'banana'</span><span class="sy0">,</span>
+  <span class="br0">)</span><span class="sy0">,</span>
+<span class="br0">)</span></pre></code></div><div class="result"><code><pre class="html4strict" style="font-family:monospace;"><span class="sc2">&lt;<span class="kw2">html</span>&gt;</span>
+	<span class="sc2">&lt;<span class="kw2">li</span>&gt;</span>apple<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">li</span>&gt;</span>
+	<span class="sc2">&lt;<span class="kw2">li</span>&gt;</span>orange<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">li</span>&gt;</span>
+	<span class="sc2">&lt;<span class="kw2">li</span>&gt;</span>banana<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">li</span>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">html</span>&gt;</span></pre></code></div>
+		</article>
+		<article>
+			<h1>deep array</h1>
+			<div class="html"><code><pre class="html4strict" style="font-family:monospace;"><span class="sc2">&lt;<span class="kw2">html</span>&gt;</span>
+	<span class="sc2">&lt;<span class="kw2">li</span> data-each<span class="sy0">=</span><span class="st0">"person"</span>&gt;</span>
+		<span class="sc2">&lt;<span class="kw2">a</span> data-var<span class="sy0">=</span><span class="st0">"name"</span>&gt;&lt;<span class="sy0">/</span><span class="kw2">a</span>&gt;</span>	
+	<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">li</span>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">html</span>&gt;</span></pre></code></div><div class="data"><code><pre class="php" style="font-family:monospace;"><span class="kw3">array</span> <span class="br0">(</span>
+  <span class="st_h">'person'</span> <span class="sy0">=&gt;</span> 
+  <span class="kw3">array</span> <span class="br0">(</span>
+    0 <span class="sy0">=&gt;</span> 
+    <span class="kw3">array</span> <span class="br0">(</span>
+      <span class="st_h">'name'</span> <span class="sy0">=&gt;</span> <span class="st_h">'John'</span><span class="sy0">,</span>
+      <span class="st_h">'age'</span> <span class="sy0">=&gt;</span> 25<span class="sy0">,</span>
+    <span class="br0">)</span><span class="sy0">,</span>
+    1 <span class="sy0">=&gt;</span> 
+    <span class="kw3">array</span> <span class="br0">(</span>
+      <span class="st_h">'name'</span> <span class="sy0">=&gt;</span> <span class="st_h">'Bill'</span><span class="sy0">,</span>
+      <span class="st_h">'age'</span> <span class="sy0">=&gt;</span> <span class="nu0">33</span><span class="sy0">,</span>
+    <span class="br0">)</span><span class="sy0">,</span>
+  <span class="br0">)</span><span class="sy0">,</span>
+<span class="br0">)</span></pre></code></div><div class="result"><code><pre class="html4strict" style="font-family:monospace;"><span class="sc2">&lt;<span class="kw2">html</span>&gt;</span>
+	<span class="sc2">&lt;<span class="kw2">li</span>&gt;</span>
+		<span class="sc2">&lt;<span class="kw2">a</span>&gt;</span>John<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">a</span>&gt;</span>	
+	<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">li</span>&gt;</span>
+	<span class="sc2">&lt;<span class="kw2">li</span>&gt;</span>
+		<span class="sc2">&lt;<span class="kw2">a</span>&gt;</span>Bill<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">a</span>&gt;</span>	
+	<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">li</span>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">html</span>&gt;</span></pre></code></div>
+		</article>
+		<article>
+			<h1>toggle</h1>
+			<div class="html"><code><pre class="html4strict" style="font-family:monospace;"><span class="sc2">&lt;<span class="kw2">html</span>&gt;</span>
+	<span class="sc2">&lt;<span class="kw2">div</span> data-when<span class="sy0">=</span><span class="st0">"cats"</span>&gt;</span>Cats are OK<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">div</span>&gt;</span>
+	<span class="sc2">&lt;<span class="kw2">div</span> data-when<span class="sy0">=</span><span class="st0">"dogs"</span>&gt;</span>Dogs are OK<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">div</span>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">html</span>&gt;</span></pre></code></div><div class="data"><code><pre class="php" style="font-family:monospace;"><span class="kw3">array</span> <span class="br0">(</span>
+  <span class="st_h">'cats'</span> <span class="sy0">=&gt;</span> <span class="kw4">true</span><span class="sy0">,</span>
+  <span class="st_h">'dogs'</span> <span class="sy0">=&gt;</span> <span class="kw4">false</span><span class="sy0">,</span>
+<span class="br0">)</span></pre></code></div><div class="result"><code><pre class="html4strict" style="font-family:monospace;"><span class="sc2">&lt;<span class="kw2">html</span>&gt;</span>
+	<span class="sc2">&lt;<span class="kw2">div</span>&gt;</span>Cats are OK<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">div</span>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">html</span>&gt;</span></pre></code></div>
+		</article>
+		<article>
+			<h1>attribute</h1>
+			<div class="html"><code><pre class="html4strict" style="font-family:monospace;"><span class="sc2">&lt;<span class="kw2">html</span>&gt;</span>
+	<span class="sc2">&lt;<span class="kw2">a</span> data-attr-<span class="kw3">href</span><span class="sy0">=</span><span class="st0">"foo"</span>&gt;</span>Some link<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">a</span>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">html</span>&gt;</span></pre></code></div><div class="data"><code><pre class="php" style="font-family:monospace;"><span class="kw3">array</span> <span class="br0">(</span>
+  <span class="st_h">'foo'</span> <span class="sy0">=&gt;</span> <span class="st_h">'http://pac.man'</span><span class="sy0">,</span>
+<span class="br0">)</span></pre></code></div><div class="result"><code><pre class="html4strict" style="font-family:monospace;"><span class="sc2">&lt;<span class="kw2">html</span>&gt;</span>
+	<span class="sc2">&lt;<span class="kw2">a</span> <span class="kw3">href</span><span class="sy0">=</span><span class="st0">"http://pac.man"</span>&gt;</span>Some link<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">a</span>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">html</span>&gt;</span></pre></code></div>
+		</article>
+		<article>
+			<h1>full</h1>
+			<div class="html"><code><pre class="html4strict" style="font-family:monospace;"><span class="sc2">&lt;<span class="kw2">html</span>&gt;</span>
+<span class="sc2">&lt;<span class="kw2">ul</span> data-when<span class="sy0">=</span><span class="st0">"menu"</span>&gt;</span>
+	<span class="sc2">&lt;<span class="kw2">li</span> data-each<span class="sy0">=</span><span class="st0">"/menu"</span>&gt;</span>
+		<span class="sc2">&lt;<span class="kw2">a</span> </span>
+<span class="sc2">		data-attr-<span class="kw3">href</span><span class="sy0">=</span><span class="st0">"href"</span> </span>
+<span class="sc2">		data-attr-<span class="kw3">class</span><span class="sy0">=</span><span class="st0">"class"</span> </span>
+<span class="sc2">		data-var<span class="sy0">=</span><span class="st0">"name"</span>&gt;&lt;<span class="sy0">/</span><span class="kw2">a</span>&gt;</span>			
+	<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">li</span>&gt;</span>		
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">ul</span>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">html</span>&gt;</span></pre></code></div><div class="data"><code><pre class="php" style="font-family:monospace;"><span class="kw3">array</span> <span class="br0">(</span>
+  <span class="st_h">'menu'</span> <span class="sy0">=&gt;</span> 
+  <span class="kw3">array</span> <span class="br0">(</span>
+    0 <span class="sy0">=&gt;</span> 
+    <span class="kw3">array</span> <span class="br0">(</span>
+      <span class="st_h">'href'</span> <span class="sy0">=&gt;</span> <span class="st_h">'index'</span><span class="sy0">,</span>
+      <span class="st_h">'name'</span> <span class="sy0">=&gt;</span> <span class="st_h">'Main'</span><span class="sy0">,</span>
+      <span class="st_h">'class'</span> <span class="sy0">=&gt;</span> <span class="st_h">''</span><span class="sy0">,</span>
+    <span class="br0">)</span><span class="sy0">,</span>
+    1 <span class="sy0">=&gt;</span> 
+    <span class="kw3">array</span> <span class="br0">(</span>
+      <span class="st_h">'href'</span> <span class="sy0">=&gt;</span> <span class="st_h">'contact'</span><span class="sy0">,</span>
+      <span class="st_h">'name'</span> <span class="sy0">=&gt;</span> <span class="st_h">'Contact'</span><span class="sy0">,</span>
+      <span class="st_h">'class'</span> <span class="sy0">=&gt;</span> <span class="st_h">''</span><span class="sy0">,</span>
+    <span class="br0">)</span><span class="sy0">,</span>
+    2 <span class="sy0">=&gt;</span> 
+    <span class="kw3">array</span> <span class="br0">(</span>
+      <span class="st_h">'href'</span> <span class="sy0">=&gt;</span> <span class="st_h">'about'</span><span class="sy0">,</span>
+      <span class="st_h">'name'</span> <span class="sy0">=&gt;</span> <span class="st_h">'About'</span><span class="sy0">,</span>
+      <span class="st_h">'class'</span> <span class="sy0">=&gt;</span> <span class="st_h">'active'</span><span class="sy0">,</span>
+    <span class="br0">)</span><span class="sy0">,</span>
+  <span class="br0">)</span><span class="sy0">,</span>
+<span class="br0">)</span></pre></code></div><div class="result"><code><pre class="html4strict" style="font-family:monospace;"><span class="sc2">&lt;<span class="kw2">html</span>&gt;</span>
+<span class="sc2">&lt;<span class="kw2">ul</span>&gt;</span>
+	<span class="sc2">&lt;<span class="kw2">li</span>&gt;</span>
+		<span class="sc2">&lt;<span class="kw2">a</span> <span class="kw3">href</span><span class="sy0">=</span><span class="st0">"index"</span> <span class="kw3">class</span><span class="sy0">=</span><span class="st0">""</span>&gt;</span>Main<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">a</span>&gt;</span>			
+	<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">li</span>&gt;</span>
+	<span class="sc2">&lt;<span class="kw2">li</span>&gt;</span>
+		<span class="sc2">&lt;<span class="kw2">a</span> <span class="kw3">href</span><span class="sy0">=</span><span class="st0">"contact"</span> <span class="kw3">class</span><span class="sy0">=</span><span class="st0">""</span>&gt;</span>Contact<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">a</span>&gt;</span>			
+	<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">li</span>&gt;</span>
+	<span class="sc2">&lt;<span class="kw2">li</span>&gt;</span>
+		<span class="sc2">&lt;<span class="kw2">a</span> <span class="kw3">href</span><span class="sy0">=</span><span class="st0">"about"</span> <span class="kw3">class</span><span class="sy0">=</span><span class="st0">"active"</span>&gt;</span>About<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">a</span>&gt;</span>			
+	<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">li</span>&gt;</span>		
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">ul</span>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">html</span>&gt;</span></pre></code></div>
+		</article>
+		<style>/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.html4strict  {font-family:monospace;}
+.html4strict .imp {font-weight: bold; color: red;}
+.html4strict .kw2 {color: #000000; font-weight: bold;}
+.html4strict .kw3 {color: #000066;}
+.html4strict .es0 {color: #000099; font-weight: bold;}
+.html4strict .br0 {color: #66cc66;}
+.html4strict .sy0 {color: #66cc66;}
+.html4strict .st0 {color: #ff0000;}
+.html4strict .nu0 {color: #cc66cc;}
+.html4strict .sc-1 {color: #808080; font-style: italic;}
+.html4strict .sc0 {color: #00bbdd;}
+.html4strict .sc1 {color: #ddbb00;}
+.html4strict .sc2 {color: #009900;}
+.html4strict span.xtra { display:block; }
+
+/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.php  {font-family:monospace;}
+.php .imp {font-weight: bold; color: red;}
+.php .kw1 {color: #b1b100;}
+.php .kw2 {color: #000000; font-weight: bold;}
+.php .kw3 {color: #990000;}
+.php .kw4 {color: #009900; font-weight: bold;}
+.php .co1 {color: #666666; font-style: italic;}
+.php .co2 {color: #666666; font-style: italic;}
+.php .co3 {color: #0000cc; font-style: italic;}
+.php .co4 {color: #009933; font-style: italic;}
+.php .coMULTI {color: #666666; font-style: italic;}
+.php .es0 {color: #000099; font-weight: bold;}
+.php .es1 {color: #000099; font-weight: bold;}
+.php .es2 {color: #660099; font-weight: bold;}
+.php .es3 {color: #660099; font-weight: bold;}
+.php .es4 {color: #006699; font-weight: bold;}
+.php .es5 {color: #006699; font-weight: bold; font-style: italic;}
+.php .es6 {color: #009933; font-weight: bold;}
+.php .es_h {color: #000099; font-weight: bold;}
+.php .br0 {color: #009900;}
+.php .sy0 {color: #339933;}
+.php .sy1 {color: #000000; font-weight: bold;}
+.php .st0 {color: #0000ff;}
+.php .st_h {color: #0000ff;}
+.php .nu0 {color: #cc66cc;}
+.php .nu8 {color: #208080;}
+.php .nu12 {color: #208080;}
+.php .nu19 {color:#800080;}
+.php .me1 {color: #004000;}
+.php .me2 {color: #004000;}
+.php .re0 {color: #000088;}
+.php span.xtra { display:block; }
+
+/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.html4strict  {font-family:monospace;}
+.html4strict .imp {font-weight: bold; color: red;}
+.html4strict .kw2 {color: #000000; font-weight: bold;}
+.html4strict .kw3 {color: #000066;}
+.html4strict .es0 {color: #000099; font-weight: bold;}
+.html4strict .br0 {color: #66cc66;}
+.html4strict .sy0 {color: #66cc66;}
+.html4strict .st0 {color: #ff0000;}
+.html4strict .nu0 {color: #cc66cc;}
+.html4strict .sc-1 {color: #808080; font-style: italic;}
+.html4strict .sc0 {color: #00bbdd;}
+.html4strict .sc1 {color: #ddbb00;}
+.html4strict .sc2 {color: #009900;}
+.html4strict span.xtra { display:block; }
+
+/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.html4strict  {font-family:monospace;}
+.html4strict .imp {font-weight: bold; color: red;}
+.html4strict .kw2 {color: #000000; font-weight: bold;}
+.html4strict .kw3 {color: #000066;}
+.html4strict .es0 {color: #000099; font-weight: bold;}
+.html4strict .br0 {color: #66cc66;}
+.html4strict .sy0 {color: #66cc66;}
+.html4strict .st0 {color: #ff0000;}
+.html4strict .nu0 {color: #cc66cc;}
+.html4strict .sc-1 {color: #808080; font-style: italic;}
+.html4strict .sc0 {color: #00bbdd;}
+.html4strict .sc1 {color: #ddbb00;}
+.html4strict .sc2 {color: #009900;}
+.html4strict span.xtra { display:block; }
+
+/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.php  {font-family:monospace;}
+.php .imp {font-weight: bold; color: red;}
+.php .kw1 {color: #b1b100;}
+.php .kw2 {color: #000000; font-weight: bold;}
+.php .kw3 {color: #990000;}
+.php .kw4 {color: #009900; font-weight: bold;}
+.php .co1 {color: #666666; font-style: italic;}
+.php .co2 {color: #666666; font-style: italic;}
+.php .co3 {color: #0000cc; font-style: italic;}
+.php .co4 {color: #009933; font-style: italic;}
+.php .coMULTI {color: #666666; font-style: italic;}
+.php .es0 {color: #000099; font-weight: bold;}
+.php .es1 {color: #000099; font-weight: bold;}
+.php .es2 {color: #660099; font-weight: bold;}
+.php .es3 {color: #660099; font-weight: bold;}
+.php .es4 {color: #006699; font-weight: bold;}
+.php .es5 {color: #006699; font-weight: bold; font-style: italic;}
+.php .es6 {color: #009933; font-weight: bold;}
+.php .es_h {color: #000099; font-weight: bold;}
+.php .br0 {color: #009900;}
+.php .sy0 {color: #339933;}
+.php .sy1 {color: #000000; font-weight: bold;}
+.php .st0 {color: #0000ff;}
+.php .st_h {color: #0000ff;}
+.php .nu0 {color: #cc66cc;}
+.php .nu8 {color: #208080;}
+.php .nu12 {color: #208080;}
+.php .nu19 {color:#800080;}
+.php .me1 {color: #004000;}
+.php .me2 {color: #004000;}
+.php .re0 {color: #000088;}
+.php span.xtra { display:block; }
+
+/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.html4strict  {font-family:monospace;}
+.html4strict .imp {font-weight: bold; color: red;}
+.html4strict .kw2 {color: #000000; font-weight: bold;}
+.html4strict .kw3 {color: #000066;}
+.html4strict .es0 {color: #000099; font-weight: bold;}
+.html4strict .br0 {color: #66cc66;}
+.html4strict .sy0 {color: #66cc66;}
+.html4strict .st0 {color: #ff0000;}
+.html4strict .nu0 {color: #cc66cc;}
+.html4strict .sc-1 {color: #808080; font-style: italic;}
+.html4strict .sc0 {color: #00bbdd;}
+.html4strict .sc1 {color: #ddbb00;}
+.html4strict .sc2 {color: #009900;}
+.html4strict span.xtra { display:block; }
+
+/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.html4strict  {font-family:monospace;}
+.html4strict .imp {font-weight: bold; color: red;}
+.html4strict .kw2 {color: #000000; font-weight: bold;}
+.html4strict .kw3 {color: #000066;}
+.html4strict .es0 {color: #000099; font-weight: bold;}
+.html4strict .br0 {color: #66cc66;}
+.html4strict .sy0 {color: #66cc66;}
+.html4strict .st0 {color: #ff0000;}
+.html4strict .nu0 {color: #cc66cc;}
+.html4strict .sc-1 {color: #808080; font-style: italic;}
+.html4strict .sc0 {color: #00bbdd;}
+.html4strict .sc1 {color: #ddbb00;}
+.html4strict .sc2 {color: #009900;}
+.html4strict span.xtra { display:block; }
+
+/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.php  {font-family:monospace;}
+.php .imp {font-weight: bold; color: red;}
+.php .kw1 {color: #b1b100;}
+.php .kw2 {color: #000000; font-weight: bold;}
+.php .kw3 {color: #990000;}
+.php .kw4 {color: #009900; font-weight: bold;}
+.php .co1 {color: #666666; font-style: italic;}
+.php .co2 {color: #666666; font-style: italic;}
+.php .co3 {color: #0000cc; font-style: italic;}
+.php .co4 {color: #009933; font-style: italic;}
+.php .coMULTI {color: #666666; font-style: italic;}
+.php .es0 {color: #000099; font-weight: bold;}
+.php .es1 {color: #000099; font-weight: bold;}
+.php .es2 {color: #660099; font-weight: bold;}
+.php .es3 {color: #660099; font-weight: bold;}
+.php .es4 {color: #006699; font-weight: bold;}
+.php .es5 {color: #006699; font-weight: bold; font-style: italic;}
+.php .es6 {color: #009933; font-weight: bold;}
+.php .es_h {color: #000099; font-weight: bold;}
+.php .br0 {color: #009900;}
+.php .sy0 {color: #339933;}
+.php .sy1 {color: #000000; font-weight: bold;}
+.php .st0 {color: #0000ff;}
+.php .st_h {color: #0000ff;}
+.php .nu0 {color: #cc66cc;}
+.php .nu8 {color: #208080;}
+.php .nu12 {color: #208080;}
+.php .nu19 {color:#800080;}
+.php .me1 {color: #004000;}
+.php .me2 {color: #004000;}
+.php .re0 {color: #000088;}
+.php span.xtra { display:block; }
+
+/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.html4strict  {font-family:monospace;}
+.html4strict .imp {font-weight: bold; color: red;}
+.html4strict .kw2 {color: #000000; font-weight: bold;}
+.html4strict .kw3 {color: #000066;}
+.html4strict .es0 {color: #000099; font-weight: bold;}
+.html4strict .br0 {color: #66cc66;}
+.html4strict .sy0 {color: #66cc66;}
+.html4strict .st0 {color: #ff0000;}
+.html4strict .nu0 {color: #cc66cc;}
+.html4strict .sc-1 {color: #808080; font-style: italic;}
+.html4strict .sc0 {color: #00bbdd;}
+.html4strict .sc1 {color: #ddbb00;}
+.html4strict .sc2 {color: #009900;}
+.html4strict span.xtra { display:block; }
+
+/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.html4strict  {font-family:monospace;}
+.html4strict .imp {font-weight: bold; color: red;}
+.html4strict .kw2 {color: #000000; font-weight: bold;}
+.html4strict .kw3 {color: #000066;}
+.html4strict .es0 {color: #000099; font-weight: bold;}
+.html4strict .br0 {color: #66cc66;}
+.html4strict .sy0 {color: #66cc66;}
+.html4strict .st0 {color: #ff0000;}
+.html4strict .nu0 {color: #cc66cc;}
+.html4strict .sc-1 {color: #808080; font-style: italic;}
+.html4strict .sc0 {color: #00bbdd;}
+.html4strict .sc1 {color: #ddbb00;}
+.html4strict .sc2 {color: #009900;}
+.html4strict span.xtra { display:block; }
+
+/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.php  {font-family:monospace;}
+.php .imp {font-weight: bold; color: red;}
+.php .kw1 {color: #b1b100;}
+.php .kw2 {color: #000000; font-weight: bold;}
+.php .kw3 {color: #990000;}
+.php .kw4 {color: #009900; font-weight: bold;}
+.php .co1 {color: #666666; font-style: italic;}
+.php .co2 {color: #666666; font-style: italic;}
+.php .co3 {color: #0000cc; font-style: italic;}
+.php .co4 {color: #009933; font-style: italic;}
+.php .coMULTI {color: #666666; font-style: italic;}
+.php .es0 {color: #000099; font-weight: bold;}
+.php .es1 {color: #000099; font-weight: bold;}
+.php .es2 {color: #660099; font-weight: bold;}
+.php .es3 {color: #660099; font-weight: bold;}
+.php .es4 {color: #006699; font-weight: bold;}
+.php .es5 {color: #006699; font-weight: bold; font-style: italic;}
+.php .es6 {color: #009933; font-weight: bold;}
+.php .es_h {color: #000099; font-weight: bold;}
+.php .br0 {color: #009900;}
+.php .sy0 {color: #339933;}
+.php .sy1 {color: #000000; font-weight: bold;}
+.php .st0 {color: #0000ff;}
+.php .st_h {color: #0000ff;}
+.php .nu0 {color: #cc66cc;}
+.php .nu8 {color: #208080;}
+.php .nu12 {color: #208080;}
+.php .nu19 {color:#800080;}
+.php .me1 {color: #004000;}
+.php .me2 {color: #004000;}
+.php .re0 {color: #000088;}
+.php span.xtra { display:block; }
+
+/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.html4strict  {font-family:monospace;}
+.html4strict .imp {font-weight: bold; color: red;}
+.html4strict .kw2 {color: #000000; font-weight: bold;}
+.html4strict .kw3 {color: #000066;}
+.html4strict .es0 {color: #000099; font-weight: bold;}
+.html4strict .br0 {color: #66cc66;}
+.html4strict .sy0 {color: #66cc66;}
+.html4strict .st0 {color: #ff0000;}
+.html4strict .nu0 {color: #cc66cc;}
+.html4strict .sc-1 {color: #808080; font-style: italic;}
+.html4strict .sc0 {color: #00bbdd;}
+.html4strict .sc1 {color: #ddbb00;}
+.html4strict .sc2 {color: #009900;}
+.html4strict span.xtra { display:block; }
+
+/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.html4strict  {font-family:monospace;}
+.html4strict .imp {font-weight: bold; color: red;}
+.html4strict .kw2 {color: #000000; font-weight: bold;}
+.html4strict .kw3 {color: #000066;}
+.html4strict .es0 {color: #000099; font-weight: bold;}
+.html4strict .br0 {color: #66cc66;}
+.html4strict .sy0 {color: #66cc66;}
+.html4strict .st0 {color: #ff0000;}
+.html4strict .nu0 {color: #cc66cc;}
+.html4strict .sc-1 {color: #808080; font-style: italic;}
+.html4strict .sc0 {color: #00bbdd;}
+.html4strict .sc1 {color: #ddbb00;}
+.html4strict .sc2 {color: #009900;}
+.html4strict span.xtra { display:block; }
+
+/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.php  {font-family:monospace;}
+.php .imp {font-weight: bold; color: red;}
+.php .kw1 {color: #b1b100;}
+.php .kw2 {color: #000000; font-weight: bold;}
+.php .kw3 {color: #990000;}
+.php .kw4 {color: #009900; font-weight: bold;}
+.php .co1 {color: #666666; font-style: italic;}
+.php .co2 {color: #666666; font-style: italic;}
+.php .co3 {color: #0000cc; font-style: italic;}
+.php .co4 {color: #009933; font-style: italic;}
+.php .coMULTI {color: #666666; font-style: italic;}
+.php .es0 {color: #000099; font-weight: bold;}
+.php .es1 {color: #000099; font-weight: bold;}
+.php .es2 {color: #660099; font-weight: bold;}
+.php .es3 {color: #660099; font-weight: bold;}
+.php .es4 {color: #006699; font-weight: bold;}
+.php .es5 {color: #006699; font-weight: bold; font-style: italic;}
+.php .es6 {color: #009933; font-weight: bold;}
+.php .es_h {color: #000099; font-weight: bold;}
+.php .br0 {color: #009900;}
+.php .sy0 {color: #339933;}
+.php .sy1 {color: #000000; font-weight: bold;}
+.php .st0 {color: #0000ff;}
+.php .st_h {color: #0000ff;}
+.php .nu0 {color: #cc66cc;}
+.php .nu8 {color: #208080;}
+.php .nu12 {color: #208080;}
+.php .nu19 {color:#800080;}
+.php .me1 {color: #004000;}
+.php .me2 {color: #004000;}
+.php .re0 {color: #000088;}
+.php span.xtra { display:block; }
+
+/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.html4strict  {font-family:monospace;}
+.html4strict .imp {font-weight: bold; color: red;}
+.html4strict .kw2 {color: #000000; font-weight: bold;}
+.html4strict .kw3 {color: #000066;}
+.html4strict .es0 {color: #000099; font-weight: bold;}
+.html4strict .br0 {color: #66cc66;}
+.html4strict .sy0 {color: #66cc66;}
+.html4strict .st0 {color: #ff0000;}
+.html4strict .nu0 {color: #cc66cc;}
+.html4strict .sc-1 {color: #808080; font-style: italic;}
+.html4strict .sc0 {color: #00bbdd;}
+.html4strict .sc1 {color: #ddbb00;}
+.html4strict .sc2 {color: #009900;}
+.html4strict span.xtra { display:block; }
+
+/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.html4strict  {font-family:monospace;}
+.html4strict .imp {font-weight: bold; color: red;}
+.html4strict .kw2 {color: #000000; font-weight: bold;}
+.html4strict .kw3 {color: #000066;}
+.html4strict .es0 {color: #000099; font-weight: bold;}
+.html4strict .br0 {color: #66cc66;}
+.html4strict .sy0 {color: #66cc66;}
+.html4strict .st0 {color: #ff0000;}
+.html4strict .nu0 {color: #cc66cc;}
+.html4strict .sc-1 {color: #808080; font-style: italic;}
+.html4strict .sc0 {color: #00bbdd;}
+.html4strict .sc1 {color: #ddbb00;}
+.html4strict .sc2 {color: #009900;}
+.html4strict span.xtra { display:block; }
+
+/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.php  {font-family:monospace;}
+.php .imp {font-weight: bold; color: red;}
+.php .kw1 {color: #b1b100;}
+.php .kw2 {color: #000000; font-weight: bold;}
+.php .kw3 {color: #990000;}
+.php .kw4 {color: #009900; font-weight: bold;}
+.php .co1 {color: #666666; font-style: italic;}
+.php .co2 {color: #666666; font-style: italic;}
+.php .co3 {color: #0000cc; font-style: italic;}
+.php .co4 {color: #009933; font-style: italic;}
+.php .coMULTI {color: #666666; font-style: italic;}
+.php .es0 {color: #000099; font-weight: bold;}
+.php .es1 {color: #000099; font-weight: bold;}
+.php .es2 {color: #660099; font-weight: bold;}
+.php .es3 {color: #660099; font-weight: bold;}
+.php .es4 {color: #006699; font-weight: bold;}
+.php .es5 {color: #006699; font-weight: bold; font-style: italic;}
+.php .es6 {color: #009933; font-weight: bold;}
+.php .es_h {color: #000099; font-weight: bold;}
+.php .br0 {color: #009900;}
+.php .sy0 {color: #339933;}
+.php .sy1 {color: #000000; font-weight: bold;}
+.php .st0 {color: #0000ff;}
+.php .st_h {color: #0000ff;}
+.php .nu0 {color: #cc66cc;}
+.php .nu8 {color: #208080;}
+.php .nu12 {color: #208080;}
+.php .nu19 {color:#800080;}
+.php .me1 {color: #004000;}
+.php .me2 {color: #004000;}
+.php .re0 {color: #000088;}
+.php span.xtra { display:block; }
+
+/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.html4strict  {font-family:monospace;}
+.html4strict .imp {font-weight: bold; color: red;}
+.html4strict .kw2 {color: #000000; font-weight: bold;}
+.html4strict .kw3 {color: #000066;}
+.html4strict .es0 {color: #000099; font-weight: bold;}
+.html4strict .br0 {color: #66cc66;}
+.html4strict .sy0 {color: #66cc66;}
+.html4strict .st0 {color: #ff0000;}
+.html4strict .nu0 {color: #cc66cc;}
+.html4strict .sc-1 {color: #808080; font-style: italic;}
+.html4strict .sc0 {color: #00bbdd;}
+.html4strict .sc1 {color: #ddbb00;}
+.html4strict .sc2 {color: #009900;}
+.html4strict span.xtra { display:block; }
+
+/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.html4strict  {font-family:monospace;}
+.html4strict .imp {font-weight: bold; color: red;}
+.html4strict .kw2 {color: #000000; font-weight: bold;}
+.html4strict .kw3 {color: #000066;}
+.html4strict .es0 {color: #000099; font-weight: bold;}
+.html4strict .br0 {color: #66cc66;}
+.html4strict .sy0 {color: #66cc66;}
+.html4strict .st0 {color: #ff0000;}
+.html4strict .nu0 {color: #cc66cc;}
+.html4strict .sc-1 {color: #808080; font-style: italic;}
+.html4strict .sc0 {color: #00bbdd;}
+.html4strict .sc1 {color: #ddbb00;}
+.html4strict .sc2 {color: #009900;}
+.html4strict span.xtra { display:block; }
+
+/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.php  {font-family:monospace;}
+.php .imp {font-weight: bold; color: red;}
+.php .kw1 {color: #b1b100;}
+.php .kw2 {color: #000000; font-weight: bold;}
+.php .kw3 {color: #990000;}
+.php .kw4 {color: #009900; font-weight: bold;}
+.php .co1 {color: #666666; font-style: italic;}
+.php .co2 {color: #666666; font-style: italic;}
+.php .co3 {color: #0000cc; font-style: italic;}
+.php .co4 {color: #009933; font-style: italic;}
+.php .coMULTI {color: #666666; font-style: italic;}
+.php .es0 {color: #000099; font-weight: bold;}
+.php .es1 {color: #000099; font-weight: bold;}
+.php .es2 {color: #660099; font-weight: bold;}
+.php .es3 {color: #660099; font-weight: bold;}
+.php .es4 {color: #006699; font-weight: bold;}
+.php .es5 {color: #006699; font-weight: bold; font-style: italic;}
+.php .es6 {color: #009933; font-weight: bold;}
+.php .es_h {color: #000099; font-weight: bold;}
+.php .br0 {color: #009900;}
+.php .sy0 {color: #339933;}
+.php .sy1 {color: #000000; font-weight: bold;}
+.php .st0 {color: #0000ff;}
+.php .st_h {color: #0000ff;}
+.php .nu0 {color: #cc66cc;}
+.php .nu8 {color: #208080;}
+.php .nu12 {color: #208080;}
+.php .nu19 {color:#800080;}
+.php .me1 {color: #004000;}
+.php .me2 {color: #004000;}
+.php .re0 {color: #000088;}
+.php span.xtra { display:block; }
+
+/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.html4strict  {font-family:monospace;}
+.html4strict .imp {font-weight: bold; color: red;}
+.html4strict .kw2 {color: #000000; font-weight: bold;}
+.html4strict .kw3 {color: #000066;}
+.html4strict .es0 {color: #000099; font-weight: bold;}
+.html4strict .br0 {color: #66cc66;}
+.html4strict .sy0 {color: #66cc66;}
+.html4strict .st0 {color: #ff0000;}
+.html4strict .nu0 {color: #cc66cc;}
+.html4strict .sc-1 {color: #808080; font-style: italic;}
+.html4strict .sc0 {color: #00bbdd;}
+.html4strict .sc1 {color: #ddbb00;}
+.html4strict .sc2 {color: #009900;}
+.html4strict span.xtra { display:block; }
+
+</style>
+	</section>
+
+	<footer>
+		2011-2013 domtempl
+	</footer>
+</body>
+</html>

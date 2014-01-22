@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title data-var='title'>DOMtempl</title>
+	<link rel='stylesheet' href='domtempl.css' />
+	<!-- <script src='templ.js'></script> -->
+</head>
+<body>
+	<header>
+		<h1 data-var="title">DOMtempl</h1>
+		<h2 data-var="subtitle">HTML templating that brings you peace</h2>
+		<nav>
+			<a href='index.html' data-each="menu" data-attr-href="menu/href" data-attr-class='menu/class' data-var='menu/name'>Introduction</a>
+			<a href='samples.html' data-same="menu" data-attr-href="menu/href" data-attr-class='menu/class' data-var='menu/name'>Samples!</a>
+			<a href='docs_main.html' data-same="menu" data-attr-href="menu/href" data-attr-class='menu/class' data-var='menu/name'>Documentation</a>
+		</nav>
+	</header>
+	
+	<nav id='sub' data-when='submenu'>
+		<a 
+			data-each='/submenu' 
+			data-attr-class='/submenu/class' 
+			data-attr-href='/submenu/href' 
+			data-var='/submenu/name'>General</a>
+	</nav>
+
+	<article data-when="article" >
+		<h1 data-var="title">Article demo</h1>
+		<div data-var="body">
+			<p>Lorem Ipsum</p>
+			<p>Dolor Sit Amet</p>
+		</div>
+	</article>
+
+	<section id='samples' data-when='/samples'>
+		<!--
+		<div data-when="samples_list" data-each='samples_list'>
+			<a data-attr-href='href' data-var='name'></a>
+		</div> -->
+		<article data-each="/samples">
+			<h1 data-var="title"></h1>
+			<div class='html'><code data-var='html'></code></div><div
+				 class='data'><code data-var='data'></code></div><div
+				 class='result'><code data-var='result'></code></div>
+		</article>
+		<style data-var="/geshi_css">
+		
+		</style>
+	</section>
+
+	<footer>
+		2011-2013 domtempl
+	</footer>
+</body>
+</html>

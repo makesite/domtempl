@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>DOMtempl</title>
+	<link rel="stylesheet" href="domtempl.css">
+	<!-- <script src='templ.js'></script> -->
+</head>
+<body>
+	<header>
+		<h1>DOMtempl</h1>
+		<h2>HTML templating that brings you peace</h2>
+		<nav>
+			<a href="index.html" class="">Introduction</a>
+			<a href="samples.html" class="">Samples!</a>
+			<a href="docs_main.html" class="active">Documentation</a>
+		</nav>
+	</header>
+	
+	<nav id="sub">
+		<a class="" href="docs_main.html">General</a>
+		<a class="" href="docs_php.html">PHP</a>
+		<a class="active" href="docs_php-writer.html">PHP writer</a>
+		<a class="" href="docs_js.html">JS</a>
+		<a class="" href="docs_js-debuger.html">JS debuger</a>
+		<a class="" href="docs_js-node.html">Node.js</a>
+		<a class="" href="docs_python.html">Python</a>
+	</nav>
+
+	<article>
+		<h1>Documentation - PHP writer</h1>
+		<div><p><style>/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.xml  {font-family:monospace;}
+.xml .imp {font-weight: bold; color: red;}
+.xml .es0 {color: #000099; font-weight: bold;}
+.xml .br0 {color: #66cc66;}
+.xml .sy0 {color: #66cc66;}
+.xml .st0 {color: #ff0000;}
+.xml .sc-1 {color: #808080; font-style: italic;}
+.xml .sc0 {color: #00bbdd;}
+.xml .sc1 {color: #ddbb00;}
+.xml .sc2 {color: #339933;}
+.xml .sc3 {color: #009900;}
+.xml .re0 {color: #000066;}
+.xml .re1 {color: #000000; font-weight: bold;}
+.xml .re2 {color: #000000; font-weight: bold;}
+.xml span.xtra { display:block; }
+</style><style>/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.php  {font-family:monospace;}
+.php .imp {font-weight: bold; color: red;}
+.php .kw1 {color: #b1b100;}
+.php .kw2 {color: #000000; font-weight: bold;}
+.php .kw3 {color: #990000;}
+.php .kw4 {color: #009900; font-weight: bold;}
+.php .co1 {color: #666666; font-style: italic;}
+.php .co2 {color: #666666; font-style: italic;}
+.php .co3 {color: #0000cc; font-style: italic;}
+.php .co4 {color: #009933; font-style: italic;}
+.php .coMULTI {color: #666666; font-style: italic;}
+.php .es0 {color: #000099; font-weight: bold;}
+.php .es1 {color: #000099; font-weight: bold;}
+.php .es2 {color: #660099; font-weight: bold;}
+.php .es3 {color: #660099; font-weight: bold;}
+.php .es4 {color: #006699; font-weight: bold;}
+.php .es5 {color: #006699; font-weight: bold; font-style: italic;}
+.php .es6 {color: #009933; font-weight: bold;}
+.php .es_h {color: #000099; font-weight: bold;}
+.php .br0 {color: #009900;}
+.php .sy0 {color: #339933;}
+.php .sy1 {color: #000000; font-weight: bold;}
+.php .st0 {color: #0000ff;}
+.php .st_h {color: #0000ff;}
+.php .nu0 {color: #cc66cc;}
+.php .nu8 {color: #208080;}
+.php .nu12 {color: #208080;}
+.php .nu19 {color:#800080;}
+.php .me1 {color: #004000;}
+.php .me2 {color: #004000;}
+.php .re0 {color: #000088;}
+.php span.xtra { display:block; }
+</style></p>
+
+<h2>About</h2>
+
+<p>DOMtempl_writer is an extension of DOMtempl, that allows you to "compile" DOMtempl templates
+into php-soup templates.</p>
+
+<p>Optionally, it can also write down all the default values, keeping the usability of uncompiled
+templates.</p>
+
+<h2>Quick start</h2>
+
+<pre class="php" style="font-family:monospace;">    <span class="kw1">include</span> <span class="st_h">'domtempl.writer.php'</span><span class="sy0">;</span>
+&nbsp;</pre>
+
+<p>Include the 'writer' file instead of regular 'domtempl.php'.</p>
+
+<h2>New constructor flags</h2>
+
+<ul><li><code>DOMtempl_writer::DEBUG_TAGS</code> - change angular brackets to html entities in compiled output.</li>
+<li><code>DOMtempl_writer::SAVE_DEFAULTS</code> - write the 'defaults section' into compiled output.</li>
+<li><code>DOMtempl_writer::NO_WRITE</code> - do not actually write anything to disk.</li>
+</ul><h2>New constructor argument</h2>
+
+<p>You can pass a directory path as third constructor argument. By default, 'templates' is used.</p>
+
+<h2>So,</h2>
+
+<pre class="php" style="font-family:monospace;">    <span class="re0">$tpl</span> <span class="sy0">=</span> <span class="kw2">new</span> DOMtempl<span class="br0">(</span><span class="st_h">'file.html'</span><span class="br0">)</span><span class="sy0">;</span>
+&nbsp;</pre>
+
+<p>becomes</p>
+
+<pre class="php" style="font-family:monospace;">    <span class="re0">$tpl</span> <span class="sy0">=</span> <span class="kw2">new</span> DOMtempl_writer<span class="br0">(</span><span class="st_h">'file.html'</span><span class="sy0">,</span> DOMtempl_writer<span class="sy0">::</span><span class="me2">SAVE_DEFAULTS</span><span class="sy0">,</span> <span class="st_h">'compiled_templates'</span><span class="br0">)</span><span class="sy0">;</span>
+&nbsp;</pre>
+
+<p>Note: adding the SAVE_DEFAULTS flag is annoying, but having 'defaults section' when you don't need
+one is equally annoying. So far, opting for no 'defaults section' as the default...</p>
+
+<h2>Defaults section</h2>
+
+<p>Let's say you have a template, that goes like this.</p>
+
+<pre class="xml" style="font-family:monospace;">    <span class="sc3"><span class="re1">&lt;span</span> <span class="re0">data-var</span>=<span class="st0">"title"</span><span class="re2">&gt;</span></span>The Dog<span class="sc3"><span class="re1">&lt;/span<span class="re2">&gt;</span></span></span>
+&nbsp;</pre>
+
+<p>The equivalent php-soup version is this:</p>
+
+<pre class="php" style="font-family:monospace;">    &lt;span&gt;<span class="sy1">&lt;?=</span> <span class="re0">$title</span> <span class="sy1">?&gt;</span>&lt;/span&gt;
+&nbsp;</pre>
+
+<p>But, what if no $title was set by a user? In normal DOMtempl, 'The Dog' would be the default.
+To workaround this problem, DOMtempl_writer can add the 'defaults section', that looks like this:</p>
+
+<pre class="php" style="font-family:monospace;">    <span class="kw2">&lt;?php</span> <span class="kw1">if</span> <span class="br0">(</span><span class="sy0">!</span><a href="http://www.php.net/isset"><span class="kw3">isset</span></a><span class="br0">(</span><span class="re0">$title</span><span class="br0">)</span><span class="br0">)</span> <span class="re0">$title</span> <span class="sy0">=</span> <span class="st_h">'The Dog'</span><span class="sy0">;</span> <span class="sy1">?&gt;</span>
+&nbsp;</pre>
+
+<p>Note, that those defaults will still be inaccessible to you at "run-time", so if you rely
+on those a lot, you should probably save them to a separate file manually, and load from it.
+Making it automagic is on the TODO list.</p>
+
+<h2>Flow changes</h2>
+
+<p>Other than changing the include file and the class instansiation, the rest of your usage should
+not be affected as DOMtempl_writer provides both -&gt;out() and -&gt;dump() methods, which act the same.</p>
+
+<p>Both will check if the compiled template exists, and if it does, <code>include</code> that.</p>
+
+<h2>New methods</h2>
+
+<p><code>-&gt;compile( [ $with_defaults = false ] )</code></p>
+
+<p>Returns the template as php-soup. It's up to you to save it.</p>
+
+<p><code>-&gt;render()</code></p>
+
+<p>Echo the compiled template. Not really useful.</p>
+
+<h2>New properties</h2>
+
+<p>Public properties <code>-&gt;ident</code>, <code>-&gt;lt</code> and <code>-&gt;gt</code> could be used to adjust the compiled output.</p>
+
+<p><code>-&gt;from</code> sets the name for the base output variable.</p>
+
+<p>When set to an empty string, all top-level variables are treated as stand-alone.
+When set to an array name, all top-level variables are treated as members of that array.</p>
+
+<p>Given this DOMtempl-ate</p>
+
+<pre class="php" style="font-family:monospace;">    <span class="re0">$tpl</span> <span class="sy0">=</span> <span class="kw2">new</span> DOMtempl_writer<span class="br0">(</span><span class="st_h">'&lt;div data-var="food"&gt;&lt;/div&gt;'</span><span class="sy0">,</span> FRAGMENT<span class="br0">)</span><span class="sy0">;</span>
+&nbsp;</pre>
+
+<p>and doing
+</p><pre class="php" style="font-family:monospace;">    <span class="re0">$tpl</span><span class="sy0">-&gt;</span><span class="me1">from</span> <span class="sy0">=</span> <span class="st_h">'view'</span><span class="sy0">;</span>
+    <span class="re0">$tpl</span><span class="sy0">-&gt;</span><span class="me1">render</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span>
+&nbsp;</pre>
+returns
+<pre class="xml" style="font-family:monospace;">    <span class="sc3"><span class="re1">&lt;div<span class="re2">&gt;</span></span>&lt;?= $view<span class="br0">[</span><span class="st0">"food"</span><span class="br0">]</span> <span class="re2">?&gt;</span><span class="re1">&lt;/div<span class="re2">&gt;</span></span></span>
+&nbsp;</pre>
+
+<p>while
+</p><pre class="php" style="font-family:monospace;">    <span class="re0">$tpl</span><span class="sy0">-&gt;</span><span class="me1">from</span> <span class="sy0">=</span> <span class="st_h">''</span><span class="sy0">;</span>
+    <span class="re0">$tpl</span><span class="sy0">-&gt;</span><span class="me1">render</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span>
+&nbsp;</pre>
+returns
+<pre class="xml" style="font-family:monospace;">    <span class="sc3"><span class="re1">&lt;div<span class="re2">&gt;</span></span>&lt;?= $food <span class="re2">?&gt;</span><span class="re1">&lt;/div<span class="re2">&gt;</span></span></span>
+&nbsp;</pre>
+
+<h2>No 'write' method</h2>
+
+<p>This is not a mistake. You either allow <code>DOMtempl_writer</code> do the right thing, by simply invoking
+it, either forbid the writing via the <code>NO_WRITE</code> flag, run the <code>compile()</code> method, and
+then <em>save the template yourself</em>.</p>
+</div>
+	</article>
+
+	<footer>
+		2011-2013 domtempl
+	</footer>
+</body>
+</html>

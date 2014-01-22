@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>DOMtempl</title>
+	<link rel="stylesheet" href="domtempl.css">
+	<!-- <script src='templ.js'></script> -->
+</head>
+<body>
+	<header>
+		<h1>DOMtempl</h1>
+		<h2>HTML templating that brings you peace</h2>
+		<nav>
+			<a href="index.html" class="active">Introduction</a>
+			<a href="samples.html" class="">Samples!</a>
+			<a href="docs_main.html" class="">Documentation</a>
+		</nav>
+	</header>
+
+	<article>
+		<h1>Enter the temple</h1>
+		<div><div id="aside">
+<h4>Extra, Extra, This Just In!</h4>
+
+DOMtempl can now help you achieve whitespace nirvana. Whether you're an XML pedant
+or a ident hater, it will accomodate your whitespace styling automagically and will
+replicate it faithfully.
+
+I'm 99% sure no string-based templating engine is even remotely capable of such 
+behavior. The hack is very elegant and is only possible with DOM templating.
+
+<h4>Python and Node.js ports available</h4>
+That's right. Check out the documentation section.  
+</div>
+
+<h2>Why</h2>
+
+<p>Because going into templates/default/articles/post/pages.php to find 2 lines of
+templating / HTML soup is maddening. </p>
+
+<p>Because needing a full back-end to see one CSS change is angering.</p>
+
+<p>Because having a template that is not HTML and thus robs you of your 
+favourite developer tools is suffering.</p>
+
+<h2>And so</h2>
+
+<p>By misunderstanding ideas of XSLT, abusing HTML5 custom attributes, and leveraging the
+all-powerfull DOM, comes templating library that brings you the peace of mind.</p>
+
+<p>It is a work in progess, so if you find something that is maddening, angering
+or leads to suffering, please make sure to have a say.</p>
+
+<p>GitHub repo</p>
+
+<pre><code>git clone https://github.com/makesite/domtempl.git
+</code></pre>
+
+<p>Take a look at the joyfull <a href="samples.html">samples</a> page and a boring
+<a href="docs_main.html">documenation</a> section.</p>
+
+<h2>Why not</h2>
+
+<ul>
+<li>Templates can get rather big, whole template is parsed each time</li>
+<li>You can't include templates into each other</li>
+<li>You can't alter text elements, only HTML elements are alterable</li>
+</ul>
+
+<p>DOM parsing is rather fast (and should only get faster), but can
+be memory-expesnive at the same time.</p>
+
+<p>Breaking the template down to multiple files is considered evil inside
+temple walls, and shall not be discussed here. You can probably achieve
+what you desire by assigning the output of FRAGMENT parsing onto another
+template, but you're on your own here.</p>
+
+<p>Third problem is best described like this:</p>
+
+<pre><code>&lt;div&gt;
+    &lt;?= $a ?&gt;
+    &lt;span&gt;&lt;?= $b ?&gt;&lt;/span&gt;
+    &lt;?= $c ?&gt;
+&lt;/div&gt; 
+</code></pre>
+
+<p>Is a pretty common construct, which <em>is not</em> possible in DOMtempl. Several
+workarounds are possible, i.e wrapping $a and $c into their own html elements,
+or generating html by hand and setting it to div element; both are not
+ideal. It could be argued, however, that stand-alone text elements should
+not exist from semantic point of view at all.</p>
+
+<p>Lastly, you can't have advanced scripting in your templates. That is by design,
+but could become problematic in some cases.</p>
+
+<h2>License</h2>
+
+<p>Two-clause BSD.</p>
+
+<h2>P.S.</h2>
+
+<p>While pondering a python port, it came to my attention, that DOM-based templating
+is prevalent there, unlike the world of PHP. Several interesting projects
+<a href="http://plope.com/Members/chrism/dom_templating">exist</a>, so you should probably use one of them.</p>
+</div>
+	</article>
+
+	<footer>
+		2011-2014 domtempl
+	</footer>
+</body>
+</html>
