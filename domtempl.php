@@ -3,6 +3,7 @@
 class DOMtempl {
 
 	const FRAGMENT	= 0x00000001;
+	const PRETTIFY	= 0x00000002;
 
 	public $vars = array();
 	public $var_iters = array();
@@ -14,7 +15,9 @@ class DOMtempl {
 		//$this->dom->substituteEntities = true;
 		//$this->dom->strictErrorChecking = true;
 		//$this->dom->validateOnParse = true;
-		//$this->dom->preserveWhiteSpace = false;
+		if ($flags & self::PRETTIFY) {
+			$this->dom->preserveWhiteSpace = false;
+		}
 		//$this->dom->formatOutput = true;
 		if ($flags & self::FRAGMENT) {
 			if (!@$this->dom->loadXML( $source, LIBXML_NOERROR | LIBXML_NOWARNING  ))
@@ -25,7 +28,9 @@ class DOMtempl {
 				throw new Exception('Not a valid DOM Document: '.$source);
 			$this->err_file = $source;
 		}
-
+		if ($flags & self::PRETTIFY) {
+			$this->dom->formatOutput = true;
+		}
 		//$this->dom->encoding = 'UTF-8';
 		$this->parse();
 	}
@@ -54,12 +59,25 @@ class DOMtempl {
 		//Profiler::end('replacing vars');
     }
 
+	private function XMLtoHTML($str) {
+
+		$str = preg_replace(
+			"#\<(script)(.+?)/\>#",
+			'<$1$2></$1>', $str);
+		$str = preg_replace("#\<\?xml.+\?\>\n#", '', $str);
+
+		return $str;
+	}
+
 	public function out() {	echo $this->dump();	}
 
     public function dump() {
         $this->reflow();
 		//Profiler::start('writing as HTML');
-		$ret = $this->dom->saveHTML();
+		if ($this->dom->formatOutput == true) {
+			$ret = $this->XMLtoHTML( $this->dom->saveXML() );
+		} else
+			$ret = $this->dom->saveHTML();
 		//Profiler::end('writing as HTML');
 		return $ret;
 	}
