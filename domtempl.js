@@ -392,13 +392,12 @@ function DOMtempl(doc, flags) { var newdomtempl = {
 //EndFunction
 }; newdomtempl.init(doc, flags); return newdomtempl; };
 
-
-if (document.documentElement.className.indexOf("domtempl") != -1)
+if (typeof document !== 'undefined'
+&& document.documentElement.className.indexOf("domtempl") != -1)
 	window.addEventListener('load', function() {
 		var templ = new DOMtempl(document);
 		templ.initEditor();
 	}, false);
-
 
 function isset(a, i) {
 	if (a[i] === undefined || a[i] === null) return false;
@@ -422,3 +421,6 @@ function reloadStylesheets() {
     }
     setTimeout(reloadStylesheets, 1000);
 }
+
+/* be a node.js module */
+module.exports = DOMtempl;
