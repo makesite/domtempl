@@ -34,7 +34,7 @@ function DOMtempl(doc, flags) { var newdomtempl = {
 	},
 
 	add_editor: function() {
-		var ta = document.createElement('textarea');
+		var ta = document.createElement('TEXTAREA');
 		ta.id = 'main_templ_editor';
 		ta.value = '';// this.var_dump();
 		ta.cols = 80;
@@ -73,7 +73,7 @@ function DOMtempl(doc, flags) { var newdomtempl = {
 
 		if (flags & DOMtempl.FRAGMENT) {
 
-			var d = document.createElement('div');
+			var d = document.createElement('DIV');
 			d.innerHTML = doc;
 			this.dom = d;
 
@@ -87,7 +87,7 @@ function DOMtempl(doc, flags) { var newdomtempl = {
 
 	initEditor: function() {
 		this.create_placeholder();
-		//		this.add_modlink('parse', 'this.parse();');
+		//this.add_modlink('parse', 'this.parse();');
 		this.add_modlink('vardump', 'var_dump');
 		this.add_modlink('__VAR_IN__', 'var_in');
 		this.add_editor();
@@ -104,12 +104,12 @@ function DOMtempl(doc, flags) { var newdomtempl = {
 //alert('must resolve ' + path);
 		var cpath = '/';
 		var ptr = this.vars;
-		var last = walk[ walk.length - 1 ];		
+		var last = walk[ walk.length - 1 ];
 		for (var i = 0; i < walk.length - 2; i+=2) {
 			var step = walk[i];
 			var mod = walk[i+1];
 			cpath += step;
-			if (!isset(ptr, step))	{
+			if (!isset(ptr, step)) {
 				this.error('undefined array "' + step + '" of path ' + path);
 				return null; 
 			}
@@ -117,7 +117,7 @@ function DOMtempl(doc, flags) { var newdomtempl = {
 			if (mod == '/') {
 				var n = this.var_iters[cpath];
 //				alert("Sub str... "+ cpath + ' going to use iter '+ n)
-				if (!isset(ptr, n))	{
+				if (!isset(ptr, n)) {
 					this.error('cant iterate through "' + n + '" of path ' + path);
 					return null; 
 				}
@@ -143,7 +143,7 @@ function DOMtempl(doc, flags) { var newdomtempl = {
 
 		var cpath = '/';
 		var ptr = this.vars;
-		var last = walk[ walk.length - 1 ];		
+		var last = walk[ walk.length - 1 ];
 		for (var i = 0; i < walk.length - 2; i+=2) {
 			var step = walk[i];
 			var mod = walk[i+1];
@@ -157,7 +157,7 @@ function DOMtempl(doc, flags) { var newdomtempl = {
 				else n = this.var_iters[cpath];
 				ptr = ptr[step];
 				if (last === '' && i == walk.length - 3) break;
-				if (!isset(ptr, n))	ptr[n] = { };
+				if (!isset(ptr, n)) ptr[n] = { };
 				ptr = ptr[n];
 			}
 			if (mod == '.') {
@@ -179,7 +179,7 @@ function DOMtempl(doc, flags) { var newdomtempl = {
 		if (path === undefined) path = node.getAttribute(base);
 		for (var top = node.parentNode;
 			path.substring(0, 1) != '/';
-			top = top.parentNode) 
+			top = top.parentNode)
 		{
 			var top_path = '';
 			if (!top) { path = '/' + path; break; }
@@ -211,7 +211,7 @@ function DOMtempl(doc, flags) { var newdomtempl = {
 				if (node.hasAttribute('data-same'))
 					//alert('adding with ' + node),
 					this.var_iters[
-						this.expand_path(node, 'data-same') 
+						this.expand_path(node, 'data-same')
 					] ++;
 
 				for (var j = 0; j < node.attributes.length; j++) {
@@ -219,20 +219,20 @@ function DOMtempl(doc, flags) { var newdomtempl = {
 					if (attr.name.indexOf('data-attr-') != -1) {
 						var key = attr.name.substring('data-attr-'.length);
 						this.write_var(
-							this.expand_path(node, '', (!attr.value ? key : attr.value)), 
+							this.expand_path(node, '', (!attr.value ? key : attr.value)),
 							node.getAttribute(key)); 
 					}
 				}
 
 				if (node.hasAttribute('data-var'))
 					this.write_var(
-						this.expand_path(node, 'data-var'), 
+						this.expand_path(node, 'data-var'),
 						node.textContent
 					);
 
 				if (node.hasAttribute('data-when'))
 					this.write_var(
-						this.expand_path(node, 'data-when'), 
+						this.expand_path(node, 'data-when'),
 						true, 1
 					);
 			}
@@ -248,7 +248,7 @@ function DOMtempl(doc, flags) { var newdomtempl = {
 	},
 
 	get: function (id) {
-		return document.getElementById(id);	
+		return document.getElementById(id);
 	},
 
 	editor_set: function (text) {
@@ -310,7 +310,7 @@ function DOMtempl(doc, flags) { var newdomtempl = {
 	},
 
 	replace_vars_node: function (node) {
-		var stop_here = 0; //hack, for speed		
+		var stop_here = 0; //hack, for speed
 		if (node.nodeType == /*ELEMENT_NODE*/1 && node.hasAttributes()) {
 
 			for (var j = 0; j < node.attributes.length; j++) {
@@ -344,8 +344,8 @@ function DOMtempl(doc, flags) { var newdomtempl = {
 		if (node.childNodes && !stop_here) //stop here if 'data-var' was used
 			this.replace_vars(node);
 	},
- 
- 	replace_vars : function (root) {
+
+	replace_vars : function (root) {
 		for (var i = 0; i < root.childNodes.length; i++) { 
 			var node = root.childNodes[i];
 			if (node.nodeType == /*ELEMENT_NODE*/1 && node.hasAttributes()) {

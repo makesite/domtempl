@@ -34,7 +34,7 @@ class DOMtempl {
 		//$this->dom->encoding = 'UTF-8';
 		$this->parse();
 	}
-	
+
 	public function get($id) {
 		return $this->getElementById($id);
 	}
@@ -47,7 +47,7 @@ class DOMtempl {
 		return $xpath->query("//*[@id='$id']")->item(0);
 	}
 
-    private function reflow() {
+	private function reflow() {
 		/* Reset iteration counters */
 		if ($this->var_iters)
 			foreach ($this->var_iters as $k=>$v) 
@@ -57,7 +57,7 @@ class DOMtempl {
 		//Profiler::start('replacing vars');
 		$this->replace_vars($this->dom);
 		//Profiler::end('replacing vars');
-    }
+	}
 
 	private function XMLtoHTML($str) {
 
@@ -69,10 +69,10 @@ class DOMtempl {
 		return $str;
 	}
 
-	public function out() {	echo $this->dump();	}
+	public function out() { echo $this->dump(); }
 
-    public function dump() {
-        $this->reflow();
+	public function dump() {
+		$this->reflow();
 		//Profiler::start('writing as HTML');
 		if ($this->dom->formatOutput == true) {
 			$ret = $this->XMLtoHTML( $this->dom->saveXML() );
@@ -82,17 +82,17 @@ class DOMtempl {
 		return $ret;
 	}
 
-	public function outXML() {	echo $this->dumpXML();	}
-    public function dumpXML() { $this->reflow(); return $this->dom->saveXML(); }
+	public function outXML() { echo $this->dumpXML(); }
+	public function dumpXML() { $this->reflow(); return $this->dom->saveXML(); }
 
-	public function assign($path, $var) {	$this->write_var($path, $var);	}
+	public function assign($path, $var) { $this->write_var($path, $var); }
 
 	private function error($message, $name, $path) {
 		if (is_callable(array($this->err_node, 'getLineNo')))
 			trigger_error($message . '<b title="'.$path.'">'.$name.'</b> in <b>'.$this->err_file."</b> on line <b>".$this->err_node->getLineNo(). "</b> in node <b>".$this->err_node->nodeName."</b><br/>\n");
 		else
 			trigger_error($message . '<b title="'.$path.'">'.$name.'</b> in <b>'.$this->err_file."</b> in node <b>".$this->err_node->nodeName."</b><br/>\n");
-		return NULL;
+		return null;
 	}
 
 	function read_var($path) {
@@ -107,15 +107,15 @@ class DOMtempl {
 			$mod = $walk[$i+1];
 			$cpath .= $step;
 			if (is_object($ptr) && !($ptr instanceof ArrayAccess)) {
-				if (!property_exists($ptr, $step))	{
+				if (!property_exists($ptr, $step)) {
 					$this->error('undefined array ', $step, $cpath);
-					return NULL;
+					return null;
 				}
 				$ptr =& $ptr->{$step};
 			} else {
-				if (!isset($ptr[$step]))	{
+				if (!isset($ptr[$step])) {
 					$this->error('undefined array ', $step, $cpath);
-					return NULL;
+					return null;
 				}
 				$ptr =& $ptr[$step];
 			}
@@ -123,7 +123,7 @@ class DOMtempl {
 				$n = $this->var_iters[$cpath];
 				if (sizeof($ptr) == 0) { 
 					$this->error('cant iterate empty array ', $cpath, $cpath);
-					return NULL;
+					return null;
 				}
 
 				if (is_object($ptr)) {
@@ -135,7 +135,7 @@ class DOMtempl {
 					}
 				} else if (!is_array($ptr)) {
 					$this->error('cant iteratate through '.gettype($ptr).' value ', $cpath, $cpath);
-					return NULL;
+					return null;
 				} else {
 					$keys = array_keys( $ptr ); /* use assoc key, always! */
 					//echo "($path) About to extract key $n from ".print_r($keys,1)."<hr>";
@@ -151,11 +151,11 @@ class DOMtempl {
 				}
 			}
 			$cpath .= $mod;
-		};
+		}
 		if ($last === '') {
 			if (is_array($ptr) || is_object($ptr)) {
 				$this->error('array to string conversion ', $path, $path);
-				return NULL;
+				return null;
 			}
 			return $ptr;
 		}
@@ -163,17 +163,17 @@ class DOMtempl {
 		if (is_object($ptr) && !($ptr instanceof ArrayAccess)) {
 			if (!property_exists($ptr, $last)) {
 				$this->error('undefined variable ', $last, $path);
-				return NULL;
+				return null;
 			}
 			$ptr =& $ptr->{$last};
 		} else {
 			if (is_string($ptr)) {
 				$this->error('variable is a string, used as array/object ', $last, $path);
-				return NULL;	
+				return null;
 			}
 			if (!isset($ptr[ $last ])) {
 				$this->error('undefined variable ', $last, $path);
-				return NULL;
+				return null;
 			}
 			$ptr =& $ptr[ $last ];
 		}
@@ -213,7 +213,7 @@ class DOMtempl {
 				$ptr =& $ptr[$step];
 			}
 			$cpath .= $mod;
-		};
+		}
 		if ($last === '') {
 			$ptr [ sizeof($ptr) ] = $val;
 			return;
@@ -225,8 +225,8 @@ class DOMtempl {
 	function expand_path ($node, $base, $path='') {
 		if (!$path) $path = $node->getAttribute($base); 
 		for ($top = $node->parentNode;
-			substr($path, 0, 1) != '/'; 
-			$top = $top->parentNode) 
+			substr($path, 0, 1) != '/';
+			$top = $top->parentNode)
 		{
 			$top_path = '';
 			if (!$top) { $path = '/' . $path; break; }
@@ -252,20 +252,20 @@ class DOMtempl {
 
 				if ($node->hasAttribute('data-each'))
 					$this->var_iters[
-						$this->expand_path($node, 'data-each') 
+						$this->expand_path($node, 'data-each')
 					] = 0;
 
 				if ($node->hasAttribute('data-same'))
 					$this->var_iters[
-						$this->expand_path($node, 'data-same') 
+						$this->expand_path($node, 'data-same')
 					] ++;
 
 				foreach ($node->attributes as $attr) {
 					if (strpos($attr->name, 'data-attr-') !== FALSE) {
 						$key = substr($attr->name, strlen('data-attr-'));
 						$this->write_var(
-							$this->expand_path($node, '', (!$attr->value ? $key : $attr->value)), 
-							$node->getAttribute($key)); 
+							$this->expand_path($node, '', (!$attr->value ? $key : $attr->value)),
+							$node->getAttribute($key));
 					}
 				}
 
@@ -295,7 +295,8 @@ class DOMtempl {
 		//if ($elem->cloneNode) {
 			$orig = $elem->previousSibling;
 			$ident = null;
-			if ($orig->nodeType == XML_TEXT_NODE
+			if ($orig != null
+			&& $orig->nodeType == XML_TEXT_NODE
 			&& !trim($orig->wholeText)
 			&& $orig->isWhitespaceInElementContent())
 				$ident = $orig->cloneNode(false);
@@ -312,11 +313,11 @@ class DOMtempl {
 		//}
 		return null;
 	}
-	
+
 	function safe_remove($node) {
 		$ident = $node->previousSibling;
 		$r = 0;
-		if ($ident != NULL
+		if ($ident != null
 			&& $ident->nodeType == XML_TEXT_NODE
 			&& !trim($ident->wholeText)
 			&& $ident->isWhitespaceInElementContent()
@@ -374,7 +375,7 @@ class DOMtempl {
 				if ($node->hasAttribute('data-same')) {
 					$clean[] = 'data-same';
 					continue;
-				}			
+				}
 				if ($node->hasAttribute('data-each')) {
 					$clean[] = 'data-each';
 					$path = $this->expand_path($node, 'data-each');
@@ -388,7 +389,7 @@ class DOMtempl {
 						$kill = $next;
 					}
 					/* Clone new siblings */
-					if (is_array($arr) || (is_object($arr)) ) {
+					if (is_array($arr) || is_object($arr)) {
 						$last = null;
 						for ($j = 1; $j < sizeof($arr); $j++) {
 							$this->var_iters[$path] = $j;
@@ -396,7 +397,7 @@ class DOMtempl {
 							$last = $nod;
 							$nod->removeAttribute('data-each');
 							$nod->setAttribute('data-same', $path);
-							$this->replace_vars_node($nod, array('data-same'));						
+							$this->replace_vars_node($nod, array('data-same'));
 						}
 						$this->var_iters[$path] = 0;
 					}
@@ -407,11 +408,11 @@ class DOMtempl {
 	}
 
 	function node_get_innerHTML($node) {
-	    $innerHTML= ''; 
-     	$children = $node->childNodes; 
-     	foreach ($children as $child) { 
-        	 $innerHTML .= $child->ownerDocument->saveXML( $child ); 
-     	} 
+		$innerHTML= '';
+		$children = $node->childNodes;
+		foreach ($children as $child) {
+			$innerHTML .= $child->ownerDocument->saveXML( $child );
+		}
 		return $innerHTML;
 	}
 	/* this code is lifted from a nifty "JavaScript-like innerHTML access" class
@@ -426,9 +427,8 @@ class DOMtempl {
 		//file_put_contents("/tmp/domerror.log", "\n\n".$node->nodeName." '$value' -- ((( ".$node->ownerDocument->saveXML($node)."))) [[[".$value."]]]", FILE_APPEND);
 		if (strpbrk($value, '<>&') === false) {
 			$node->nodeValue = $value;
-			return;	
-		} 
-		
+			return;
+		}
 
 		for ($x = $node->childNodes->length - 1; $x >= 0; $x--)
 			$node->removeChild($node->childNodes->item($x));

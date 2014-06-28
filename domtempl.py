@@ -32,12 +32,12 @@ class DOMtempl(object):
 
 		if (path[:1] == '/'): path = path[1:];
 		walk = re.split("(\.|\/)", path) #, -1, PREG_SPLIT_DELIM_CAPTURE);
-		
+
 		cpath = '/';
 		ptr = self.vars;
 		last = walk[ len(walk) - 1 ];
 		
-		for i in xrange(0, len(walk) - 2, 2):		
+		for i in xrange(0, len(walk) - 2, 2):
 			step = walk[i];
 			mod = walk[i+1];
 			cpath += step;
@@ -118,10 +118,10 @@ class DOMtempl(object):
 		ptr[ last ] = val;
 
 	def textContent(self, node):
-	    if node.nodeType in (node.TEXT_NODE, node.CDATA_SECTION_NODE):
-	        return node.nodeValue
-	    else:
-	        return ''.join(self.textContent(n) for n in node.childNodes)
+		if node.nodeType in (node.TEXT_NODE, node.CDATA_SECTION_NODE):
+			return node.nodeValue
+		else:
+			return ''.join(self.textContent(n) for n in node.childNodes)
 
 	def expand_path(self, node, base, path = None):
 		if (path is None): path = node.getAttribute(base)
@@ -183,7 +183,7 @@ class DOMtempl(object):
 					)
 
 			if node.childNodes:
-					self.parse_vars_node(node)
+				self.parse_vars_node(node)
 
 
 	def replace_vars_node(self, node, clean):
@@ -203,7 +203,7 @@ class DOMtempl(object):
 					val = self.read_var(path);
 					if (val != False):
 						node.setAttribute(key, val);
-					clean.append( attr.name );						
+					clean.append( attr.name );
 
 			if (node.hasAttribute('data-var')):
 				print "\nReplacing data-var for "
@@ -212,7 +212,7 @@ class DOMtempl(object):
 				self.node_set_innerHTML(node,
 					self.read_var(self.expand_path(node, 'data-var'))
 				);
-								
+
 				print "Inner html is now:" + node.toxml()
 				print "\n"
 				stop_here = 1; # do not traverse children of inserted node
@@ -221,13 +221,12 @@ class DOMtempl(object):
 			self.replace_vars(node);
 		for attr in clean:
 			node.removeAttribute(attr);
-			
 
- 	def replace_vars(self, root):
- 		for i in xrange(0, root.childNodes.length):
- 			if i >= root.childNodes.length: # because range/xrange doesn't change :((
- 				break
- 
+	def replace_vars(self, root):
+		for i in xrange(0, root.childNodes.length):
+			if i >= root.childNodes.length: # because range/xrange doesn't change :((
+				break
+
 			node = root.childNodes[i];
 			clean = []
 
@@ -238,11 +237,11 @@ class DOMtempl(object):
 						continue;
 					clean.append( 'data-when' );
 
-				if (node.hasAttribute('data-same')): 
+				if (node.hasAttribute('data-same')):
 					clean.append( 'data-same' );
 					continue;
 				if (node.hasAttribute('data-each')):
-					clean.append( 'data-each' );				
+					clean.append( 'data-each' );
 					path = self.expand_path(node, 'data-each');
 					arr = self.read_var(path);
 
