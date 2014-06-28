@@ -1,0 +1,164 @@
+body {
+
+}
+header {
+	border-bottom: 1px solid #ccc;
+
+	background: url('notartmonk2.png') top right no-repeat;
+	
+	height: 200px;
+
+	position: relative;	
+}
+
+header h2 {
+	font-weight: normal;
+	
+}
+
+header nav {
+	position: absolute;
+	bottom: 0;
+	margin-left: 20px;
+}
+
+header nav a {
+	border: 1px solid #eee;
+	border-bottom: 0;
+	padding: 10px;
+	padding-bottom: 0px;
+	text-decoration: none;
+	color: #0c1943;
+	border-radius: 15px 15px 0px 0px;
+		box-shadow: 1px -3px 10px #ddd;
+	text-transform: lowercase;
+	font-family: sans-serif;
+
+background: #f5ee9a; /* your fallback css */
+background: -webkit-linear-gradient(top,  #f5ee9a,  #d4b960); /* for chrome 10+ */
+background: -moz-linear-gradient(top,  #f5ee9a,  #d4b960); /* for firefox 3.6+ */
+background: -ms-linear-gradient(top,  #f5ee9a,  #d4b960); /* for IE10+ */
+background: -o-linear-gradient(top,  #f5ee9a,  #d4b960); /* for opera 11.10+ */
+background: linear-gradient(top,  #f5ee9a,  #d4b960); /* for the future */
+}
+header nav a.active {
+	color: #fef1a5;
+
+background: #265965; /* your fallback css */
+background: -webkit-linear-gradient(top,  #265965,  #4d8b5c); /* for chrome 10+ */
+background: -moz-linear-gradient(top,  #265965,  #4d8b5c); /* for firefox 3.6+ */
+background: -ms-linear-gradient(top,  #265965,  #4d8b5c); /* for IE10+ */
+background: -o-linear-gradient(top,  #265965,  #4d8b5c); /* for opera 11.10+ */
+background: linear-gradient(top,  #265965,  #4d8b5c); /* for the future */
+}
+
+nav#sub {
+	margin-top: 1%;
+	margin-left: 2%;
+	margin-right: 2%;
+	text-align: center;
+}
+nav#sub a {
+	border: 1px solid #ccc;
+	padding: 0.5em 1em;
+	display: inline-block;
+	font-size: small;
+	font-family: sans-serif;
+	text-decoration: none;
+	margin-right: 1em;
+	color: #000;
+background: #f5ee9a; /* your fallback css */
+}
+nav#sub a.active {
+	color: #fef1a5;
+background: #265965; /* your fallback css */
+}
+
+footer {
+	border-top: 1px solid #ccc;
+	text-align: center; 
+	font-family: sans-serif;
+	color: #555;
+}
+
+#samples {
+
+}
+
+#samples article {
+	position: relative;
+	margin-top: 3em;
+	margin-bottom: 3em;
+}
+#samples article h1 {
+	
+}
+
+#samples article div.html {
+	display: inline-block;
+	width: 50%;
+	margin: 0;
+	vertical-align: top;
+}
+#samples article div.data:before {
+	float: left;
+	content: '+';
+	text-align: center;
+	width: 10%;
+	margin-left: -5%;
+	line-height: 4em;
+}
+#samples article div.data {
+	display: inline-block;
+	width: 50%;
+	margin-left: 5%;
+	margin: 0;
+}
+#samples article div.result:before {
+	content: '=';
+	display:  block;
+	border: none;
+	text-align: center;
+}
+#samples article div.result code {
+	width: 90%;
+	margin: 0 auto;
+	display: block;
+	padding-left: 2%;
+}
+
+#samples article div.data code {
+	width: 85%;
+	margin: 0 auto;
+	display: block;
+	padding-left: 5%;
+	background: #dee;
+}
+
+#samples article div.html code {
+	width: 85%;
+	margin: 0 auto;
+	display: block;
+	padding-left: 5%;
+	background: #eed;
+}
+
+#samples article div code {
+	border-radius: 5px;
+	box-shadow: 1px -3px 10px #ddd ;
+}
+
+p > code {
+    background: #a9a78e;
+    font-size: small;
+    padding: 0.2em;
+    vertical-align: middle;
+}
+
+#aside {
+	float: right;
+	width: 30%;
+	color: #aaa;
+	font-size: small;
+}
+
