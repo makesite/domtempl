@@ -294,10 +294,18 @@ class DOMtempl(object):
 
 	def dump(self):
 		self.reflow()
-		return self._document.toxml()
+		xml = self._document.toxml()
+		return xml.replace('<?xml version="1.0" ?>', '');
 
 	def out(self):
 		print self.dump()
+
+	def dumpXML(self):
+		self.reflow()
+		return self._document.toxml()
+
+	def outXML(self):
+		print self.dumpXML()
 
 	def safe_remove(self, node):
 		ident = node.previousSibling;
