@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>DOMtempl</title>
+	<link rel="stylesheet" href="domtempl.css">
+	<!-- <script src='templ.js'></script> -->
+</head>
+<body>
+	<header>
+		<h1>DOMtempl</h1>
+		<h2>HTML templating that brings you peace</h2>
+		<nav>
+			<a href="index.html" class="">Introduction</a>
+			<a href="samples.html" class="">Samples!</a>
+			<a href="docs_main.html" class="active">Documentation</a>
+		</nav>
+	</header>
+	
+	<nav id="sub">
+		<a class="" href="docs_main.html">General</a>
+		<a class="" href="docs_php.html">PHP</a>
+		<a class="active" href="docs_php-bugs.html">PHP bugs</a>
+		<a class="" href="docs_php-writer.html">PHP writer</a>
+		<a class="" href="docs_js.html">JS</a>
+		<a class="" href="docs_js-debuger.html">JS debuger</a>
+		<a class="" href="docs_js-node.html">Node.js</a>
+		<a class="" href="docs_python.html">Python</a>
+	</nav>
+
+	<article>
+		<h1>Documentation - PHP bugs</h1>
+		<div><p><style></style></p>
+
+<h2>PHP bugs</h2>
+
+<p>DOM extension for php has a lot of problems. Those problems bleed-through to DOMtempl.</p>
+
+<h2>Auto-conversion</h2>
+
+<p>DOMtempl WILL NOT pre-process your template to fix the aftermentioned bugs.</p>
+
+<p>This is done to allow libxml2 errors and warnings to be generated relatively
+to the original files with original line numbers.</p>
+
+<p>Therefore, you must take some care of your templates. Despite this page looking
+scary, the benefit of using DOMtempl still out-weights other solutions.</p>
+
+<h2>HTML vs XML</h2>
+
+<p>Because php DOM extension is based on libxml2, only HTML4.0 parsing<a href="http://xmlsoft.org/html/libxml-HTMLparser.html">3</a> is supported.</p>
+
+<p>Thus, HTML5 could not be correctly loaded. XML, on the other hand, is fine.</p>
+
+<p>Thus, DOMtempl always treats your HTML as XML. This brings in some unfortunate consequences:</p>
+
+<p>Your templates must be valid XML. Thankfully, HTML5 is allowed to be written as XML, i.e.
+XHTML5.</p>
+
+<p>The most notable difference is the treatment of void elements, they should always
+be written as XML shorttags.</p>
+
+<p>I.e. &lt;link&gt; should be written as &lt;link/&gt;, meta as &lt;meta/&gt;, 
+and, most annoyingly, &lt;img&gt; as &lt;img/&gt;.</p>
+
+<p>Thankfully, this is supported by HTML5 spec. </p>
+
+<h2>Encoding</h2>
+
+<p>As explained here<a href="http://xmlsoft.org/encoding.html.">1</a>, the libxml2 library peeks at the &lt;META&gt; tags
+to figure out the encoding used.</p>
+
+<p>That doesn't sound too bad, simply include a meta-encoding tag at the top
+of your document.</p>
+
+<p>However, the new'ish HTML5 short meta-encoding</p>
+
+<pre><code>&lt;meta encoding="UTF-8"&gt;
+</code></pre>
+
+<p>will NOT work, as only HTML4.0 is supported by libxml2. Thus, an older, longer
+version must be used:</p>
+
+<pre><code>&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /&gt;
+</code></pre>
+
+<p>Thankfully, this is still valid in HTML5.</p>
+
+<h2>Entities</h2>
+
+<p>XML only allows the following entities:</p>
+
+<pre><code>&amp;amp;, &amp;lt;, &amp;gt;, &amp;quot; and &amp;apos;
+</code></pre>
+
+<p>Thus, HTML entities<a href="http://www.w3.org/TR/html5-author/entities.json">2</a> are not allowed.</p>
+
+<p>This might break your template.</p>
+
+<p>The workaround is to use the actual Unicode character, instead of the entity. 
+Thankfully, this is valid in HTML5.</p>
+
+<p>Those generally work great, but could be inconvinient in some cases.</p>
+
+<p>For example, the most popular HTML entity -- <code>&amp;nbsp;</code> -- looks like a regular
+whitespace when printed, as is not very readable.</p>
+
+<p>You can extend your DOCTYPE declaration to include it, like this:</p>
+
+<pre class="html" style="font-family:monospace;">&lt;!DOCTYPE html [
+&lt;!ENTITY nbsp "&amp;#160;"&gt;
+&lt;!ENTITY mdash "&mdash;"&gt;
+]&gt;
+&nbsp;</pre>
+
+<p>Yes, this sucks.</p>
+
+<p>Furthermore, such extended DOCTYPE will not be kept when the template is rendered,
+and will be replaced with a simple <code>&lt;!DOCTYPE html&gt;</code>. This might provide further
+inconvinience. </p>
+
+<h2>TL;DR</h2>
+
+<p>You have to take extra care of your HTML5 templates. Luckily, all required changes
+do conform to the HTML5 spec.</p>
+
+<ul><li>Use self-closing XML shorttags for meta, link, img and other void elements.</li>
+<li>Use actual unicode characters instead of entities.</li>
+<li>Use HTML4.0-style meta charset declaration. Make sure it's on the top of the document.</li>
+</ul></div>
+	</article>
+
+	<footer>
+		2011-2014 domtempl
+	</footer>
+</body>
+</html>

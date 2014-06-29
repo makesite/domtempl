@@ -51,7 +51,7 @@
 		<article>
 			<h1>array</h1>
 			<div class="html"><code><pre class="html4strict" style="font-family:monospace;"><span class="sc2">&lt;<span class="kw2">html</span>&gt;</span>
-	<span class="sc2">&lt;<span class="kw2">li</span> data-each<span class="sy0">=</span><span class="st0">"fruits"</span> </span>
+	<span class="sc2">&lt;<span class="kw2">li</span> data-each<span class="sy0">=</span><span class="st0">"fruits"</span></span>
 <span class="sc2">		data-var<span class="sy0">=</span><span class="st0">"fruits/"</span>&gt;&lt;<span class="sy0">/</span><span class="kw2">li</span>&gt;</span>
 <span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">html</span>&gt;</span></pre></code></div><div class="data"><code><pre class="php" style="font-family:monospace;"><span class="kw3">array</span> <span class="br0">(</span>
   <span class="st_h">'fruits'</span> <span class="sy0">=&gt;</span> 
@@ -70,7 +70,7 @@
 			<h1>deep array</h1>
 			<div class="html"><code><pre class="html4strict" style="font-family:monospace;"><span class="sc2">&lt;<span class="kw2">html</span>&gt;</span>
 	<span class="sc2">&lt;<span class="kw2">li</span> data-each<span class="sy0">=</span><span class="st0">"person"</span>&gt;</span>
-		<span class="sc2">&lt;<span class="kw2">a</span> data-var<span class="sy0">=</span><span class="st0">"name"</span>&gt;&lt;<span class="sy0">/</span><span class="kw2">a</span>&gt;</span>	
+		<span class="sc2">&lt;<span class="kw2">a</span> data-var<span class="sy0">=</span><span class="st0">"name"</span>&gt;&lt;<span class="sy0">/</span><span class="kw2">a</span>&gt;</span>
 	<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">li</span>&gt;</span>
 <span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">html</span>&gt;</span></pre></code></div><div class="data"><code><pre class="php" style="font-family:monospace;"><span class="kw3">array</span> <span class="br0">(</span>
   <span class="st_h">'person'</span> <span class="sy0">=&gt;</span> 
@@ -88,10 +88,10 @@
   <span class="br0">)</span><span class="sy0">,</span>
 <span class="br0">)</span></pre></code></div><div class="result"><code><pre class="html4strict" style="font-family:monospace;"><span class="sc2">&lt;<span class="kw2">html</span>&gt;</span>
 	<span class="sc2">&lt;<span class="kw2">li</span>&gt;</span>
-		<span class="sc2">&lt;<span class="kw2">a</span>&gt;</span>John<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">a</span>&gt;</span>	
+		<span class="sc2">&lt;<span class="kw2">a</span>&gt;</span>John<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">a</span>&gt;</span>
 	<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">li</span>&gt;</span>
 	<span class="sc2">&lt;<span class="kw2">li</span>&gt;</span>
-		<span class="sc2">&lt;<span class="kw2">a</span>&gt;</span>Bill<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">a</span>&gt;</span>	
+		<span class="sc2">&lt;<span class="kw2">a</span>&gt;</span>Bill<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">a</span>&gt;</span>
 	<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">li</span>&gt;</span>
 <span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">html</span>&gt;</span></pre></code></div>
 		</article>
@@ -122,11 +122,11 @@
 			<div class="html"><code><pre class="html4strict" style="font-family:monospace;"><span class="sc2">&lt;<span class="kw2">html</span>&gt;</span>
 <span class="sc2">&lt;<span class="kw2">ul</span> data-when<span class="sy0">=</span><span class="st0">"menu"</span>&gt;</span>
 	<span class="sc2">&lt;<span class="kw2">li</span> data-each<span class="sy0">=</span><span class="st0">"/menu"</span>&gt;</span>
-		<span class="sc2">&lt;<span class="kw2">a</span> </span>
-<span class="sc2">		data-attr-<span class="kw3">href</span><span class="sy0">=</span><span class="st0">"href"</span> </span>
-<span class="sc2">		data-attr-<span class="kw3">class</span><span class="sy0">=</span><span class="st0">"class"</span> </span>
-<span class="sc2">		data-var<span class="sy0">=</span><span class="st0">"name"</span>&gt;&lt;<span class="sy0">/</span><span class="kw2">a</span>&gt;</span>			
-	<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">li</span>&gt;</span>		
+		<span class="sc2">&lt;<span class="kw2">a</span></span>
+<span class="sc2">		data-attr-<span class="kw3">href</span><span class="sy0">=</span><span class="st0">"href"</span></span>
+<span class="sc2">		data-attr-<span class="kw3">class</span><span class="sy0">=</span><span class="st0">"class"</span></span>
+<span class="sc2">		data-var<span class="sy0">=</span><span class="st0">"name"</span>&gt;&lt;<span class="sy0">/</span><span class="kw2">a</span>&gt;</span>
+	<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">li</span>&gt;</span>
 <span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">ul</span>&gt;</span>
 <span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">html</span>&gt;</span></pre></code></div><div class="data"><code><pre class="php" style="font-family:monospace;"><span class="kw3">array</span> <span class="br0">(</span>
   <span class="st_h">'menu'</span> <span class="sy0">=&gt;</span> 
@@ -153,14 +153,14 @@
 <span class="br0">)</span></pre></code></div><div class="result"><code><pre class="html4strict" style="font-family:monospace;"><span class="sc2">&lt;<span class="kw2">html</span>&gt;</span>
 <span class="sc2">&lt;<span class="kw2">ul</span>&gt;</span>
 	<span class="sc2">&lt;<span class="kw2">li</span>&gt;</span>
-		<span class="sc2">&lt;<span class="kw2">a</span> <span class="kw3">href</span><span class="sy0">=</span><span class="st0">"index"</span> <span class="kw3">class</span><span class="sy0">=</span><span class="st0">""</span>&gt;</span>Main<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">a</span>&gt;</span>			
+		<span class="sc2">&lt;<span class="kw2">a</span> <span class="kw3">href</span><span class="sy0">=</span><span class="st0">"index"</span> <span class="kw3">class</span><span class="sy0">=</span><span class="st0">""</span>&gt;</span>Main<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">a</span>&gt;</span>
 	<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">li</span>&gt;</span>
 	<span class="sc2">&lt;<span class="kw2">li</span>&gt;</span>
-		<span class="sc2">&lt;<span class="kw2">a</span> <span class="kw3">href</span><span class="sy0">=</span><span class="st0">"contact"</span> <span class="kw3">class</span><span class="sy0">=</span><span class="st0">""</span>&gt;</span>Contact<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">a</span>&gt;</span>			
+		<span class="sc2">&lt;<span class="kw2">a</span> <span class="kw3">href</span><span class="sy0">=</span><span class="st0">"contact"</span> <span class="kw3">class</span><span class="sy0">=</span><span class="st0">""</span>&gt;</span>Contact<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">a</span>&gt;</span>
 	<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">li</span>&gt;</span>
 	<span class="sc2">&lt;<span class="kw2">li</span>&gt;</span>
-		<span class="sc2">&lt;<span class="kw2">a</span> <span class="kw3">href</span><span class="sy0">=</span><span class="st0">"about"</span> <span class="kw3">class</span><span class="sy0">=</span><span class="st0">"active"</span>&gt;</span>About<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">a</span>&gt;</span>			
-	<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">li</span>&gt;</span>		
+		<span class="sc2">&lt;<span class="kw2">a</span> <span class="kw3">href</span><span class="sy0">=</span><span class="st0">"about"</span> <span class="kw3">class</span><span class="sy0">=</span><span class="st0">"active"</span>&gt;</span>About<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">a</span>&gt;</span>
+	<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">li</span>&gt;</span>
 <span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">ul</span>&gt;</span>
 <span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">html</span>&gt;</span></pre></code></div>
 		</article>
@@ -693,7 +693,7 @@
 	</section>
 
 	<footer>
-		2011-2013 domtempl
+		2011-2014 domtempl
 	</footer>
 </body>
 </html>
