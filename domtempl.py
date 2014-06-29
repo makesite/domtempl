@@ -1,8 +1,11 @@
 from xml.dom.minidom import parse, parseString, Node
 import re
 
-def isset(dict, key):
-	return key in dict
+def isset(arr, key):
+	if isinstance(arr, dict):
+		return key in arr
+	else:
+		return key < len(arr)
 
 def is_array(item):
 	if isinstance(item, basestring):
@@ -86,14 +89,17 @@ class DOMtempl(object):
 			if (mod == '/'):
 				n = 0;
 				if (not(isset(ptr, step)) or ptr[step] == True):
-					ptr[step] = { };
+					ptr[step] = [ ];
 					self.var_iters[cpath] = 0;
 				else:
 					n = self.var_iters[cpath];
 				ptr = ptr[step];
 				if (last == '' and i == len(walk) - 3): break;
 				if (not(isset(ptr, n))):
-					ptr[n] = { };
+					if isinstance(ptr, dict):
+						ptr[n] = { };
+					else:
+						ptr.append( { } );
 				ptr = ptr[n];
 
 			if (mod == '.'):
@@ -162,7 +168,7 @@ class DOMtempl(object):
 						key = attr.name[len('data-attr'):]
 
 						self.write_var(
-							'',#self.expand_path(node, '', (not(attr.value) ? key : attr.value)),
+							self.expand_path(node, '', key if (not(attr.value)) else attr.value),
 							node.getAttribute(key)
 						)
 
@@ -185,33 +191,34 @@ class DOMtempl(object):
 	def replace_vars_node(self, node, clean):
 		stop_here = 0; #hack, for speed
 
-		if (node.attributes is None):
-			return
+		if (node.attributes is not None):
 
-		if (node.nodeType is Node.ELEMENT_NODE):
+			if (node.nodeType is Node.ELEMENT_NODE):
 
-			for j in xrange(0, node.attributes.length):
-			#for (var j = 0; j < node.attributes.length; j++):
-				attr = node.attributes.item(j);#[j];
-				if ('data-attr-' in attr.name):
-					key = attr.name[len('data-attr-'):]
-					path = self.expand_path(node, '', (key if not(attr.value) else attr.value));
-					val = self.read_var(path);
-					if (val != False):
-						node.setAttribute(key, val);
-					clean.append( attr.name );
+				j = -1
+				#for (j = 0; j < node.attributes.length; j++):
+				while j < node.attributes.length - 1:
+					j += 1
+					attr = node.attributes.item(j);#[j];
+					if ('data-attr-' in attr.name):
+						key = attr.name[len('data-attr-'):]
+						path = self.expand_path(node, '', (key if not(attr.value) else attr.value));
+						val = self.read_var(path);
+						if (val != False):
+							node.setAttribute(key, val);
+						clean.append( attr.name );
 
-			if (node.hasAttribute('data-var')):
-				print "\nReplacing data-var for "
-				print node
-				clean.append('data-var')
-				self.node_set_innerHTML(node,
-					self.read_var(self.expand_path(node, 'data-var'))
-				);
+				if (node.hasAttribute('data-var')):
+					#print "\nReplacing data-var for "
+					#print node
+					clean.append('data-var')
+					self.node_set_innerHTML(node,
+						self.read_var(self.expand_path(node, 'data-var'))
+					);
 
-				print "Inner html is now:" + node.toxml()
-				print "\n"
-				stop_here = 1; # do not traverse children of inserted node
+					#print "Inner html is now:" + node.toxml()
+					#print "\n"
+					stop_here = 1; # do not traverse children of inserted node
 
 		if (node.childNodes and not(stop_here)): # stop here if 'data-var' was used
 			self.replace_vars(node);
