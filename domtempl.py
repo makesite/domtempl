@@ -50,7 +50,7 @@ class DOMtempl(object):
 
 			if (mod == '/'):
 				n = self.var_iters[cpath];
-				print "Iterator of `%s` is %d" % (cpath, n) 
+				#print "Iterator of `%s` is %d" % (cpath, n)
 				try:
 					ptr = ptr[n];
 				except:
@@ -107,10 +107,6 @@ class DOMtempl(object):
 			if isinstance(ptr, dict):
 				ptr[ len(ptr) ] = val;
 			else:
-				x = []
-			#x[0] = 1
-				x.append ( 1 )
-			#ptr[ len(ptr) ] = val;
 				ptr.append( val );
 			return;
 
@@ -118,7 +114,7 @@ class DOMtempl(object):
 		ptr[ last ] = val;
 
 	def textContent(self, node):
-		if node.nodeType in (node.TEXT_NODE, node.CDATA_SECTION_NODE):
+		if node.nodeType in (Node.TEXT_NODE, Node.CDATA_SECTION_NODE):
 			return node.nodeValue
 		else:
 			return ''.join(self.textContent(n) for n in node.childNodes)
@@ -250,17 +246,17 @@ class DOMtempl(object):
 					while (kill):
 						next = kill.nextSibling;
 						if (kill.nodeType is Node.ELEMENT_NODE and kill.hasAttribute('data-same')):
-							kill.parentNode.removeChild(kill);
+							self.safe_remove(kill);
 						kill = next;
 
-					print "Cloning time with"
-					print arr
+					#print "Cloning time with"
+					#print arr
 
 					if (is_array(arr) and len(arr)):
 						# Clone new siblings
 						last = None;
 						for j in xrange(1, len(arr)):
-							print "Doing clone #%d, setting var iter of /%s" % (j, path)
+							#print "Doing clone #%d, setting var iter of /%s" % (j, path)
 							self.var_iters[path] = j;
 							nod = self.safe_clone(node, last);
 							last = nod;
@@ -269,9 +265,9 @@ class DOMtempl(object):
 							self.replace_vars_node(nod, ['data-same']);
 						self.var_iters[path] = 0;
 
-					print "CLONE COMPLETE"
+					#print "CLONE COMPLETE"
 
-			self.replace_vars_node( node , clean );
+			self.replace_vars_node( node, clean );
 
 
 	def reflow(self):
@@ -298,12 +294,12 @@ class DOMtempl(object):
 
 	def safe_remove(self, node):
 		ident = node.previousSibling;
-		print "When removing "
-		print node
-		print "it's ident is"
-		print ident
-		print "and ws is "
-		print ident.isWhitespaceInElementContent
+		#print "When removing "
+		#print node
+		#print "it's ident is"
+		#print ident
+		#print "and ws is "
+		#print ident.isWhitespaceInElementContent
 		r = 0;
 		if (ident is not None
 			and ident.nodeType == Node.TEXT_NODE 
