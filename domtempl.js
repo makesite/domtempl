@@ -554,4 +554,5 @@ function reloadStylesheets() {
 }
 
 /* be a node.js module */
+if (typeof module !== 'undefined')
 module.exports = DOMtempl;
