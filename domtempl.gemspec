@@ -1,9 +1,9 @@
 Gem::Specification.new do |s|
   s.name        = 'domtempl'
-  s.version     = '0.0.1'
+  s.version     = '0.0.2'
   s.licenses    = ['BSD']
-  s.summary     = "This is an example!"
-  s.description = "Much longer explanation of the example!"
+  s.summary     = "DOM-based templating system."
+  s.description = "Ruby implementation of DOMtempl."
   s.authors     = ["driedfruit"]
   s.email       = 'driedfruit@mindloop.net'
   s.add_runtime_dependency "nokogiri"
