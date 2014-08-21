@@ -1,0 +1,20 @@
+{
+  "author": "driedfruit",
+  "name": "domtempl",
+  "description": "DOM-based templating system.",
+  "version": "0.0.1",
+  "keywords": [ ],
+  "homepage": "http://makesite.github.io/domtempl",
+  "bugs": "http://github.com/makesite/domtempl/issues",
+  "license": "BSD-2-Clause",
+  "repository": {
+    "url": "https://github.com/makesite/domtempl.git"
+  },
+  "main": "./lib/domtempl",
+  "dependencies": {
+    "jsdom": "*"
+  },
+  "engines": {
+    "node": "*"
+  }
+}
