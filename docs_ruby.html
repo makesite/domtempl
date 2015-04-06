@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>DOMtempl</title>
+	<link rel="stylesheet" href="domtempl.css">
+	<!-- <script src='templ.js'></script> -->
+</head>
+<body>
+	<header>
+		<h1>DOMtempl</h1>
+		<h2>HTML templating that brings you peace</h2>
+		<nav>
+			<a href="index.html" class="">Introduction</a>
+			<a href="samples.html" class="">Samples!</a>
+			<a href="docs_main.html" class="active">Documentation</a>
+		</nav>
+	</header>
+	
+	<nav id="sub">
+		<a class="" href="docs_main.html">General</a>
+		<a class="" href="docs_php.html">PHP</a>
+		<a class="" href="docs_php-bugs.html">PHP bugs</a>
+		<a class="" href="docs_php-writer.html">PHP writer</a>
+		<a class="" href="docs_js.html">JS</a>
+		<a class="" href="docs_js-debuger.html">JS debuger</a>
+		<a class="" href="docs_js-node.html">Node.js</a>
+		<a class="" href="docs_python.html">Python</a>
+		<a class="active" href="docs_ruby.html">Ruby</a>
+	</nav>
+
+	<article>
+		<h1>Documentation - Ruby</h1>
+		<div><p><style>/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.python  {font-family:monospace;}
+.python .imp {font-weight: bold; color: red;}
+.python .kw1 {color: #ff7700;font-weight:bold;}
+.python .kw2 {color: #008000;}
+.python .kw3 {color: #dc143c;}
+.python .kw4 {color: #0000cd;}
+.python .co1 {color: #808080; font-style: italic;}
+.python .coMULTI {color: #808080; font-style: italic;}
+.python .es0 {color: #000099; font-weight: bold;}
+.python .br0 {color: black;}
+.python .sy0 {color: #66cc66;}
+.python .st0 {color: #483d8b;}
+.python .nu0 {color: #ff4500;}
+.python .me1 {color: black;}
+.python span.xtra { display:block; }
+</style><style></style><style>/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.ruby  {font-family:monospace;}
+.ruby .imp {font-weight: bold; color: red;}
+.ruby .kw1 {color:#9966CC; font-weight:bold;}
+.ruby .kw2 {color:#0000FF; font-weight:bold;}
+.ruby .kw3 {color:#CC0066; font-weight:bold;}
+.ruby .kw4 {color:#CC00FF; font-weight:bold;}
+.ruby .co1 {color:#008000; font-style:italic;}
+.ruby .coMULTI {color:#000080; font-style:italic;}
+.ruby .es0 {color:#000099;}
+.ruby .br0 {color:#006600; font-weight:bold;}
+.ruby .sy0 {color:#006600; font-weight:bold;}
+.ruby .st0 {color:#996600;}
+.ruby .nu0 {color:#006666;}
+.ruby .me1 {color:#9900CC;}
+.ruby .re0 {color:#ff6633; font-weight:bold;}
+.ruby .re1 {color:#0066ff; font-weight:bold;}
+.ruby .re2 {color:#6666ff; font-weight:bold;}
+.ruby .re3 {color:#ff3333; font-weight:bold;}
+.ruby span.xtra { display:block; }
+</style></p>
+
+<h2>Quick start</h2>
+
+<pre class="ruby" style="font-family:monospace;">&nbsp;
+    <span class="kw3">require</span> <span class="st0">'domtempl'</span>
+&nbsp;
+&nbsp;</pre>
+
+<h3>Reading the template</h3>
+
+<pre class="ruby" style="font-family:monospace;">&nbsp;
+    l = DOMtempl.<span class="me1">new</span><span class="br0">(</span><span class="st0">'path/to/template.html'</span><span class="br0">)</span>
+&nbsp;
+&nbsp;</pre>
+
+<p>or</p>
+
+<pre class="ruby" style="font-family:monospace;">&nbsp;
+    l = DOMtempl.<span class="me1">new</span><span class="br0">(</span><span class="st0">'&lt;html&gt;&lt;p data-var="foo"&gt;&lt;/p&gt;&lt;/html&gt;'</span>, <span class="re2">DOMtempl::FRAGMENT</span><span class="br0">)</span>;
+&nbsp;
+&nbsp;</pre>
+
+<h3>Reading variables defined/expected by template</h3>
+
+<pre class="ruby" style="font-family:monospace;">&nbsp;
+    l = DOMtempl.<span class="me1">new</span><span class="br0">(</span><span class="st0">'&lt;html&gt;&lt;p data-var="foo"&gt;Boo&lt;/p&gt;&lt;/html&gt;'</span>, <span class="re2">DOMtempl::FRAGMENT</span><span class="br0">)</span>;
+&nbsp;
+    <span class="kw3">print</span> l.<span class="me1">vars</span>
+    <span class="co1">#{'foo' : 'Boo'}</span>
+&nbsp;</pre>
+
+<h3>Writing variables</h3>
+
+<pre class="rubby" style="font-family:monospace;">&nbsp;
+    l.assign("foo", "Hello world")
+&nbsp;
+&nbsp;</pre>
+
+<p>You can also assign variables by accessing the <code>vars</code> public property,</p>
+
+<pre class="python" style="font-family:monospace;">&nbsp;
+    l.<span class="kw2">vars</span><span class="br0">[</span><span class="st0">'foo'</span><span class="br0">]</span> = <span class="st0">"Hello world"</span>
+&nbsp;
+&nbsp;</pre>
+
+<p>has the same effect.</p>
+
+<h2>Writing output</h2>
+
+<pre class="ruby" style="font-family:monospace;">&nbsp;
+    l.<span class="me1">out</span><span class="br0">(</span><span class="br0">)</span>
+&nbsp;
+&nbsp;</pre>
+
+<p>which is a shorthand for</p>
+
+<pre class="ruby" style="font-family:monospace;">&nbsp;
+    html = l.<span class="me1">dump</span><span class="br0">(</span><span class="br0">)</span>
+&nbsp;
+    <span class="kw3">print</span> html
+&nbsp;
+&nbsp;</pre>
+
+<h3>Writing XML output</h3>
+
+<pre class="ruby" style="font-family:monospace;">&nbsp;
+    <span class="kw3">print</span> l.<span class="me1">dumpXML</span><span class="br0">(</span><span class="br0">)</span>;
+    <span class="co1">#or</span>
+    l.<span class="me1">outXML</span><span class="br0">(</span><span class="br0">)</span>
+&nbsp;
+&nbsp;</pre>
+
+<p>Same as above, but produces XML instead of HTML.</p>
+
+<h2>Complete example</h2>
+
+<pre class="ruby" style="font-family:monospace;">&nbsp;
+    <span class="kw3">require</span> <span class="st0">'domtempl'</span>
+&nbsp;
+    l = DOMtempl.<span class="me1">new</span><span class="br0">(</span><span class="st0">'&lt;html&gt;&lt;p data-var="animal"&gt;cat&lt;/p&gt;&lt;/html&gt;'</span>, <span class="re2">DOMtempl::FRAGMENT</span><span class="br0">)</span>;
+&nbsp;
+    <span class="kw3">print</span> l.<span class="me1">vars</span>
+    <span class="co1">#{'animal' : 'cat'} </span>
+&nbsp;
+    l.<span class="me1">assign</span><span class="br0">(</span><span class="st0">"animal"</span>, <span class="st0">"dog"</span><span class="br0">)</span>
+&nbsp;
+    l.<span class="me1">out</span><span class="br0">(</span><span class="br0">)</span>
+    <span class="co1">#&lt;html&gt;&lt;p&gt;dog&lt;/p&gt;&lt;/html&gt;</span>
+&nbsp;
+&nbsp;</pre>
+</div>
+	</article>
+
+	<footer>
+		2011-2014 domtempl
+	</footer>
+</body>
+</html>
