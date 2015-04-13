@@ -12,7 +12,7 @@ class DOMtempl
 		@vars = { }
 		@var_iters = { }
 
-		if (flags & FRAGMENT)
+		if (!(flags & FRAGMENT).zero?)
 			@_document = Nokogiri::XML::DocumentFragment.parse(input)
 		else
 			@_document = Nokogiri::HTML(open(input))
