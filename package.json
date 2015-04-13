@@ -10,6 +10,7 @@
   "repository": {
     "url": "https://github.com/makesite/domtempl.git"
   },
+  "files": [ "lib/domtempl.js" ],
   "main": "./lib/domtempl",
   "dependencies": {
     "jsdom": "*"
