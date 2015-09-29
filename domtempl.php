@@ -279,7 +279,7 @@ class DOMtempl {
 
 				if ($node->hasAttribute('data-when'))
 					$this->write_var(
-						$this->expand_path($node, 'data-when'), 
+						$this->expand_path($node, 'data-when'),
 						true, 1
 					);
 			}
@@ -303,12 +303,12 @@ class DOMtempl {
 			&& $orig->isWhitespaceInElementContent())
 				$ident = $orig->cloneNode(false);
 			$cln = $elem->cloneNode(true);
-			$o = $after->nextSibling; 
+			$o = $after->nextSibling;
 			if ($o) {
 				if ($ident) $elem->parentNode->insertBefore($ident, $o);
 				$elem->parentNode->insertBefore($cln, $o);
 			} else {
-				if ($ident)	$elem->parentNode->appendChild($ident);
+				if ($ident) $elem->parentNode->appendChild($ident);
 				$elem->parentNode->appendChild($cln);
 			}
 			return $cln;
