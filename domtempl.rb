@@ -45,12 +45,14 @@ class DOMtempl
 			mod = walk[i+1]
 			cpath += step
 
-			if (ptr[step].nil?)
+			if (ptr.instance_variable_defined?('@'+step))
+				ptr = ptr.instance_variable_get('@'+step)
+			elsif (ptr[step].nil?)
 				error('undefined array "' + step + '" of path ' + path)
 				return nil;
+			else
+				ptr = ptr[step];
 			end
-
-			ptr = ptr[step];
 
 			if (mod == '/')
 				n = @var_iters[cpath];
@@ -73,7 +75,9 @@ class DOMtempl
 		if (last == '')
 			return ptr;
 		end
-		if (ptr[last].nil?)
+		if (ptr.instance_variable_defined?('@'+last))
+			return ptr.instance_variable_get('@'+last)
+		elsif (ptr[last].nil?)
 			error('undefined variable "'+last+'" of path "' + path + '"');
 			return nil;
 		end
