@@ -175,7 +175,7 @@ class DOMtempl(object):
 				if node.hasAttribute('data-var'):
 					self.write_var(
 						self.expand_path(node, 'data-var'),
-						self.textContent(node)
+						self.node_get_innerHTML(node) #self.textContent(node)
 					)
 
 				if node.hasAttribute('data-when'):
@@ -350,6 +350,13 @@ class DOMtempl(object):
 				elem.parentNode.appendChild(cln);
 			return cln;
 		return None;
+
+	def node_get_innerHTML(self, node):
+		innerHTML = ""
+		for child in node.childNodes:
+			innerHTML += node.toxml()
+		return innerHTML
+
 
 	def node_set_innerHTML(self, node, value):
 

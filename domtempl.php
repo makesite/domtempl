@@ -271,8 +271,8 @@ class DOMtempl {
 
 				if ($node->hasAttribute('data-var'))
 					$this->write_var(
-						$this->expand_path($node, 'data-var'), 
-						$node->textContent
+						$this->expand_path($node, 'data-var'),
+						$this->node_get_innerHTML($node) // $node->textContent
 					);
 
 				if ($node->hasAttribute('data-when'))
