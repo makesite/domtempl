@@ -247,7 +247,7 @@ class DOMtempl {
 
 	function parse_vars_node($root) {
 		foreach ($root->childNodes as $node) {
-
+			$stop_here = 0; //hack, for speed
 			if ($node->hasAttributes()) {
 
 				if ($node->hasAttribute('data-each'))
@@ -269,11 +269,13 @@ class DOMtempl {
 					}
 				}
 
-				if ($node->hasAttribute('data-var'))
+				if ($node->hasAttribute('data-var')) {
+					$stop_here = 1; //do not recurse anymore
 					$this->write_var(
 						$this->expand_path($node, 'data-var'),
 						$this->node_get_innerHTML($node) // $node->textContent
 					);
+				}
 
 				if ($node->hasAttribute('data-when'))
 					$this->write_var(
@@ -281,8 +283,8 @@ class DOMtempl {
 						true, 1
 					);
 			}
-			if ($node->childNodes)
-					$this->parse_vars_node($node);
+			if ($node->childNodes && !$stop_here)
+				$this->parse_vars_node($node);
 		}
 	}
 
