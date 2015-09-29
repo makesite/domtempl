@@ -190,3 +190,10 @@ table {
 table th {
 	text-align: left;
 }
+
+//Wicked syntax HL
+.tag { font-weight: bold; }
+.default { border-bottom: 1px dashed red; color: #600; }
+code *[title] { cursor: help; }
+.dtc { color: #060; }
+.vr { color: #006; padding: 2px; border: 1px solid #006; border-radius: 2px;}
