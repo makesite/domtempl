@@ -58,13 +58,13 @@
 <p>Node.js version of DOMtempl relies on <a href="https://github.com/tmpvar/jsdom">jsdom</a> (or optionally, some other DOM 
 implementation) to function.</p>
 
-<p><code>npm install jsdom</code></p>
+<p><code>npm install jsdom domtempl</code></p>
 
 <p>Thus, the initialization steps are a bit different.</p>
 
 <pre class="javascript" style="font-family:monospace;"> 
     <span class="kw2">var</span> jsdom <span class="sy0">=</span> require<span class="br0">(</span><span class="st0">"jsdom"</span><span class="br0">)</span>.<span class="me1">jsdom</span><span class="sy0">;</span>
-    <span class="kw2">var</span> DOMtempl <span class="sy0">=</span> require<span class="br0">(</span><span class="st0">'./domtempl'</span><span class="br0">)</span>
+    <span class="kw2">var</span> DOMtempl <span class="sy0">=</span> require<span class="br0">(</span><span class="st0">"domtempl"</span><span class="br0">)</span><span class="sy0">;</span>
  
  </pre>
 
@@ -121,7 +121,7 @@ implementation) to function.</p>
 <h2>Complete example</h2>
 
 <pre class="javascript" style="font-family:monospace;"><span class="kw2">var</span> jsdom <span class="sy0">=</span> require<span class="br0">(</span><span class="st0">"jsdom"</span><span class="br0">)</span>.<span class="me1">jsdom</span><span class="sy0">;</span>
-<span class="kw2">var</span> DOMtempl <span class="sy0">=</span> require<span class="br0">(</span><span class="st0">'./domtempl'</span><span class="br0">)</span><span class="sy0">;</span>
+<span class="kw2">var</span> DOMtempl <span class="sy0">=</span> require<span class="br0">(</span><span class="st0">"domtempl"</span><span class="br0">)</span><span class="sy0">;</span>
  
 <span class="kw2">var</span> document <span class="sy0">=</span> jsdom<span class="br0">(</span><span class="st0">'
 &lt;html&gt;
