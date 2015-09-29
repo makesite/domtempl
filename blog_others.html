@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>DOMtempl</title>
+	<link rel="stylesheet" href="domtempl.css">
+	<!-- <script src='templ.js'></script> -->
+</head>
+<body>
+	<header>
+		<h1>DOMtempl</h1>
+		<h2>HTML templating that brings you peace</h2>
+		<nav>
+			<a href="index.html" class="">Introduction</a>
+			<a href="samples.html" class="">Samples!</a>
+			<a href="docs_main.html" class="">Documentation</a>
+			<a href="blog_manifesto.html" class="active">Blog</a>
+		</nav>
+	</header>
+	
+	<nav id="sub">
+		<a class="" href="blog_manifesto.html">Manifesto</a>
+		<a class="" href="blog_claims.html">Claims to greatness</a>
+		<a class="active" href="blog_others.html">Other templating engines</a>
+		<a class="" href="blog_faq.html">FAQ</a>
+	</nav>
+
+	<article>
+		<h1>Blog - Other templating engines</h1>
+		<div><h2>DOM-based</h2>
+
+<h3>XTemplate (PHP)</h3>
+
+<p>I found this one while working on initial versions of DOMtempl
+and considered using it. I decided against it, in the end, as my
+vision was a little bit different.</p>
+
+<p>XTemplate relies on comments, more specifically, commands
+hidden in the comments. I don't know if they use DOM or string
+parsing for that, but either way it's rather clever.</p>
+
+<p>Due to this mechanism, it can also parse specific parts of the
+template by request, and not necessary the whole thing at once.</p>
+
+<h3>DOMTemplate (PHP)</h3>
+
+<p>This one is a close cousin. Found it way into DOMtempl's life.
+Was surprised to read the thinking behind it. Way better writing,
+than anything I could ever come up with to explain the darn
+thing!</p>
+
+<p>The main difference is that it advocates direct DOM manipulation
+from the controller. I think that's too excessive.</p>
+
+<h3>MELD3 (Python)</h3>
+
+<p>This one is elegant! They use namespacing (instead of data-attributes
+like DOMtempl does) to sprinkle meaning into the templates, and I
+instantly fell in love with that idea.</p>
+
+<p>Namespaces make much more sense, from all points of view, to use with
+extra templating attributes.</p>
+
+<p>But PHP's support for DOM *NS functions was bad at the time, so I decided
+not to pursue it.</p>
+
+<p>Another difference is that they decided not to build up a tree, but 
+a flat table with meld:id. I believe that's underusing the power of DOM,
+which gives you a tree naturally.</p>
+
+<h2>String-based</h2>
+
+<h3>Mustache</h3>
+
+<p>Although I swear by DOM-templating and curse loudly when string-based
+templating is mentioned, it, of course, has it's uses (text/plain e-mail
+notifications, anyone?).</p>
+
+<p>Out of all the engines, I naturally prefer those, that do not allow me
+to inject any code, and maintain the view/controller separation. Mustache,
+and it's family of derivatives, is a pretty good choice in that regard.</p>
+
+<p>Additionally, it's easy to read, it builds-up paths, and it's tailored to
+JSON-like data structures.</p>
+
+<h3>PHPsoup</h3>
+
+<p>Vanilla PHP templating, i.e.:<code>&lt;b&gt;&lt;? echo $title; ?&gt;&lt;/b&gt;</code>. This is a 
+scourge of php, hated by most. When used correctly, can be quite
+nice and unobtrusive, as proven by many modern PHP frameworks.</p>
+
+<p>Still, the temptation to write direct php into those is too large to 
+overcome and I've yet to see a project that didn't succumb to it at one
+point or another.</p>
+
+<p>Those are also the fastest (for PHP) and nothing will ever beat them
+in speed. That is way many engines have an ability to "compile" their
+templates into phpsoup.</p>
+
+<h3>ERB (Ruby)</h3>
+
+<p>I didn't understand this one. What purpose would such an obscure syntax
+serve? Is there a term "rubysoup"? Because that's what it is. Way too much 
+logic.</p>
+
+<p>P.S. No offense to other templating engines intended, just trying to express
+my reasoning for creating Yet Another One. If you <em>must</em> quote me bad-mouthing
+someone, tho, here you go: Smarty (PHP) can go fuck itself.</p>
+</div>
+	</article>
+
+	<footer>
+		2011-2015 domtempl
+	</footer>
+</body>
+</html>

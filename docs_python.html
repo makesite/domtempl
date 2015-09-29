@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>DOMtempl</title>
 	<link rel="stylesheet" href="domtempl.css">
 	<!-- <script src='templ.js'></script> -->
@@ -13,6 +14,7 @@
 			<a href="index.html" class="">Introduction</a>
 			<a href="samples.html" class="">Samples!</a>
 			<a href="docs_main.html" class="active">Documentation</a>
+			<a href="blog_manifesto.html" class="">Blog</a>
 		</nav>
 	</header>
 	
@@ -53,98 +55,98 @@
 
 <h2>Quick start</h2>
 
-<pre class="python" style="font-family:monospace;">&nbsp;
+<pre class="python" style="font-family:monospace;"> 
     <span class="kw1">from</span> domtempl <span class="kw1">import</span> DOMtempl
-&nbsp;
-&nbsp;</pre>
+ 
+ </pre>
 
 <h3>Reading the template</h3>
 
-<pre class="python" style="font-family:monospace;">&nbsp;
+<pre class="python" style="font-family:monospace;"> 
     l = DOMtempl<span class="br0">(</span><span class="st0">'path/to/template.html'</span><span class="br0">)</span>
-&nbsp;
-&nbsp;</pre>
+ 
+ </pre>
 
 <p>or</p>
 
-<pre class="python" style="font-family:monospace;">&nbsp;
+<pre class="python" style="font-family:monospace;"> 
     l = DOMtempl<span class="br0">(</span><span class="st0">'&lt;html&gt;&lt;p data-var="foo"&gt;&lt;/p&gt;&lt;/html&gt;'</span>, DOMtempl.<span class="me1">FRAGMENT</span><span class="br0">)</span><span class="sy0">;</span>
-&nbsp;
-&nbsp;</pre>
+ 
+ </pre>
 
 <h3>Reading variables defined/expected by template</h3>
 
-<pre class="python" style="font-family:monospace;">&nbsp;
+<pre class="python" style="font-family:monospace;"> 
     l = DOMtempl<span class="br0">(</span><span class="st0">'&lt;html&gt;&lt;p data-var="foo"&gt;Boo&lt;/p&gt;&lt;/html&gt;'</span>, DOMtempl.<span class="me1">FRAGMENT</span><span class="br0">)</span><span class="sy0">;</span>
-&nbsp;
+ 
     <span class="kw1">print</span> l.<span class="kw2">vars</span>
     <span class="co1">#{'foo' : 'Boo'} </span>
-&nbsp;</pre>
+ </pre>
 
 <h3>Writing variables</h3>
 
-<pre class="python" style="font-family:monospace;">&nbsp;
+<pre class="python" style="font-family:monospace;"> 
     l.<span class="me1">assign</span><span class="br0">(</span><span class="st0">"foo"</span>, <span class="st0">"Hello world"</span><span class="br0">)</span>
-&nbsp;
-&nbsp;</pre>
+ 
+ </pre>
 
 <p>You can also assign variables by accessing the <code>vars</code> public property,</p>
 
-<pre class="python" style="font-family:monospace;">&nbsp;
+<pre class="python" style="font-family:monospace;"> 
     l.<span class="kw2">vars</span><span class="br0">[</span><span class="st0">'foo'</span><span class="br0">]</span> = <span class="st0">"Hello world"</span>
-&nbsp;
-&nbsp;</pre>
+ 
+ </pre>
 
 <p>has the same effect.</p>
 
 <h2>Writing output</h2>
 
-<pre class="python" style="font-family:monospace;">&nbsp;
+<pre class="python" style="font-family:monospace;"> 
     l.<span class="me1">out</span><span class="br0">(</span><span class="br0">)</span>
-&nbsp;
-&nbsp;</pre>
+ 
+ </pre>
 
 <p>which is a shorthand for</p>
 
-<pre class="python" style="font-family:monospace;">&nbsp;
+<pre class="python" style="font-family:monospace;"> 
     html = l.<span class="me1">dump</span><span class="br0">(</span><span class="br0">)</span>
-&nbsp;
+ 
     <span class="kw1">print</span> html
-&nbsp;
-&nbsp;</pre>
+ 
+ </pre>
 
 <h3>Writing XML output</h3>
 
-<pre class="python" style="font-family:monospace;">&nbsp;
+<pre class="python" style="font-family:monospace;"> 
     <span class="kw1">print</span> l.<span class="me1">dumpXML</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span>
     <span class="co1">#or</span>
     l.<span class="me1">outXML</span><span class="br0">(</span><span class="br0">)</span>
-&nbsp;
-&nbsp;</pre>
+ 
+ </pre>
 
 <p>Same as above, but produces XML instead of HTML.</p>
 
 <h2>Complete example</h2>
 
-<pre class="python" style="font-family:monospace;">&nbsp;
+<pre class="python" style="font-family:monospace;"> 
     <span class="kw1">from</span> domtempl <span class="kw1">import</span> DOMtempl
-&nbsp;
+ 
     l = DOMtempl<span class="br0">(</span><span class="st0">'&lt;html&gt;&lt;p data-var="animal"&gt;cat&lt;/p&gt;&lt;/html&gt;'</span>, DOMtempl.<span class="me1">FRAGMENT</span><span class="br0">)</span><span class="sy0">;</span>
-&nbsp;
+ 
     <span class="kw1">print</span> l.<span class="kw2">vars</span>
     <span class="co1">#{'animal' : 'cat'} </span>
-&nbsp;
+ 
     l.<span class="me1">assign</span><span class="br0">(</span><span class="st0">"animal"</span>, <span class="st0">"dog"</span><span class="br0">)</span>
-&nbsp;
+ 
     l.<span class="me1">out</span><span class="br0">(</span><span class="br0">)</span>
     <span class="co1">#&lt;html&gt;&lt;p&gt;dog&lt;/p&gt;&lt;/html&gt;</span>
-&nbsp;
-&nbsp;</pre>
+ 
+ </pre>
 </div>
 	</article>
 
 	<footer>
-		2011-2014 domtempl
+		2011-2015 domtempl
 	</footer>
 </body>
 </html>

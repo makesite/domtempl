@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>DOMtempl</title>
 	<link rel="stylesheet" href="domtempl.css">
 	<!-- <script src='templ.js'></script> -->
@@ -13,6 +14,7 @@
 			<a href="index.html" class="">Introduction</a>
 			<a href="samples.html" class="">Samples!</a>
 			<a href="docs_main.html" class="active">Documentation</a>
+			<a href="blog_manifesto.html" class="">Blog</a>
 		</nav>
 	</header>
 	
@@ -72,70 +74,70 @@
 
 <h2>Quick start</h2>
 
-<pre class="xml" style="font-family:monospace;">&nbsp;
+<pre class="xml" style="font-family:monospace;"> 
     <span class="sc3"><span class="re1">&lt;script</span> <span class="re0">src</span>=<span class="st0">"domtempl.js"</span><span class="re2">&gt;</span><span class="re1">&lt;/script<span class="re2">&gt;</span></span></span>
-&nbsp;
-&nbsp;</pre>
+ 
+ </pre>
 
 <h3>Reading the template</h3>
 
-<pre class="javascript" style="font-family:monospace;">&nbsp;
+<pre class="javascript" style="font-family:monospace;"> 
     <span class="kw2">var</span> l <span class="sy0">=</span> <span class="kw2">new</span> DOMtempl<span class="br0">(</span>document<span class="br0">)</span><span class="sy0">;</span>
-&nbsp;
-&nbsp;</pre>
+ 
+ </pre>
 
 <p>or</p>
 
-<pre class="javascript" style="font-family:monospace;">&nbsp;
+<pre class="javascript" style="font-family:monospace;"> 
     <span class="kw2">var</span> l <span class="sy0">=</span> <span class="kw2">new</span> DOMtempl<span class="br0">(</span><span class="st0">'&lt;html&gt;&lt;p data-var="foo"&gt;&lt;/p&gt;&lt;/html&gt;'</span><span class="sy0">,</span> DOMtempl.<span class="me1">FRAGMENT</span><span class="br0">)</span><span class="sy0">;</span>
-&nbsp;
-&nbsp;</pre>
+ 
+ </pre>
 
 <h3>Reading variables defined/expected by template</h3>
 
-<pre class="javascript" style="font-family:monospace;">&nbsp;
+<pre class="javascript" style="font-family:monospace;"> 
     <span class="kw2">var</span> l <span class="sy0">=</span> <span class="kw2">new</span> DOMtempl<span class="br0">(</span><span class="st0">'&lt;html&gt;&lt;p data-var="foo"&gt;Boo&lt;/p&gt;&lt;/html&gt;'</span><span class="sy0">,</span> DOMtempl.<span class="me1">FRAGMENT</span><span class="br0">)</span><span class="sy0">;</span>
-&nbsp;
+ 
     console.<span class="me1">log</span><span class="br0">(</span>l.<span class="me1">vars</span><span class="br0">)</span><span class="sy0">;</span>
     <span class="co1">//{ "foo" : "Boo" }</span>
-&nbsp;
-&nbsp;</pre>
+ 
+ </pre>
 
 <h3>Writing variables</h3>
 
-<pre class="javascript" style="font-family:monospace;">&nbsp;
+<pre class="javascript" style="font-family:monospace;"> 
     l.<span class="me1">assign</span><span class="br0">(</span><span class="st0">"foo"</span><span class="sy0">,</span> <span class="st0">"Hello world"</span><span class="br0">)</span><span class="sy0">;</span>
-&nbsp;
-&nbsp;</pre>
+ 
+ </pre>
 
 <p>You can also assign variables by accessing the <code>vars</code> public property,</p>
 
-<pre class="javascript" style="font-family:monospace;">&nbsp;
+<pre class="javascript" style="font-family:monospace;"> 
     l.<span class="me1">vars</span><span class="br0">[</span><span class="st0">'foo'</span><span class="br0">]</span> <span class="sy0">=</span> <span class="st0">"Hello world"</span><span class="sy0">;</span>
-&nbsp;
-&nbsp;</pre>
+ 
+ </pre>
 
 <p>has the same effect.</p>
 
 <h2>Writing output</h2>
 
-<pre class="javascript" style="font-family:monospace;">&nbsp;
+<pre class="javascript" style="font-family:monospace;"> 
     l.<span class="me1">reflow</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span>
-&nbsp;
-&nbsp;</pre>
+ 
+ </pre>
 
 <p>will update the DOM with new values from <code>vars</code>, if you need HTML as string, you can call</p>
 
-<pre class="javascript" style="font-family:monospace;">&nbsp;
+<pre class="javascript" style="font-family:monospace;"> 
     <span class="kw2">var</span> html <span class="sy0">=</span> l.<span class="me1">dump</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span>
-&nbsp;
+ 
     console.<span class="me1">log</span><span class="br0">(</span>html<span class="br0">)</span><span class="sy0">;</span>
-&nbsp;
-&nbsp;</pre>
+ 
+ </pre>
 
 <h2>Complete example</h2>
 
-<pre class="xml" style="font-family:monospace;">&nbsp;
+<pre class="xml" style="font-family:monospace;"> 
 <span class="sc0">&lt;!DOCTYPE html&gt;</span>
 <span class="sc3"><span class="re1">&lt;html<span class="re2">&gt;</span></span></span>
     <span class="sc3"><span class="re1">&lt;head<span class="re2">&gt;</span></span></span>
@@ -154,12 +156,12 @@
         <span class="sc3"><span class="re1">&lt;/script<span class="re2">&gt;</span></span></span>
     <span class="sc3"><span class="re1">&lt;/body<span class="re2">&gt;</span></span></span>
 <span class="sc3"><span class="re1">&lt;/html<span class="re2">&gt;</span></span></span>
-&nbsp;</pre>
+ </pre>
 </div>
 	</article>
 
 	<footer>
-		2011-2014 domtempl
+		2011-2015 domtempl
 	</footer>
 </body>
 </html>

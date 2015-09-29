@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>DOMtempl</title>
 	<link rel="stylesheet" href="domtempl.css">
 	<!-- <script src='templ.js'></script> -->
@@ -13,6 +14,7 @@
 			<a href="index.html" class="">Introduction</a>
 			<a href="samples.html" class="">Samples!</a>
 			<a href="docs_main.html" class="active">Documentation</a>
+			<a href="blog_manifesto.html" class="">Blog</a>
 		</nav>
 	</header>
 	
@@ -38,7 +40,7 @@
 
 <h2>Auto-conversion</h2>
 
-<p>DOMtempl WILL NOT pre-process your template to fix the aftermentioned bugs.</p>
+<p>DOMtempl WILL NOT pre-process your template to fix the after-mentioned bugs.</p>
 
 <p>This is done to allow libxml2 errors and warnings to be generated relatively
 to the original files with original line numbers.</p>
@@ -63,7 +65,7 @@ be written as XML shorttags.</p>
 <p>I.e. &lt;link&gt; should be written as &lt;link/&gt;, meta as &lt;meta/&gt;, 
 and, most annoyingly, &lt;img&gt; as &lt;img/&gt;.</p>
 
-<p>Thankfully, this is supported by HTML5 spec. </p>
+<p>Thankfully, this is supported by HTML5 spec.</p>
 
 <h2>Encoding</h2>
 
@@ -100,7 +102,7 @@ version must be used:</p>
 <p>The workaround is to use the actual Unicode character, instead of the entity. 
 Thankfully, this is valid in HTML5.</p>
 
-<p>Those generally work great, but could be inconvinient in some cases.</p>
+<p>Those generally work great, but could be inconvenient in some cases.</p>
 
 <p>For example, the most popular HTML entity -- <code>&amp;nbsp;</code> -- looks like a regular
 whitespace when printed, as is not very readable.</p>
@@ -109,15 +111,15 @@ whitespace when printed, as is not very readable.</p>
 
 <pre class="html" style="font-family:monospace;">&lt;!DOCTYPE html [
 &lt;!ENTITY nbsp "&amp;#160;"&gt;
-&lt;!ENTITY mdash "&mdash;"&gt;
+&lt;!ENTITY mdash "—"&gt;
 ]&gt;
-&nbsp;</pre>
+ </pre>
 
 <p>Yes, this sucks.</p>
 
 <p>Furthermore, such extended DOCTYPE will not be kept when the template is rendered,
 and will be replaced with a simple <code>&lt;!DOCTYPE html&gt;</code>. This might provide further
-inconvinience. </p>
+inconvenience.</p>
 
 <h2>TL;DR</h2>
 
@@ -131,7 +133,7 @@ do conform to the HTML5 spec.</p>
 	</article>
 
 	<footer>
-		2011-2014 domtempl
+		2011-2015 domtempl
 	</footer>
 </body>
 </html>

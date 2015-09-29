@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>DOMtempl</title>
 	<link rel="stylesheet" href="domtempl.css">
 	<!-- <script src='templ.js'></script> -->
@@ -13,6 +14,7 @@
 			<a href="index.html" class="">Introduction</a>
 			<a href="samples.html" class="">Samples!</a>
 			<a href="docs_main.html" class="active">Documentation</a>
+			<a href="blog_manifesto.html" class="">Blog</a>
 		</nav>
 	</header>
 	
@@ -31,6 +33,29 @@
 	<article>
 		<h1>Documentation - General</h1>
 		<div><p><style>/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.ruby  {font-family:monospace;}
+.ruby .imp {font-weight: bold; color: red;}
+.ruby .kw1 {color:#9966CC; font-weight:bold;}
+.ruby .kw2 {color:#0000FF; font-weight:bold;}
+.ruby .kw3 {color:#CC0066; font-weight:bold;}
+.ruby .kw4 {color:#CC00FF; font-weight:bold;}
+.ruby .co1 {color:#008000; font-style:italic;}
+.ruby .coMULTI {color:#000080; font-style:italic;}
+.ruby .es0 {color:#000099;}
+.ruby .br0 {color:#006600; font-weight:bold;}
+.ruby .sy0 {color:#006600; font-weight:bold;}
+.ruby .st0 {color:#996600;}
+.ruby .nu0 {color:#006666;}
+.ruby .me1 {color:#9900CC;}
+.ruby .re0 {color:#ff6633; font-weight:bold;}
+.ruby .re1 {color:#0066ff; font-weight:bold;}
+.ruby .re2 {color:#6666ff; font-weight:bold;}
+.ruby .re3 {color:#ff3333; font-weight:bold;}
+.ruby span.xtra { display:block; }
+</style><style>/**
  * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
  * (http://qbnz.com/highlighter/ and http://geshi.org/)
  */
@@ -72,10 +97,10 @@
 
 <p>Each DOMtempl template is a <a title="W3C HTML Validator" class="external" href="http://validator.w3.org">valid HTML</a> document.</p>
 
-<p>Elements might have special templating attributes, that control their behavior</p>
+<p>Elements might have special attributes, that control their templating behavior:</p>
 
 <pre class="xml" style="font-family:monospace;">    <span class="sc3"><span class="re1">&lt;a</span> <span class="re0">data-COMMAND</span>=<span class="st0">"VARref"</span><span class="re2">&gt;</span><span class="re1">&lt;/a<span class="re2">&gt;</span></span></span>
-&nbsp;</pre>
+ </pre>
 
 <p>Where <code>VARref</code> points to a variable with actual data, and <code>COMMAND</code> might be one of the 
 following:</p>
@@ -100,17 +125,70 @@ following:</p>
 
 <h2>VARref</h2>
 
-<p>VARref is a string that can describe relative variable position in a json-like
-data structure. It is a bit similar to XPath, altho magnitudes simplier (it can't filter or search or group or map or reduce).</p>
+<p>VARref is a string that can describe relative variable position in a JSON-like
+data structure. It is a bit similar to XPath, although magnitudes simpler 
+(it can't filter or search or group or map or reduce).</p>
+
+<p>Path elements are allowed to contain any characters, except <code>.</code>, <code>/</code> and <code>*</code>.</p>
+
+<p>Whitespace in path elements is not recommended, but allowed.</p>
+
+<p>The <code>.</code> and <code>/</code> symbols are used for concatenating path elements.</p>
+
+<p>For direct descendants of a variable, <code>.</code> is used.</p>
+
+<pre class="javascript" style="font-family:monospace;"><span class="st0">"person"</span><span class="sy0">:</span> <span class="br0">{</span>
+    <span class="st0">"name"</span><span class="sy0">:</span> <span class="st0">"Barry Allen"</span><span class="sy0">,</span>
+    <span class="st0">"age"</span><span class="sy0">:</span> <span class="nu0">25</span><span class="sy0">,</span>
+<span class="br0">}</span>
+ </pre>
+
+<pre class="javascript" style="font-family:monospace;">person.<span class="kw3">name</span> <span class="sy0">=</span> <span class="st0">"Barry Allen"</span>
+person.<span class="me1">age</span> <span class="sy0">=</span> <span class="nu0">25</span>
+ </pre>
+
+<p>For all possible children (when iterating over an array), <code>/</code> should be used instead.</p>
+
+<pre class="javascript" style="font-family:monospace;"><span class="st0">"persons"</span><span class="sy0">:</span> <span class="br0">[</span>
+    <span class="br0">{</span> <span class="st0">"name"</span><span class="sy0">:</span> <span class="st0">"John Doe"</span><span class="sy0">,</span> <span class="st0">"age"</span><span class="sy0">:</span> <span class="nu0">25</span> <span class="br0">}</span><span class="sy0">,</span>
+    <span class="br0">{</span> <span class="st0">"name"</span><span class="sy0">:</span> <span class="st0">"Jack Smith"</span><span class="sy0">,</span> <span class="st0">"age"</span><span class="sy0">:</span> <span class="nu0">32</span> <span class="br0">}</span><span class="sy0">,</span>
+<span class="br0">]</span>
+ </pre>
+
+<pre class="javascript" style="font-family:monospace;">persons<span class="sy0">/</span><span class="kw3">name</span> <span class="sy0">=</span> <span class="st0">"John Doe"</span><span class="sy0">,</span> <span class="st0">"Jack Smith"</span>
+persons<span class="sy0">/</span>age <span class="sy0">=</span> <span class="nu0">25</span><span class="sy0">,</span> <span class="nu0">32</span>
+ </pre>
 
 <p>All VARrefs are relative to their parent elements, unless they start with <code>/</code>.</p>
 
 <p>Accessing current <code>iterator value</code> could be done by appending <code>/</code> to the end.</p>
 
+<pre class="javascript" style="font-family:monospace;"><span class="st0">"fruit"</span><span class="sy0">:</span> <span class="br0">[</span> <span class="st0">"apple"</span><span class="sy0">,</span> <span class="st0">"orange"</span><span class="sy0">,</span> <span class="st0">"banana"</span> <span class="br0">]</span>
+<span class="st0">"dict"</span><span class="sy0">:</span> <span class="br0">{</span>
+    speed<span class="sy0">:</span> <span class="st0">"high"</span><span class="sy0">,</span>
+    voltage<span class="sy0">:</span> <span class="st0">"low"</span>
+<span class="br0">}</span>
+ </pre>
+
+<pre class="javascript" style="font-family:monospace;">fruit<span class="sy0">/</span> <span class="sy0">=</span> <span class="st0">"apple"</span><span class="sy0">,</span> <span class="st0">"orange"</span><span class="sy0">,</span> <span class="st0">"banana"</span>
+dict<span class="sy0">/</span> <span class="sy0">=</span> <span class="st0">"high"</span><span class="sy0">,</span> <span class="st0">"low"</span>
+ </pre>
+
 <p>Accessing current <code>iterator key</code> could be done by appending the <code>*</code> asterix symbol to the
 end of the VARref.</p>
 
-<p>Example</p>
+<pre class="javascript" style="font-family:monospace;"><span class="st0">"fruit"</span><span class="sy0">:</span> <span class="br0">[</span> <span class="st0">"apple"</span><span class="sy0">,</span> <span class="st0">"orange"</span><span class="sy0">,</span> <span class="st0">"banana"</span> <span class="br0">]</span>
+<span class="st0">"dict"</span><span class="sy0">:</span> <span class="br0">{</span>
+    speed<span class="sy0">:</span> <span class="st0">"high"</span><span class="sy0">,</span>
+    voltage<span class="sy0">:</span> <span class="st0">"low"</span>
+<span class="br0">}</span>
+ </pre>
+
+<pre class="ruby" style="font-family:monospace;">fruit<span class="sy0">/*</span> = <span class="nu0">0</span>, <span class="nu0">1</span>, <span class="nu0">2</span>
+dict<span class="sy0">/*</span> = <span class="st0">"speed"</span>, <span class="st0">"voltage"</span>
+ </pre>
+
+<p>Compare to JSONpath:</p>
 
 <pre class="javascript" style="font-family:monospace;"> <span class="co1">//sample data:</span>
     <span class="st0">"foo"</span> <span class="sy0">:</span> <span class="br0">{</span> <span class="st0">"bar"</span> <span class="sy0">:</span> <span class="st0">"value"</span> <span class="br0">}</span><span class="sy0">,</span>
@@ -119,18 +197,30 @@ end of the VARref.</p>
             <span class="br0">{</span> <span class="st0">"author"</span> <span class="sy0">:</span> <span class="st0">"J.K. Rowling"</span><span class="sy0">,</span> <span class="st0">"title"</span> <span class="sy0">:</span> <span class="st0">"Harry Potter"</span> <span class="br0">}</span><span class="sy0">,</span>
             <span class="br0">{</span> <span class="st0">"author"</span> <span class="sy0">:</span> <span class="st0">"P.K. Dick"</span><span class="sy0">,</span> <span class="st0">"title"</span> <span class="sy0">:</span> <span class="st0">"Minority Report"</span> <span class="br0">}</span>
         <span class="br0">]</span>
-&nbsp;</pre>
+ </pre>
 
-<pre><code>JSONpath                VARref              Gives you
-['foo']                 foo                 { "bar": "value" }
-['foo']['bar']          foo.bar             "value"
-['fruit'][0]            fruit.0             "apple"
-['fruit'][*]            fruit/              "apple", "orange", "banana"
-['book'][*]['author']   book/author         "J.K. Rowling", "P.K. Dick"     
-                        book/*              "author", "title"
-</code></pre>
-
-<h2>Scope</h2>
+<table><thead><tr><th>JSONpath</th>
+  <th>VARref</th>
+  <th>Gives you</th>
+</tr></thead><tbody><tr><td>['foo']</td>
+  <td>foo</td>
+  <td>{ "bar": "value" }</td>
+</tr><tr><td>['foo']['bar']</td>
+  <td>foo.bar</td>
+  <td>"value"</td>
+</tr><tr><td>['fruit'][0]</td>
+  <td>fruit.0</td>
+  <td>"apple"</td>
+</tr><tr><td>['fruit'][*]</td>
+  <td>fruit/</td>
+  <td>[ "apple", "orange", "banana" ]</td>
+</tr><tr><td>['book'][*]['author']</td>
+  <td>book/author</td>
+  <td>[ "J.K. Rowling", "P.K. Dick" ]</td>
+</tr><tr><td></td>
+  <td>book/*</td>
+  <td>[ "author", "title" ]</td>
+</tr></tbody></table><h2>Scope</h2>
 
 <div style="clear: both"></div>
 
@@ -140,7 +230,7 @@ end of the VARref.</p>
 <pre class="xml" style="font-family:monospace;">    <span class="sc3"><span class="re1">&lt;div</span> <span class="re0">data-when</span>=<span class="st0">"foo"</span><span class="re2">&gt;</span></span>
         <span class="sc3"><span class="re1">&lt;span</span> <span class="re0">data-var</span>=<span class="st0">"bar"</span><span class="re2">&gt;</span><span class="re1">&lt;/span<span class="re2">&gt;</span></span></span>
     <span class="sc3"><span class="re1">&lt;/div<span class="re2">&gt;</span></span></span>
-&nbsp;</pre>
+ </pre>
 
 <p>SPAN element's <code>data-var</code> points to <code>foo.bar</code> variable.</p>
 
@@ -148,7 +238,7 @@ end of the VARref.</p>
 in the same element, you still have to use current scope:</p>
 
 <pre class="xml" style="font-family:monospace;">    <span class="sc3"><span class="re1">&lt;div</span> <span class="re0">data-when</span>=<span class="st0">"foo"</span> <span class="re0">data-var</span>=<span class="st0">"foo.bar"</span><span class="re2">&gt;</span><span class="re1">&lt;/div<span class="re2">&gt;</span></span></span>
-&nbsp;</pre>
+ </pre>
 
 <p>To break free of deep nested scope, '/' can be used:</p>
 
@@ -156,9 +246,9 @@ in the same element, you still have to use current scope:</p>
         <span class="sc3"><span class="re1">&lt;span</span> <span class="re0">data-var</span>=<span class="st0">"bar"</span><span class="re2">&gt;</span><span class="re1">&lt;/span<span class="re2">&gt;</span></span></span>
         <span class="sc3"><span class="re1">&lt;p</span> <span class="re0">data-var</span>=<span class="st0">"/moo"</span><span class="re2">&gt;</span><span class="re1">&lt;/p<span class="re2">&gt;</span></span></span>
     <span class="sc3"><span class="re1">&lt;/div<span class="re2">&gt;</span></span></span>
-&nbsp;</pre>
+ </pre>
 
-<p>P element will refrence "moo" and not "foo.moo"</p>
+<p>P element will reference "moo" and not "foo.moo"</p>
 
 <p>Scope can also be changed without any other actions by using
 <code>data-from</code> attribute:</p>
@@ -166,12 +256,12 @@ in the same element, you still have to use current scope:</p>
 <pre class="xml" style="font-family:monospace;">    <span class="sc3"><span class="re1">&lt;div</span> <span class="re0">data-from</span>=<span class="st0">"person.0"</span><span class="re2">&gt;</span></span>
         <span class="sc3"><span class="re1">&lt;span</span> <span class="re0">data-var</span>=<span class="st0">"name"</span><span class="re2">&gt;</span><span class="re1">&lt;/span<span class="re2">&gt;</span></span></span>
     <span class="sc3"><span class="re1">&lt;/div<span class="re2">&gt;</span></span></span>
-&nbsp;</pre>
+ </pre>
 </div>
 	</article>
 
 	<footer>
-		2011-2014 domtempl
+		2011-2015 domtempl
 	</footer>
 </body>
 </html>

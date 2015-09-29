@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>DOMtempl</title>
 	<link rel="stylesheet" href="domtempl.css">
 	<!-- <script src='templ.js'></script> -->
@@ -13,6 +14,7 @@
 			<a href="index.html" class="">Introduction</a>
 			<a href="samples.html" class="">Samples!</a>
 			<a href="docs_main.html" class="active">Documentation</a>
+			<a href="blog_manifesto.html" class="">Blog</a>
 		</nav>
 	</header>
 	
@@ -70,80 +72,80 @@
 
 <h2>Quick start</h2>
 
-<pre class="php" style="font-family:monospace;">&nbsp;
+<pre class="php" style="font-family:monospace;"> 
     <span class="kw1">include</span> <span class="st_h">'domtempl.php'</span><span class="sy0">;</span>
-&nbsp;
-&nbsp;</pre>
+ 
+ </pre>
 
 <h3>Reading the template</h3>
 
-<pre class="php" style="font-family:monospace;">&nbsp;
+<pre class="php" style="font-family:monospace;"> 
     <span class="re0">$l</span> <span class="sy0">=</span> <span class="kw2">new</span> DOMtempl<span class="br0">(</span><span class="st_h">'path/to/template.html'</span><span class="br0">)</span><span class="sy0">;</span>
-&nbsp;
-&nbsp;</pre>
+ 
+ </pre>
 
 <p>or (not recommended)</p>
 
-<pre class="php" style="font-family:monospace;">&nbsp;
+<pre class="php" style="font-family:monospace;"> 
     <span class="re0">$l</span> <span class="sy0">=</span> <span class="kw2">new</span> DOMtempl<span class="br0">(</span><span class="st_h">'&lt;html&gt;&lt;p data-var="foo"&gt;&lt;/p&gt;&lt;/html&gt;'</span><span class="sy0">,</span> FRAGMENT<span class="br0">)</span><span class="sy0">;</span>
-&nbsp;
-&nbsp;</pre>
+ 
+ </pre>
 
 <h3>Reading variables defined/expected by template</h3>
 
-<pre class="php" style="font-family:monospace;">&nbsp;
+<pre class="php" style="font-family:monospace;"> 
     <span class="re0">$l</span> <span class="sy0">=</span> <span class="kw2">new</span> DOMtempl<span class="br0">(</span><span class="st_h">'&lt;html&gt;&lt;p data-var="foo"&gt;Boo&lt;/p&gt;&lt;/html&gt;'</span><span class="sy0">,</span> FRAGMENT<span class="br0">)</span><span class="sy0">;</span>
-&nbsp;
+ 
     <a href="http://www.php.net/print_r"><span class="kw3">print_r</span></a><span class="br0">(</span><span class="re0">$l</span><span class="sy0">-&gt;</span><span class="me1">vars</span><span class="br0">)</span><span class="sy0">;</span>
     <span class="co1">//array('foo' =&gt; "Boo") </span>
-&nbsp;</pre>
+ </pre>
 
 <h3>Writing variables</h3>
 
-<pre class="php" style="font-family:monospace;">&nbsp;
+<pre class="php" style="font-family:monospace;"> 
     <span class="re0">$l</span><span class="sy0">-&gt;</span><span class="me1">assign</span><span class="br0">(</span><span class="st0">"foo"</span><span class="sy0">,</span> <span class="st0">"Hello world"</span><span class="br0">)</span><span class="sy0">;</span>
-&nbsp;
-&nbsp;</pre>
+ 
+ </pre>
 
 <p>You can also assign variables by accessing the <code>vars</code> public property,</p>
 
-<pre class="php" style="font-family:monospace;">&nbsp;
+<pre class="php" style="font-family:monospace;"> 
     <span class="re0">$l</span><span class="sy0">-&gt;</span><span class="me1">vars</span><span class="br0">[</span><span class="st_h">'foo'</span><span class="br0">]</span> <span class="sy0">=</span> <span class="st0">"Hello world"</span><span class="sy0">;</span>
-&nbsp;
-&nbsp;</pre>
+ 
+ </pre>
 
 <p>has the same effect.</p>
 
 <h2>Writing output</h2>
 
-<pre class="php" style="font-family:monospace;">&nbsp;
+<pre class="php" style="font-family:monospace;"> 
     <span class="re0">$l</span><span class="sy0">-&gt;</span><span class="me1">out</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span>
-&nbsp;
-&nbsp;</pre>
+ 
+ </pre>
 
 <p>which is a shorthand for</p>
 
-<pre class="php" style="font-family:monospace;">&nbsp;
+<pre class="php" style="font-family:monospace;"> 
     <span class="re0">$html</span> <span class="sy0">=</span> <span class="re0">$l</span><span class="sy0">-&gt;</span><span class="me1">dump</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span>
-&nbsp;
+ 
     <span class="kw1">echo</span> <span class="re0">$html</span><span class="sy0">;</span>
-&nbsp;
-&nbsp;</pre>
+ 
+ </pre>
 
 <h3>Writing XML output</h3>
 
-<pre class="php" style="font-family:monospace;">&nbsp;
+<pre class="php" style="font-family:monospace;"> 
     <span class="kw1">echo</span> <span class="re0">$l</span><span class="sy0">-&gt;</span><span class="me1">dumpXML</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span>
     <span class="co1">//or</span>
     <span class="re0">$l</span><span class="sy0">-&gt;</span><span class="me1">outXML</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span>
-&nbsp;
-&nbsp;</pre>
+ 
+ </pre>
 
 <p>Same as above, but produces XML instead of HTML.</p>
 
 <h2>Complete example</h2>
 
-<pre class="php" style="font-family:monospace;">&nbsp;
+<pre class="php" style="font-family:monospace;"> 
     <span class="kw1">include</span> <span class="st_h">'domtempl.php'</span><span class="sy0">;</span>
     <span class="re0">$l</span> <span class="sy0">=</span> <span class="kw2">new</span> DOMtempl<span class="br0">(</span><span class="st_h">'&lt;html&gt;&lt;p data-var="foo"&gt;Boo&lt;/p&gt;&lt;/html&gt;'</span><span class="sy0">,</span> DOMtempl<span class="sy0">::</span><span class="me2">FRAGMENT</span><span class="br0">)</span><span class="sy0">;</span>
     <a href="http://www.php.net/print_r"><span class="kw3">print_r</span></a><span class="br0">(</span><span class="re0">$l</span><span class="sy0">-&gt;</span><span class="me1">vars</span><span class="br0">)</span><span class="sy0">;</span>
@@ -151,13 +153,13 @@
     <span class="re0">$l</span><span class="sy0">-&gt;</span><span class="me1">assign</span><span class="br0">(</span><span class="st_h">'foo'</span><span class="sy0">,</span> <span class="st_h">'Moo'</span><span class="br0">)</span><span class="sy0">;</span> 
     <span class="re0">$l</span><span class="sy0">-&gt;</span><span class="me1">out</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span>
     <span class="co1">//&lt;html&gt;&lt;p&gt;Moo&lt;/p&gt;&lt;/html&gt;</span>
-&nbsp;
-&nbsp;</pre>
+ 
+ </pre>
 </div>
 	</article>
 
 	<footer>
-		2011-2014 domtempl
+		2011-2015 domtempl
 	</footer>
 </body>
 </html>

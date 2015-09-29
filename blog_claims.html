@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>DOMtempl</title>
+	<link rel="stylesheet" href="domtempl.css">
+	<!-- <script src='templ.js'></script> -->
+</head>
+<body>
+	<header>
+		<h1>DOMtempl</h1>
+		<h2>HTML templating that brings you peace</h2>
+		<nav>
+			<a href="index.html" class="">Introduction</a>
+			<a href="samples.html" class="">Samples!</a>
+			<a href="docs_main.html" class="">Documentation</a>
+			<a href="blog_manifesto.html" class="active">Blog</a>
+		</nav>
+	</header>
+	
+	<nav id="sub">
+		<a class="" href="blog_manifesto.html">Manifesto</a>
+		<a class="active" href="blog_claims.html">Claims to greatness</a>
+		<a class="" href="blog_others.html">Other templating engines</a>
+		<a class="" href="blog_faq.html">FAQ</a>
+	</nav>
+
+	<article>
+		<h1>Blog - Claims to greatness</h1>
+		<div><h2>The new pitch</h2>
+
+<p>After 5 years of DOMtempl'ing away, I've came to some interesting
+conclusions and acquired some observations.</p>
+
+<p>I think I really undersold the 'data map' and the default values
+aspect of the system. So I came up with a new pitch, presented on
+a main page of this site, which reads more like this:</p>
+
+<pre>
+<code>
+&lt;<span class="tag">ul</span>&gt;
+    &lt;<span class="tag">li</span> <span class="dtc">data-each</span>="<span class="vr">menu</span>"&gt;
+        &lt;<span class="tag">a</span> href="<span class="default">index.html</span>" <span class="dtc">data-attr-</span>href="<span class="vr">url</span>" <span class="dtc">data-var</span>="<span class="vr">title</span>"&gt;<span class="default" title="default value for data-var='title'">Click me</span>&lt;<span class="tag">/a</span>&gt;
+    &lt;<span class="tag">/li</span>&gt;
+&lt;<span class="tag">/ul</span>&gt;
+</code>
+</pre>
+
+<p>I think it is as compact as possible for a meaningful DOMtempl representation, 
+and it demonstrates many key features at once:</p>
+
+<ul>
+<li>You have <span>default</span> values for things, and even
+default arrays, if you want to. With little trickery, you
+can put those defaults into good use in your code.</li>
+<li>On the other hand, you don't need to actually assign any 
+values to a template to get a working result. It will always work.</li>
+<li>If you <em>do</em> want to reset the template it's a matter of 
+discarding those defaults (you can also be granular here).</li>
+<li>The template is actually a valid HTML file with no alien
+insertions (save from data-* DOMtempl attributes).</li>
+<li>The template is thus viewable/editable with regular
+developer tools, right in the UA if desired.</li>
+<li>Template authors can prepare 'data maps' for developers to
+fill out in their controllers. </li>
+<li>Those maps are actually pretty useful if only as reflection
+of the template. You can objectively tell what it expects to
+receive, without even opening it.</li>
+</ul>
+
+<p>Personally, since I switched to this method, I've never looked
+back, and will only consider XSLT as a viable alternative.
+String-based templating for XML/HTML is dead to me. You'll be
+the same too.</p>
+
+<h2>Problems</h2>
+
+<p>That is not to say, DOMtempl in particular, or DOM-based templating
+as a whole is not without it's problems.</p>
+
+<p>In my original <a href="blog_manifesto.html">Manifesto</a> I outlined 3 problems with DOMtempl:</p>
+
+<blockquote>
+  <ul>
+  <li>Templates can get rather big, whole template is parsed each time</li>
+  <li>You can't include templates into each other</li>
+  <li>You can't alter text elements, only HTML elements are alterable</li>
+  </ul>
+</blockquote>
+
+<p>Those all turned out to be true to some extent, although in surprising ways.</p>
+
+<p>First of all, I'm happy to report, that the performance was the least of my concerns.
+After some minor bug fixes/tweaks the algorithm proved to be very fast
+and not memory-hungry. Even large templates do not show up on the profiler, when
+things like database access are in play.</p>
+
+<p>Still being paranoid, I wrote a <a href="docs_php-writer.html">DOMtempl-to-phpsoup compiler</a>, which could
+auto-magically create <code>.php</code> on the fly, and even retain some of the DOMtempl's features,
+like default values.</p>
+
+<p>I never had a real need to use it.</p>
+
+<p>The other "problem" -- the ability to mix and match templates from pieces, was far
+more annoying. Note: that only becomes an issue when you start reusing templates
+across many projects, and need to conditionally include this and that. Currently,
+I simply <code>cat</code> many html file into one large html file, and <code>make</code> helps here
+tremendously. Not your cutting edge system, but pretty robust.</p>
+
+<p>I've been also hit by almost every limitation I imposed on DOMtempl. For example,
+the lack of 'data-when-not' becomes painful in some instances, and the inability
+to climb the data tree "up" (construct paths like "../../name") was also weird
+at times. I appreciated the discipline, though.</p>
+
+<p>Same thing with the <strong>VALID HTML</strong> rule. All DOMtempl templates are valid HTML,
+by definition. Sounds great, right? Well, I've been given templates that are beyond
+invalid to be then used with DOMtempl. I couldn't even start testing until I'd
+fix all the validator warnings. Painful? Yes. Time-wasting? Yes. End result:
+100% valid HTML, at all times, without maintaining/linting it ever since.</p>
+
+<p>So, I will not lie. You'll waste more time in some areas, you "normally" wouldn't. 
+You'll also benefit from this time-wasting, and you'll also save time in other
+areas.</p>
+
+<p>If you've never used DOM-based templating before, I guarantee, that you'll
+rethink some things. If you did, DOMtempl will likely feel very comfortable.</p>
+</div>
+	</article>
+
+	<footer>
+		2011-2015 domtempl
+	</footer>
+</body>
+</html>

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>DOMtempl</title>
 	<link rel="stylesheet" href="domtempl.css">
 	<!-- <script src='templ.js'></script> -->
@@ -13,6 +14,7 @@
 			<a href="index.html" class="active">Introduction</a>
 			<a href="samples.html" class="">Samples!</a>
 			<a href="docs_main.html" class="">Documentation</a>
+			<a href="blog_manifesto.html" class="">Blog</a>
 		</nav>
 	</header>
 
@@ -22,90 +24,112 @@
 <h4>Extra, Extra, This Just In!</h4>
 
 DOMtempl can now help you achieve whitespace nirvana. Whether you're an XML pedant
-or a ident hater, it will accomodate your whitespace styling automagically and will
+or a indent hater, it will accommodate your whitespace styling automagically and will
 replicate it faithfully.
 
 I'm 99% sure no string-based templating engine is even remotely capable of such 
 behavior. The hack is very elegant and is only possible with DOM templating.
 
 <h4>Python and Node.js ports available</h4>
-That's right. Check out the documentation section.  
+That's right. Check out the documentation section.
+
+<h4>Ruby port available</h4>
+Why not ruby? Also check out <a href="https://rubygems.org/gems/datagnan/">datagnan</a>
+- a rather similar, yet different ruby dom-templating library. 
+(We're about 70% compatible).
 </div>
 
-<h2>Why</h2>
+<h2>The pitch</h2>
 
-<p>Because going into templates/default/articles/post/pages.php to find 2 lines of
-templating / HTML soup is maddening. </p>
+<p>Imagine your template looking like this:</p>
 
-<p>Because needing a full back-end to see one CSS change is angering.</p>
+<pre>
+<code>
+&lt;<span class="tag">ul</span>&gt;
+    &lt;<span class="tag">li</span> <span class="dtc">data-each</span>="<span class="vr">menu</span>"&gt;
+        &lt;<span class="tag">a</span> href="<span class="default" title="default value for data-attr-href='url'">index.html</span>" <span class="dtc">data-attr-</span>href="<span class="vr">url</span>" <span class="dtc">data-var</span>="<span class="vr">title</span>"&gt;<span class="default" title="default value for data-var='title'">Click me</span>&lt;<span class="tag">/a</span>&gt;
+    &lt;<span class="tag">/li</span>&gt;
+&lt;<span class="tag">/ul</span>&gt;
+</code>
+</pre>
 
-<p>Because having a template that is not HTML and thus robs you of your 
-favourite developer tools is suffering.</p>
+<p>After <em>reading</em> the <span class="vr">variable names</span> in the <span class="dtc">data-* commands</span>,
+and the <span class="default">default values</span> contained within the nodes, DOMtempl
+will obtain the following data map:</p>
 
-<h2>And so</h2>
+<pre>
+<code>
+{
+    "<span class="vr">menu</span>": [
+        {
+            "<span class="vr">url</span>": "<span class="default">index.html</span>",
+            "<span class="vr">title</span>": "<span class="default">Click me</span>"
+        }
+    ]
+}
+</code>
+</pre>
 
-<p>By misunderstanding ideas of XSLT, abusing HTML5 custom attributes, and leveraging the
-all-powerfull DOM, comes templating library that brings you the peace of mind.</p>
+<p>Now, you can keep those values, discard them, or overwrite
+them partially or fully. Let's say you decided on
+the following:</p>
 
-<p>It is a work in progess, so if you find something that is maddening, angering
-or leads to suffering, please make sure to have a say.</p>
+<pre>
+<code>
+{
+    "<span class="vr">menu</span>": [
+        {
+            "title": "Click me",
+            "url": "index.html",
+        },
+        {
+            "title": "No, click me!",
+            "url": "other.html",
+        }
+    ]
+}
+</code>
+</pre>
 
-<p>GitHub repo</p>
+<p>Out of that new data, DOMtempl can now create new HTML:</p>
+
+<pre>
+<code>
+&lt;<span class="tag">ul</span>&gt;
+    &lt;<span class="tag">li</span>&gt;
+        &lt;<span class="tag">a</span> href="index.html"&gt;Click me&lt;<span class="tag">/a</span>&gt;
+    &lt;<span class="tag">/li</span>&gt;
+    &lt;<span class="tag">li</span>&gt;
+        &lt;<span class="tag">a</span> href="other.html"&gt;No, click me!&lt;<span class="tag">/a</span>&gt;
+    &lt;<span class="tag">/li</span>&gt;
+&lt;<span class="tag">/ul</span>&gt;
+</code>
+</pre>
+
+<p>Take a look at some template <a href="samples.html">samples</a>, and code snippets in the <a href="docs_main.html">documentation</a> section.</p>
+
+<h2>Download</h2>
+
+<p><a href="https://github.com/makesite/domtempl">Git repository</a>:</p>
 
 <pre><code>git clone https://github.com/makesite/domtempl.git
 </code></pre>
 
-<p>Take a look at the joyfull <a href="samples.html">samples</a> page and a boring
-<a href="docs_main.html">documenation</a> section.</p>
+<p>Or grab a snapshot <a href="https://github.com/makesite/domtempl/archive/master.zip">of the latest version</a>.</p>
 
-<h2>Why not</h2>
+<h2>See also</h2>
 
-<ul>
-<li>Templates can get rather big, whole template is parsed each time</li>
-<li>You can't include templates into each other</li>
-<li>You can't alter text elements, only HTML elements are alterable</li>
-</ul>
-
-<p>DOM parsing is rather fast (and should only get faster), but can
-be memory-expesnive at the same time.</p>
-
-<p>Breaking the template down to multiple files is considered evil inside
-temple walls, and shall not be discussed here. You can probably achieve
-what you desire by assigning the output of FRAGMENT parsing onto another
-template, but you're on your own here.</p>
-
-<p>Third problem is best described like this:</p>
-
-<pre><code>&lt;div&gt;
-    &lt;?= $a ?&gt;
-    &lt;span&gt;&lt;?= $b ?&gt;&lt;/span&gt;
-    &lt;?= $c ?&gt;
-&lt;/div&gt; 
-</code></pre>
-
-<p>Is a pretty common construct, which <em>is not</em> possible in DOMtempl. Several
-workarounds are possible, i.e wrapping $a and $c into their own html elements,
-or generating html by hand and setting it to div element; both are not
-ideal. It could be argued, however, that stand-alone text elements should
-not exist from semantic point of view at all.</p>
-
-<p>Lastly, you can't have advanced scripting in your templates. That is by design,
-but could become problematic in some cases.</p>
+<p>Still undecided? Read more about <a href="blog_manifesto.html">original reasoning</a>
+and the <a href="blog_claims.html">(mis)features</a>!</p>
 
 <h2>License</h2>
 
 <p>Two-clause BSD.</p>
-
-<h2>P.S.</h2>
-
-<p>While pondering a python port, it came to my attention, that DOM-based templating
-is prevalent there, unlike the world of PHP. Several interesting projects
-<a href="http://plope.com/Members/chrism/dom_templating">exist</a>, so you should probably use one of them.</p>
 </div>
 	</article>
 
 	<footer>
-		2011-2014 domtempl
+		2011-2015 domtempl
 	</footer>
 </body>
 </html>

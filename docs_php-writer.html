@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>DOMtempl</title>
 	<link rel="stylesheet" href="domtempl.css">
 	<!-- <script src='templ.js'></script> -->
@@ -13,6 +14,7 @@
 			<a href="index.html" class="">Introduction</a>
 			<a href="samples.html" class="">Samples!</a>
 			<a href="docs_main.html" class="active">Documentation</a>
+			<a href="blog_manifesto.html" class="">Blog</a>
 		</nav>
 	</header>
 	
@@ -98,7 +100,7 @@ templates.</p>
 <h2>Quick start</h2>
 
 <pre class="php" style="font-family:monospace;">    <span class="kw1">include</span> <span class="st_h">'domtempl.writer.php'</span><span class="sy0">;</span>
-&nbsp;</pre>
+ </pre>
 
 <p>Include the 'writer' file instead of regular 'domtempl.php'.</p>
 
@@ -114,12 +116,12 @@ templates.</p>
 <h2>So,</h2>
 
 <pre class="php" style="font-family:monospace;">    <span class="re0">$tpl</span> <span class="sy0">=</span> <span class="kw2">new</span> DOMtempl<span class="br0">(</span><span class="st_h">'file.html'</span><span class="br0">)</span><span class="sy0">;</span>
-&nbsp;</pre>
+ </pre>
 
 <p>becomes</p>
 
 <pre class="php" style="font-family:monospace;">    <span class="re0">$tpl</span> <span class="sy0">=</span> <span class="kw2">new</span> DOMtempl_writer<span class="br0">(</span><span class="st_h">'file.html'</span><span class="sy0">,</span> DOMtempl_writer<span class="sy0">::</span><span class="me2">SAVE_DEFAULTS</span><span class="sy0">,</span> <span class="st_h">'compiled_templates'</span><span class="br0">)</span><span class="sy0">;</span>
-&nbsp;</pre>
+ </pre>
 
 <p>Note: adding the SAVE_DEFAULTS flag is annoying, but having 'defaults section' when you don't need
 one is equally annoying. So far, opting for no 'defaults section' as the default...</p>
@@ -129,18 +131,18 @@ one is equally annoying. So far, opting for no 'defaults section' as the default
 <p>Let's say you have a template, that goes like this.</p>
 
 <pre class="xml" style="font-family:monospace;">    <span class="sc3"><span class="re1">&lt;span</span> <span class="re0">data-var</span>=<span class="st0">"title"</span><span class="re2">&gt;</span></span>The Dog<span class="sc3"><span class="re1">&lt;/span<span class="re2">&gt;</span></span></span>
-&nbsp;</pre>
+ </pre>
 
 <p>The equivalent php-soup version is this:</p>
 
 <pre class="php" style="font-family:monospace;">    &lt;span&gt;<span class="sy1">&lt;?=</span> <span class="re0">$title</span> <span class="sy1">?&gt;</span>&lt;/span&gt;
-&nbsp;</pre>
+ </pre>
 
 <p>But, what if no $title was set by a user? In normal DOMtempl, 'The Dog' would be the default.
 To workaround this problem, DOMtempl_writer can add the 'defaults section', that looks like this:</p>
 
 <pre class="php" style="font-family:monospace;">    <span class="kw2">&lt;?php</span> <span class="kw1">if</span> <span class="br0">(</span><span class="sy0">!</span><a href="http://www.php.net/isset"><span class="kw3">isset</span></a><span class="br0">(</span><span class="re0">$title</span><span class="br0">)</span><span class="br0">)</span> <span class="re0">$title</span> <span class="sy0">=</span> <span class="st_h">'The Dog'</span><span class="sy0">;</span> <span class="sy1">?&gt;</span>
-&nbsp;</pre>
+ </pre>
 
 <p>Note, that those defaults will still be inaccessible to you at "run-time", so if you rely
 on those a lot, you should probably save them to a separate file manually, and load from it.
@@ -175,23 +177,29 @@ When set to an array name, all top-level variables are treated as members of tha
 <p>Given this DOMtempl-ate</p>
 
 <pre class="php" style="font-family:monospace;">    <span class="re0">$tpl</span> <span class="sy0">=</span> <span class="kw2">new</span> DOMtempl_writer<span class="br0">(</span><span class="st_h">'&lt;div data-var="food"&gt;&lt;/div&gt;'</span><span class="sy0">,</span> FRAGMENT<span class="br0">)</span><span class="sy0">;</span>
-&nbsp;</pre>
+ </pre>
 
-<p>and doing
-</p><pre class="php" style="font-family:monospace;">    <span class="re0">$tpl</span><span class="sy0">-&gt;</span><span class="me1">from</span> <span class="sy0">=</span> <span class="st_h">'view'</span><span class="sy0">;</span>
+<p>and doing</p>
+
+<pre class="php" style="font-family:monospace;">    <span class="re0">$tpl</span><span class="sy0">-&gt;</span><span class="me1">from</span> <span class="sy0">=</span> <span class="st_h">'view'</span><span class="sy0">;</span>
     <span class="re0">$tpl</span><span class="sy0">-&gt;</span><span class="me1">render</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span>
-&nbsp;</pre>
-returns
+ </pre>
+
+<p>returns</p>
+
 <pre class="xml" style="font-family:monospace;">    <span class="sc3"><span class="re1">&lt;div<span class="re2">&gt;</span></span>&lt;?= $view<span class="br0">[</span><span class="st0">"food"</span><span class="br0">]</span> <span class="re2">?&gt;</span><span class="re1">&lt;/div<span class="re2">&gt;</span></span></span>
-&nbsp;</pre>
+ </pre>
 
-<p>while
-</p><pre class="php" style="font-family:monospace;">    <span class="re0">$tpl</span><span class="sy0">-&gt;</span><span class="me1">from</span> <span class="sy0">=</span> <span class="st_h">''</span><span class="sy0">;</span>
+<p>while</p>
+
+<pre class="php" style="font-family:monospace;">    <span class="re0">$tpl</span><span class="sy0">-&gt;</span><span class="me1">from</span> <span class="sy0">=</span> <span class="st_h">''</span><span class="sy0">;</span>
     <span class="re0">$tpl</span><span class="sy0">-&gt;</span><span class="me1">render</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span>
-&nbsp;</pre>
-returns
+ </pre>
+
+<p>returns</p>
+
 <pre class="xml" style="font-family:monospace;">    <span class="sc3"><span class="re1">&lt;div<span class="re2">&gt;</span></span>&lt;?= $food <span class="re2">?&gt;</span><span class="re1">&lt;/div<span class="re2">&gt;</span></span></span>
-&nbsp;</pre>
+ </pre>
 
 <h2>No 'write' method</h2>
 
@@ -202,7 +210,7 @@ then <em>save the template yourself</em>.</p>
 	</article>
 
 	<footer>
-		2011-2014 domtempl
+		2011-2015 domtempl
 	</footer>
 </body>
 </html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>DOMtempl</title>
+	<link rel="stylesheet" href="domtempl.css">
+	<!-- <script src='templ.js'></script> -->
+</head>
+<body>
+	<header>
+		<h1>DOMtempl</h1>
+		<h2>HTML templating that brings you peace</h2>
+		<nav>
+			<a href="index.html" class="">Introduction</a>
+			<a href="samples.html" class="">Samples!</a>
+			<a href="docs_main.html" class="">Documentation</a>
+			<a href="blog_manifesto.html" class="active">Blog</a>
+		</nav>
+	</header>
+	
+	<nav id="sub">
+		<a class="" href="blog_manifesto.html">Manifesto</a>
+		<a class="" href="blog_claims.html">Claims to greatness</a>
+		<a class="" href="blog_others.html">Other templating engines</a>
+		<a class="active" href="blog_faq.html">FAQ</a>
+	</nav>
+
+	<article>
+		<h1>Blog - FAQ</h1>
+		<div><h3>Misc</h3>
+
+<h4>Has DOMtempl been ever used in production?</h4>
+
+<p>Yes, it's fairly mature and had extensive testing.</p>
+
+<h4>Is XML OK to use with DOMtempl?</h4>
+
+<p>Yeah, sure. I use it for RSS. It's just not mentioned enough
+in the docs, as the focus is on HTML; sorry for this oversight.</p>
+
+<h4>Why doesn't DOMtempl has feature X?</h4>
+
+<p>The feature set for DOMtempl was chosen very carefully, for a course of
+experimenting with different approaches for over 2 years.</p>
+
+<p>The current number of commands was chosen to be both expressive enough to 
+handle all use cases and compact enough to be easily memorizable.</p>
+
+<p>Each DOMtempl data-command has a ruleset for interacting with <em>other</em>
+DOMtempl commands. Those rules are both code (and branching), and cognitive load, 
+required by the user to understand them. Growing the number of commands, grows those
+rules exponentially.</p>
+
+<p>Let's keep it simple.</p>
+
+<h4>What about 'data-when-not'?</h4>
+
+<p>I'll admit, I really like this idea. I resist it because it adds new command.</p>
+
+<h4>What about variable variables?</h4>
+
+<p>I experimented with this idea and have a branch implementing those for PHP version
+somewhere. In the end, I'm on the fence, because I'm having trouble reading my own code
+when it has that much level of hidden indirection. You're no longer reading the
+template + data, you're reading template + data pointers + (data that is defined somewhere
+else).</p>
+
+<h4>Is there a formal spec?</h4>
+
+<p>No, there kinda isn't. I'm also pretty sure there are like 2000 corner cases and questions
+my docs and refs don't cover :(</p>
+
+<h4>Is there a test suite?</h4>
+
+<p>Yes, there is, see 'tests' branch of the repository. As far as I know, NO implementation
+passes ALL the tests. Some minor things, tho, not anything critical.</p>
+
+<h4>Which is the reference implementation?</h4>
+
+<p>None. All of them have bugs and DOM workarounds in different places.</p>
+
+<p>PHP is closest to ref, JS close second.</p>
+
+<p>The ideal DOMtempl can only be written to a proper DOM API, which weirdly doesn't
+seem to exist in <em>any</em> environment. Hrm.</p>
+
+<p>That being said, if you compare the code, you'll notice that the algorithm is
+exactly the same in all 4 implementations, down to function and variable names.</p>
+</div>
+	</article>
+
+	<footer>
+		2011-2015 domtempl
+	</footer>
+</body>
+</html>
