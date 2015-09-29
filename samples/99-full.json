@@ -1,0 +1,5 @@
+{ "menu": [ 
+	{ "href" : "index", "name" : "Main", "class": "" },
+	{ "href" : "contact", "name" : "Contact", "class": "" },
+	{ "href" : "about", "name" : "About", "class" : "active" }
+] }

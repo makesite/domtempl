@@ -1,0 +1,4 @@
+{ "person" : [
+	{ "name" : "John", "age":25 },
+	{ "name" : "Bill", "age":33 }
+ ] }
